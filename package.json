@@ -1,0 +1,31 @@
+{
+  "name": "spotr",
+  "version": "0.1.0",
+  "description": "A handy, declarative client-side search library",
+  "main": "dist/spotr.min.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+  },
+  "keywords": [
+    "search"
+  ],
+  "author": "Andy Merskin <andymerskin@gmail.com>",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "string-score": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-plugin-transform-es2015-modules-umd": "^6.23.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-preset-stage-3": "^6.22.0",
+    "cross-env": "^3.1.4",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
+  }
+}
