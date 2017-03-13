@@ -1,6 +1,6 @@
 {
   "name": "spotr",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha",
   "description": "A handy, declarative client-side search library",
   "main": "dist/spotr.min.js",
   "scripts": {
