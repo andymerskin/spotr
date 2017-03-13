@@ -4,9 +4,9 @@ import StringScore from 'string-score'
 export class Spotr {
   constructor(options) {
     this.options = Object.assign({}, options)
-    this.collection = options.collection || []
-    this.keywords = options.keywords || {}
-    this.fields = options.fields || {}
+    this._collection = options.collection || []
+    this._keywords = options.keywords || {}
+    this._fields = options.fields || {}
   }
 
   /**
@@ -15,17 +15,25 @@ export class Spotr {
    * @return {array}             Filtered collection after being processed by keyword and field filters
    */
   query(searchQuery) {
-    let { collection, query } = this.filterKeywords(searchQuery)
-    const { collection: filteredCollection } = this.filterFields({ collection, query })
+    let { collection, query } = this._filterKeywords(searchQuery)
+    const { collection: filteredCollection } = this._filterFields({ collection, query })
     return filteredCollection
   }
 
   /**
-   * Set the collection to search against.
-   * @param {array} collection Array of objects to search against
+   * Gets the collection
+   * @return {array} Array of objects to search against
    */
-  setCollection(collection) {
-    this.collection = collection
+  get collection() {
+    return this._collection
+  }
+
+  /**
+   * Set the collection to search against.
+   * @param {array} newCollection Array of objects to search against
+   */
+  set collection(newCollection) {
+    this._collection = newCollection
   }
 
   /**
@@ -33,21 +41,21 @@ export class Spotr {
    * @param  {string} searchQuery Search query
    * @return {array}             Filtered collection
    */
-  filterKeywords(searchQuery) {
+  _filterKeywords(searchQuery) {
     let collection = this.collection
     let query = searchQuery
 
     // Find keyword query matches in search query
-    const matches = _(this.keywords)
+    const matches = _(this._keywords)
       .map((rule, keyword) => {
         const { queries } = rule
         return {
           keyword,
           matches: queries.map(query => {
-            const rx = new RegExp(`(${query})[\\s]|(${query})$`, 'ig')
+            const regex = new RegExp(`(${query})[\\s]|(${query})$`, 'ig')
             return {
               query,
-              match: rx.test(searchQuery)
+              match: regex.test(searchQuery)
             }
           })
         }
@@ -58,14 +66,14 @@ export class Spotr {
     // Filter collection
     collection = matches
       .reduce((prev, match) => {
-        const { filter } = this.keywords[match.keyword]
-        return prev.filter(filter)
+        const { filter } = this._keywords[match.keyword]
+        return filter(prev)
       }, [...this.collection])
 
     // Strip search query of keywords
     const matchingQueries = _(matches)
       .flatMap(keyword => keyword.matches)
-      .filter(m => m.match)
+      .filter(m => m.match) // is this needed still? it's used above
       .map(match => match.query)
       .forEach(match => {
         query = query.replace(match, '')
@@ -86,15 +94,15 @@ export class Spotr {
    * @param  {string} options.query      Modified search query terms to filter with
    * @return {array}                    Filtered collection
    */
-  filterFields({collection, query}) {
+  _filterFields({collection, query}) {
     if (!query.length) return { collection }
 
     const scoredCollection = _(collection)
       .map(item => {
         return {
           ...item,
-          _score: _(this.fields).reduce((sum, options, field) => {
-            sum = (sum + StringScore(item[field], query, options.fuzziness)) * options.boost
+          _score: _(this._fields).reduce((sum, options, field) => {
+            sum = (sum + StringScore(item[field], query, options.fuzzy)) * options.boost
             return sum
           }, 0)
         }
@@ -108,3 +116,5 @@ export class Spotr {
     }
   }
 }
+
+export default Spotr
