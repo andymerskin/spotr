@@ -4,7 +4,6 @@
 Great for prototyping search systems during development, or for apps and sites with smaller collections that are being requested and filtered up front.
 
 ## Installation
-*Not published at this time—pending example*
 
 ```sh
 npm install spotr
