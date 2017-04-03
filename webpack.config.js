@@ -2,12 +2,12 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  entry: './src/spotr.js',
+  entry: './index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
     filename: 'spotr.min.js',
-    library: 'spotr',
+    library: 'Spotr',
     libraryTarget: 'umd'
   },
   externals: {
