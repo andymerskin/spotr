@@ -1,6 +1,6 @@
 {
   "name": "spotr",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A handy, declarative client-side search library",
   "main": "dist/spotr.min.js",
   "scripts": {
@@ -10,6 +10,8 @@
   "keywords": [
     "search"
   ],
+  "repository": "https://github.com/docmars/spotr",
+  "license": "MIT",
   "author": "Andy Merskin <andymerskin@gmail.com>",
   "dependencies": {
     "lodash": "^4.17.4",
