@@ -3,7 +3,7 @@ export const examples = [
   { slug: 'fields-nested', title: 'Fields - Nested' },
   { slug: 'keywords-basic', title: 'Keywords - Basic' },
   { slug: 'keywords-advanced', title: 'Keywords - Advanced' },
-  { slug: 'advanced-combined', title: 'Advanced - Combined' },
+  { slug: 'advanced-combined', title: 'Combined' },
 ] as const;
 
 export type ExampleSlug = (typeof examples)[number]['slug'];
