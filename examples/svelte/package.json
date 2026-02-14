@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "svelte": "^5.0.0",
-    "spotr": "^1.0.0-alpha.1"
+    "spotr": "^1.0.0-alpha.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^5.0.0",
