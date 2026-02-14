@@ -1,4 +1,4 @@
-<img src="./examples/shared/spotr.svg" alt="Spotr logo" style="max-width: 160px;" />
+<img src="./examples/shared/spotr.svg" alt="Spotr logo" width="160" />
 
 # Spotr
 
