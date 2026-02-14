@@ -85,6 +85,18 @@ jobs:
           echo "Preview branch directories:"
           ls -d combined-output/*/ 2>/dev/null || true
       
+      - name: Extract artifacts
+        working-directory: combined-output
+        run: |
+          for f in *.tar; do
+            [ -f "$f" ] || continue
+            tar xvf "$f"
+            rm "$f"
+          done
+          echo "Extracted structure:"
+          ls -la
+          ls -d */ 2>/dev/null || true
+      
       - name: Upload combined artifact
         uses: actions/upload-pages-artifact@v3
         with:
