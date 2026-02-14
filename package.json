@@ -1,6 +1,6 @@
 {
   "name": "spotr",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.1",
   "description": "A powerful and minimal client-side fuzzy search library",
   "author": "Andy Merskin <andymerskin@gmail.com>",
   "license": "MIT",
@@ -55,7 +55,9 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "typecheck:all": "bun run typecheck && cd examples/react && bun run typecheck && cd ../vue && bun run typecheck && cd ../solid && bun run typecheck && cd ../preact && bun run typecheck",
-    "lint": "eslint src/ examples/shared examples/react/src examples/vue/src examples/svelte/src examples/solid/src examples/preact/src"
+    "lint": "eslint src/ examples/shared examples/react/src examples/vue/src examples/svelte/src examples/solid/src examples/preact/src",
+    "sync-examples": "bun run scripts/sync-examples.ts",
+    "prepare": "husky"
   },
   "peerDependencies": {
     "react": ">=18",
@@ -86,6 +88,7 @@
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "eslint": "^10.0.0",
+    "husky": "^9.1.7",
     "preact": "^10.27.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
