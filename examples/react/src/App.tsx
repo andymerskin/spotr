@@ -176,7 +176,7 @@ function App() {
     <div style={styles.container}>
       <h1 style={styles.title}>{sec.title}</h1>
       <input
-        type="text"
+        type="search"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search..."
@@ -223,6 +223,21 @@ function App() {
       </table>
       <style>{`
         .keyword-highlight { background: #fef08a; font-weight: bold; }
+        input[type="search"]::-webkit-search-cancel-button {
+          -webkit-appearance: none;
+          appearance: none;
+          height: 16px;
+          width: 16px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23e5e5e5' d='M8 6.586L11.414 3.172l1.414 1.414L9.414 8l3.414 3.414-1.414 1.414L8 9.414l-3.414 3.414-1.414-1.414L6.586 8 3.172 4.586l1.414-1.414L8 6.586z'/%3E%3C/svg%3E");
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+          cursor: pointer;
+          opacity: 0.7;
+        }
+        input[type="search"]::-webkit-search-cancel-button:hover {
+          opacity: 1;
+        }
       `}</style>
     </div>
   );

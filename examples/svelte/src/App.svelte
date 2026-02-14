@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { derived } from 'svelte/store';
   import { createSpotr } from 'spotr/svelte';
   import peopleData from './data/people.json';
   import gamesData from './data/games.json';
@@ -149,13 +150,26 @@
 
   const section = getSectionFromUrl();
   const sec = SECTION_CONFIGS[section];
-  const { spotr, query, results } = createSpotr({ collection: sec.data, ...sec.config } as import('../../../src/types').SpotrOptions<Person | Game>);
+  const { spotr, query, results: spotrResults } = createSpotr({ collection: sec.data, ...sec.config } as import('../../../src/types').SpotrOptions<Person | Game>);
+  
+  const results = derived([query, spotrResults], ([$query, $spotrResults]) => {
+    if (!$query.trim()) {
+      const limit = sec.config.limit;
+      return {
+        results: (sec.data as (Person | Game)[]).slice(0, limit).map((item) => ({ item, score: null as number | null })),
+        matchedKeywords: [] as { name: string; terms: string[] }[],
+        tokens: [] as string[],
+        warnings: [] as string[],
+      };
+    }
+    return $spotrResults;
+  });
 </script>
 
 <div class="container">
   <h1 class="title">{sec.title}</h1>
   <input
-    type="text"
+    type="search"
     bind:value={$query}
     placeholder="Search..."
     class="input"
@@ -246,5 +260,20 @@
   :global(.keyword-highlight) {
     background: #fef08a;
     font-weight: bold;
+  }
+  .input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23e5e5e5' d='M8 6.586L11.414 3.172l1.414 1.414L9.414 8l3.414 3.414-1.414 1.414L8 9.414l-3.414 3.414-1.414-1.414L6.586 8 3.172 4.586l1.414-1.414L8 6.586z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+  .input::-webkit-search-cancel-button:hover {
+    opacity: 1;
   }
 </style>

@@ -1,3 +1,4 @@
+import { createMemo } from 'solid-js';
 import { createSpotr } from 'spotr/solid';
 import peopleData from './data/people.json';
 import gamesData from './data/games.json';
@@ -147,14 +148,28 @@ function getSectionFromUrl(): SectionKey {
 
 const section = getSectionFromUrl();
 const sec = SECTION_CONFIGS[section];
-const { query, setQuery, results } = createSpotr({ collection: sec.data, ...sec.config } as import('../../../src/types').SpotrOptions<Person | Game>);
+const { query, setQuery, results: spotrResults } = createSpotr({ collection: sec.data, ...sec.config } as import('../../../src/types').SpotrOptions<Person | Game>);
+
+const results = createMemo(() => {
+  const q = query();
+  if (!q.trim()) {
+    const limit = sec.config.limit;
+    return {
+      results: (sec.data as (Person | Game)[]).slice(0, limit).map((item) => ({ item, score: null as number | null })),
+      matchedKeywords: [] as { name: string; terms: string[] }[],
+      tokens: [] as string[],
+      warnings: [] as string[],
+    };
+  }
+  return spotrResults();
+});
 
 export default function App() {
   return (
     <div class="container">
       <h1 class="title">{sec.title}</h1>
       <input
-        type="text"
+        type="search"
         value={query()}
         onInput={(e) => setQuery((e.target as HTMLInputElement).value)}
         placeholder="Search..."
