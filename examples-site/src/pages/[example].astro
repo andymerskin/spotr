@@ -44,7 +44,7 @@ const exampleTitle = validExample.title;
   }
 
   function buildStackBlitzUrl(framework, example) {
-    const branch = 'v1-alt-stackblitz'; // Default branch, matches server-side default
+    const branch = 'master';
     const baseUrl = `https://stackblitz.com/fork/github/andymerskin/spotr/tree/${branch}/examples/${framework}`;
     const params = new URLSearchParams({
       embed: '1',

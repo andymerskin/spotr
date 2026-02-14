@@ -15,7 +15,7 @@ const frameworkAppFiles: Record<string, string> = {
   preact: 'src/App.tsx',
 };
 
-const branch = import.meta.env.PUBLIC_STACKBLITZ_BRANCH || 'v1-alt-stackblitz';
+const branch = 'master';
 const baseUrl = `https://stackblitz.com/github/andymerskin/spotr/tree/${branch}/examples/${framework}`;
 const params = new URLSearchParams({
   embed: '1',
