@@ -3,14 +3,20 @@ import Layout from '../layouts/Layout.astro';
 import Sidebar from '../components/Sidebar.astro';
 import FrameworkTabs from '../components/FrameworkTabs.astro';
 import StackBlitzEmbed from '../components/StackBlitzEmbed.astro';
-import { examples } from '../data/examples';
+import { examples, frameworks } from '../data/examples';
 
 export function getStaticPaths() {
   return examples.map((ex) => ({ params: { example: ex.slug } }));
 }
 
 const { example } = Astro.params;
-const framework = Astro.url.searchParams.get('framework') ?? 'react';
+// Read framework from query parameter, defaulting to 'react' if not present or invalid
+const frameworkParam = Astro.url.searchParams.get('framework');
+const validFrameworkIds: string[] = frameworks.map((f) => f.id);
+const framework: 'react' | 'vue' | 'svelte' | 'solid' | 'preact' = 
+  (frameworkParam && validFrameworkIds.includes(frameworkParam))
+    ? (frameworkParam as 'react' | 'vue' | 'svelte' | 'solid' | 'preact')
+    : 'react';
 
 const validExample = examples.find((e) => e.slug === example) ?? examples[0];
 const exampleSlug = example ?? validExample.slug;
