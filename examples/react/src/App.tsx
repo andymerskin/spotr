@@ -1,163 +1,275 @@
-import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { useSpotr, type SpotrOptions } from '../../../src/react';
-import spotrLogo from '../../shared/spotr.svg';
+import { useState, useMemo, useCallback } from 'react';
+import { useSpotr } from '../../../src/react';
+import peopleData from '../../shared/people.json';
+import gamesData from '../../shared/games.json';
 import {
-  extractEditableConfig,
-  parseConfigWithHandlers,
-  EDITOR_WIDTH_KEY,
-  DEFAULT_EDITOR_WIDTH,
-  MIN_EDITOR_WIDTH,
+  getNestedValue,
+  highlightCellValue,
 } from '../../shared/utils';
-import { keywordHandlers, sections, type SectionKey, type Person, type Game } from '../../shared/spotr-config';
-import { ResultsPanel } from './components/ResultsPanel';
-import { ResizeHandle } from './components/ResizeHandle';
-import { EditorPanel } from './components/EditorPanel';
+import type { Person, Game } from '../../shared/types';
+
+type SectionKey =
+  | 'fields-basic'
+  | 'fields-nested'
+  | 'keywords-basic'
+  | 'keywords-advanced'
+  | 'advanced-combined';
+
+// Keyword handlers - inline for each section that needs them
+const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
+const platformHandler = (col: Game[], terms?: string[]) =>
+  col.filter((i) =>
+    (terms ?? []).some((t) => i.platforms.some((p) => p.toLowerCase().includes(t)))
+  );
+const recentHandler = (col: Game[]) => col.filter((i) => i.releaseYear >= 2020);
+const platformAdvancedHandler = (col: Game[], terms?: string[]) => {
+  const map: Record<string, string[]> = {
+    sony: ['ps4', 'ps5'],
+    nintendo: ['switch', 'wii'],
+    microsoft: ['xbox'],
+  };
+  const expanded = (terms ?? []).flatMap((t) => map[t.toLowerCase()] ?? [t]);
+  return col.filter((i) =>
+    expanded.some((t) => i.platforms.some((p) => p.toLowerCase().includes(t)))
+  );
+};
+
+// Spotr configs - inline, one per section
+const SECTION_CONFIGS: Record<
+  SectionKey,
+  {
+    title: string;
+    data: Person[] | Game[];
+    config: { threshold: number; fields: { name: string; weight: number }[]; keywords?: unknown; limit: number };
+    columns: string[];
+    examples: string[];
+  }
+> = {
+  'fields-basic': {
+    title: 'Fields - Basic',
+    data: peopleData as Person[],
+    config: {
+      threshold: 0.3,
+      fields: [
+        { name: 'firstName', weight: 1 },
+        { name: 'lastName', weight: 1 },
+        { name: 'email', weight: 0.7 },
+      ],
+      limit: 20,
+    },
+    columns: ['firstName', 'lastName', 'email'],
+    examples: ['alice', 'johnson', 'acme', 'usa'],
+  },
+  'fields-nested': {
+    title: 'Fields - Nested',
+    data: peopleData as Person[],
+    config: {
+      threshold: 0.3,
+      fields: [
+        { name: 'firstName', weight: 1 },
+        { name: 'lastName', weight: 1 },
+        { name: 'address.city', weight: 0.8 },
+        { name: 'address.country', weight: 0.6 },
+        { name: 'company.name', weight: 0.7 },
+        { name: 'company.location.city', weight: 0.5 },
+      ],
+      limit: 20,
+    },
+    columns: ['firstName', 'lastName', 'address.city', 'company.name'],
+    examples: ['alice', 'johnson', 'acme', 'usa'],
+  },
+  'keywords-basic': {
+    title: 'Keywords - Basic',
+    data: gamesData as Game[],
+    config: {
+      threshold: 0.3,
+      fields: [{ name: 'title', weight: 1 }],
+      keywords: [
+        { name: 'completed', triggers: ['done', 'complete', 'finished'], handler: completedHandler },
+      ],
+      limit: 20,
+    },
+    columns: ['title', 'releaseYear', 'completed'],
+    examples: ['witcher', 'done', 'ps5', 'nintendo'],
+  },
+  'keywords-advanced': {
+    title: 'Keywords - Advanced',
+    data: gamesData as Game[],
+    config: {
+      threshold: 0.3,
+      fields: [{ name: 'title', weight: 1 }],
+      keywords: {
+        mode: 'and',
+        definitions: [
+          { name: 'completed', triggers: ['done', 'complete', 'finished'], handler: completedHandler },
+          { name: 'platform', triggers: ['ps4', 'ps5', 'xbox', 'pc', 'switch'], handler: platformHandler },
+          { name: 'recent', triggers: ['recent', 'new'], handler: recentHandler },
+        ],
+      },
+      limit: 20,
+    },
+    columns: ['title', 'platforms', 'releaseYear', 'completed'],
+    examples: ['witcher', 'done', 'ps5', 'nintendo'],
+  },
+  'advanced-combined': {
+    title: 'Advanced - Combined',
+    data: gamesData as Game[],
+    config: {
+      threshold: 0.3,
+      fields: [
+        { name: 'title', weight: 1 },
+        { name: 'metadata.developer', weight: 0.8 },
+        { name: 'metadata.publisher', weight: 0.6 },
+      ],
+      keywords: {
+        mode: 'and',
+        definitions: [
+          { name: 'completed', triggers: ['done', 'complete', 'finished'], handler: completedHandler },
+          {
+            name: 'platform',
+            triggers: ['ps4', 'ps5', 'xbox', 'pc', 'switch', 'sony', 'nintendo', 'microsoft'],
+            handler: platformAdvancedHandler,
+          },
+        ],
+      },
+      limit: 20,
+    },
+    columns: ['title', 'metadata.developer', 'metadata.publisher', 'completed'],
+    examples: ['witcher', 'done', 'ps5', 'nintendo'],
+  },
+};
+
+function getSectionFromUrl(): SectionKey {
+  const params = new URLSearchParams(window.location.search);
+  const ex = params.get('example');
+  if (ex && ex in SECTION_CONFIGS) return ex as SectionKey;
+  return 'fields-basic';
+}
 
 function App() {
-  const [section, setSection] = useState<SectionKey>('fields-basic');
+  const [section] = useState<SectionKey>(getSectionFromUrl);
   const [query, setQuery] = useState('');
-  const [editorContent, setEditorContent] = useState('');
-  const [parseError, setParseError] = useState<string | null>(null);
-  const [editorWidth, setEditorWidth] = useState(() => {
-    const saved = localStorage.getItem(EDITOR_WIDTH_KEY);
-    return saved ? parseInt(saved, 10) : DEFAULT_EDITOR_WIDTH;
-  });
-  
-  const isDragging = useRef(false);
-  const sectionConfig = sections[section];
 
-  // Initialize editor content when section changes
-  useEffect(() => {
-    const editableConfig = extractEditableConfig(sectionConfig.config);
-    setEditorContent(JSON.stringify(editableConfig, null, 2));
-    setParseError(null);
-  }, [section, sectionConfig.config]);
-
-  // Parse editor content and merge with handlers
-  const parsedConfig = useMemo(() => {
-    try {
-      const parsed = JSON.parse(editorContent);
-      setParseError(null);
-      
-      // Merge with handlers from section defaults
-      const merged = parseConfigWithHandlers(parsed, keywordHandlers[section]);
-      return merged;
-    } catch (e) {
-      setParseError((e as Error).message);
-      return null;
-    }
-  }, [editorContent, section]);
-
-  const spotrConfig = useMemo(() => {
-    const collection = sectionConfig.data as (Person | Game)[];
-    if (!parsedConfig) {
-      return {
-        collection,
-        ...sectionConfig.config,
-      } as SpotrOptions<Person | Game>;
-    }
-    return {
-      collection,
-      ...parsedConfig,
-    } as SpotrOptions<Person | Game>;
-  }, [parsedConfig, sectionConfig.data, sectionConfig.config]);
-
+  const sec = SECTION_CONFIGS[section];
+  const spotrConfig = useMemo(
+    () => ({ collection: sec.data, ...sec.config }) as import('../../../src/types').SpotrOptions<Person | Game>,
+    [section, sec]
+  );
   const spotr = useSpotr<Person | Game>(spotrConfig);
 
   const result = useMemo(() => {
     if (!query.trim()) {
-      const limit = (spotrConfig.limit as number) || Infinity;
+      const limit = sec.config.limit;
       return {
-        results: (sectionConfig.data as (Person | Game)[]).slice(0, limit).map((item) => ({ item, score: null as number | null })),
-        matchedKeywords: [],
-        tokens: [],
-        warnings: [],
+        results: (sec.data as (Person | Game)[]).slice(0, limit).map((item) => ({ item, score: null as number | null })),
+        matchedKeywords: [] as { name: string; terms: string[] }[],
+        tokens: [] as string[],
+        warnings: [] as string[],
       };
     }
     return spotr.query(query);
-  }, [spotr, query, spotrConfig.limit, sectionConfig.data]);
+  }, [spotr, query, sec]);
 
-  const handleEditorChange = useCallback((value: string) => {
-    setEditorContent(value);
-  }, []);
-
-  const handleReset = useCallback(() => {
-    const editableConfig = extractEditableConfig(sectionConfig.config);
-    setEditorContent(JSON.stringify(editableConfig, null, 2));
-    setParseError(null);
-  }, [sectionConfig.config]);
-
-  // Resize handle drag logic
-  const handleMouseDown = useCallback(() => {
-    isDragging.current = true;
-    document.body.style.cursor = 'col-resize';
-    document.body.style.userSelect = 'none';
-  }, []);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging.current) return;
-      const newWidth = window.innerWidth - e.clientX;
-      const clampedWidth = Math.max(MIN_EDITOR_WIDTH, newWidth);
-      setEditorWidth(clampedWidth);
-      localStorage.setItem(EDITOR_WIDTH_KEY, clampedWidth.toString());
-    };
-
-    const handleMouseUp = () => {
-      isDragging.current = false;
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, []);
+  const setExample = useCallback((ex: string) => setQuery(ex), []);
 
   return (
-    <div className="flex min-h-screen bg-neutral-900">
-      <nav className="fixed w-[240px] h-screen p-4 border-r border-neutral-700 bg-neutral-900 overflow-y-auto z-10">
-        <img src={spotrLogo} alt="Spotr" className="w-24 h-24 mb-2" />
-        <h1 className="text-xl font-bold mb-6 text-neutral-100">spotr</h1>
-        <h2 className="text-lg font-semibold mb-4 text-neutral-100">Examples</h2>
-        <ul className="space-y-2">
-          {(Object.keys(sections) as SectionKey[]).map((key) => (
-            <li key={key}>
-              <button
-                onClick={() => { setSection(key); setQuery(''); }}
-                className={`text-left w-full text-neutral-400 hover:text-neutral-100 ${
-                  section === key ? 'font-bold text-neutral-100' : ''
-                }`}
-              >
-                {sections[key].title}
-              </button>
-            </li>
+    <div style={styles.container}>
+      <h1 style={styles.title}>{sec.title}</h1>
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search..."
+        style={styles.input}
+      />
+      <div style={styles.buttons}>
+        {sec.examples.map((ex) => (
+          <button key={ex} onClick={() => setExample(ex)} style={styles.button}>
+            {ex}
+          </button>
+        ))}
+      </div>
+      <table style={styles.table}>
+        <thead>
+          <tr>
+            <th style={styles.th}>Score</th>
+            {sec.columns.map((col) => (
+              <th key={col} style={styles.th}>
+                {col}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {result.results.map((r, i) => (
+            <tr key={i} style={styles.tr}>
+              <td style={styles.td}>{r.score != null ? r.score.toFixed(2) : '-'}</td>
+              {sec.columns.map((col) => (
+                <td key={col} style={styles.td}>
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: highlightCellValue(
+                        getNestedValue(r.item, col),
+                        col,
+                        result.matchedKeywords
+                      ),
+                    }}
+                  />
+                </td>
+              ))}
+            </tr>
           ))}
-        </ul>
-      </nav>
-
-      <main className="ml-[240px] flex-1 flex">
-        <ResultsPanel
-          sectionConfig={sectionConfig}
-          query={query}
-          onQueryChange={setQuery}
-          result={result}
-        />
-        <ResizeHandle onMouseDown={handleMouseDown} />
-        <EditorPanel
-          value={editorContent}
-          onChange={handleEditorChange}
-          width={editorWidth}
-          parseError={parseError}
-          onReset={handleReset}
-        />
-      </main>
+        </tbody>
+      </table>
+      <style>{`
+        .keyword-highlight { background: #fef08a; font-weight: bold; }
+      `}</style>
     </div>
   );
 }
+
+const styles: Record<string, React.CSSProperties> = {
+  container: {
+    fontFamily: 'sans-serif',
+    maxWidth: 960,
+    margin: '0 auto',
+    padding: 16,
+    backgroundColor: '#1a1a1a',
+    color: '#e5e5e5',
+    minHeight: '100vh',
+  },
+  title: { fontSize: 24, marginBottom: 16 },
+  input: {
+    width: '100%',
+    maxWidth: 400,
+    padding: '8px 12px',
+    marginBottom: 12,
+    backgroundColor: '#2a2a2a',
+    border: '1px solid #444',
+    color: '#e5e5e5',
+    borderRadius: 4,
+  },
+  buttons: { display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 },
+  button: {
+    padding: '4px 12px',
+    backgroundColor: '#2a2a2a',
+    border: '1px solid #444',
+    color: '#e5e5e5',
+    borderRadius: 4,
+    cursor: 'pointer',
+  },
+  table: {
+    borderCollapse: 'collapse',
+    width: '100%',
+  },
+  th: {
+    textAlign: 'left',
+    padding: '8px 12px',
+    borderBottom: '1px solid #444',
+    backgroundColor: '#2a2a2a',
+  },
+  tr: { borderBottom: '1px solid #333' },
+  td: { padding: '8px 12px' },
+};
 
 export default App;

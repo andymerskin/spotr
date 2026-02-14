@@ -1,0 +1,28 @@
+---
+interface Props {
+  framework: string;
+  example: string;
+}
+
+const { framework, example } = Astro.props;
+
+const branch = import.meta.env.PUBLIC_STACKBLITZ_BRANCH || 'v1-alt-stackblitz';
+const baseUrl = `https://stackblitz.com/github/andymerskin/spotr/tree/${branch}`;
+const params = new URLSearchParams({
+  configPath: `examples/${framework}`,
+  embed: '1',
+  view: 'preview',
+  hideExplorer: '1',
+});
+params.set('initialpath', encodeURIComponent(`?example=${example}`));
+const src = `${baseUrl}?${params.toString()}`;
+---
+
+<div class="w-full h-[600px] border border-neutral-600 rounded-lg overflow-hidden">
+  <iframe
+    src={src}
+    title={`Spotr ${example} - ${framework} example`}
+    class="w-full h-full"
+    sandbox="allow-scripts allow-same-origin"
+  />
+</div>

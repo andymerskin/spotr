@@ -4,20 +4,17 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@codemirror/lang-javascript": "^6.2.4",
-    "@fsegurai/codemirror-theme-vscode-dark": "^6.2.4",
-    "vue": "^3.5.13",
-    "vue-codemirror": "^6.1.1"
+    "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.1.18",
     "@vitejs/plugin-vue": "^5.2.1",
-    "tailwindcss": "^4.0.0",
     "typescript": "^5.9.3",
     "vite": "^6.1.0",
-    "vue-tsc": "^3.2.4"
+    "vue-tsc": "^2.1.0"
   }
 }

@@ -1,9 +1,1 @@
-@import 'tailwindcss';
-@reference '../../shared/tailwind-theme.css';
-
-.keyword-highlight {
-  background-color: rgba(245, 158, 11, 0.2);
-  color: #fbbf24;
-  padding: 2px 4px;
-  border-radius: 2px;
-}
+/* Minimal - styles in App.vue */

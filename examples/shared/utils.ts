@@ -1,35 +1,4 @@
-// Constants
-export const PEOPLE_EXAMPLES = ['alice', 'johnson', 'acme', 'usa'];
-export const GAMES_EXAMPLES = ['witcher', 'done', 'ps5', 'nintendo'];
-
-export const EDITOR_WIDTH_KEY = 'spotr-editor-width';
-export const DEFAULT_EDITOR_WIDTH = 360;
-export const MIN_EDITOR_WIDTH = 280;
-
-// Helper to extract editable config (exclude collection and handler functions)
-export function extractEditableConfig(config: Record<string, unknown>): Record<string, unknown> {
-  const { collection, keywords, ...rest } = config as Record<string, unknown>;
-  const result: Record<string, unknown> = { ...rest };
-  
-  if (keywords) {
-    if (Array.isArray(keywords)) {
-      result.keywords = keywords.map((k: { name: string; triggers: string[] }) => ({
-        name: k.name,
-        triggers: k.triggers,
-      }));
-    } else {
-      result.keywords = {
-        mode: (keywords as { mode?: string }).mode,
-        definitions: ((keywords as { definitions: { name: string; triggers: string[] }[] }).definitions || []).map((k) => ({
-          name: k.name,
-          triggers: k.triggers,
-        })),
-      };
-    }
-  }
-  
-  return result;
-}
+import type { MatchedKeyword } from '../../src/types';
 
 // Get nested value using dot notation
 export function getNestedValue(obj: unknown, path: string): unknown {
@@ -51,35 +20,60 @@ export function formatCellValue(val: unknown): string {
   return String(val);
 }
 
-// Parse config and merge with handlers
-// This is a pure function that takes parsed JSON and handlers, returns merged config
-export function parseConfigWithHandlers(
-  parsed: Record<string, unknown>,
-  handlers: Record<string, unknown>
-): Record<string, unknown> {
-  const result = { ...parsed };
-  
-  // Merge with handlers from section defaults
-  if (result.keywords) {
-    if (Array.isArray(result.keywords)) {
-      result.keywords = (result.keywords as Array<{ name: string; triggers: string[] }>)
-        .map((k) => ({
-          ...k,
-          handler: handlers[k.name],
-        }))
-        .filter((k: { handler?: unknown }) => k.handler);
-    } else if ((result.keywords as { definitions?: unknown[] }).definitions) {
-      result.keywords = {
-        mode: (result.keywords as { mode?: string }).mode || 'and',
-        definitions: ((result.keywords as { definitions: Array<{ name: string; triggers: string[] }> }).definitions || [])
-          .map((k) => ({
-            ...k,
-            handler: handlers[k.name],
-          }))
-          .filter((k: { handler?: unknown }) => k.handler),
-      };
+/**
+ * Highlight keyword matches in a cell value. Returns HTML string with <mark class="keyword-highlight"> around matching text.
+ * - For completed column: format true as "Done", wrap in mark when completed keyword matched
+ * - For platforms (array): join with ", ", wrap matching platform strings when platform keyword matched
+ * - Generic: wrap any term from matchedKeywords that appears in the stringified value (case-insensitive)
+ */
+export function highlightCellValue(
+  value: unknown,
+  columnKey: string,
+  matchedKeywords: MatchedKeyword[]
+): string {
+  const HIGHLIGHT_CLASS = 'keyword-highlight';
+
+  const wrapMatch = (text: string, term: string): string => {
+    if (!text || !term) return text;
+    const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
+    return text.replace(regex, `<mark class="${HIGHLIGHT_CLASS}">$1</mark>`);
+  };
+
+  const escapeRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  // completed column: format as "Done" / "—", highlight "Done" when completed keyword matched
+  if (columnKey === 'completed') {
+    const display = value === true ? 'Done' : '—';
+    const completedKw = matchedKeywords.find((k) => k.name === 'completed');
+    if (completedKw && value === true) {
+      return `<mark class="${HIGHLIGHT_CLASS}">${display}</mark>`;
+    }
+    return display;
+  }
+
+  // platforms (array): join with ", ", highlight matching platforms when platform keyword matched
+  if (columnKey === 'platforms' && Array.isArray(value)) {
+    const platformKw = matchedKeywords.find((k) => k.name === 'platform');
+    const terms = platformKw?.terms ?? [];
+    const joined = value.map((p: string) => {
+      const str = String(p);
+      const matchesTerm = terms.some((t) => str.toLowerCase().includes(t.toLowerCase()));
+      return matchesTerm ? `<mark class="${HIGHLIGHT_CLASS}">${str}</mark>` : str;
+    }).join(', ');
+    return joined || '-';
+  }
+
+  // Generic: wrap any matching terms in the stringified value
+  const str = formatCellValue(value);
+  if (!str || str === '-') return str;
+
+  let result = str;
+  for (const kw of matchedKeywords) {
+    for (const term of kw.terms) {
+      if (term && result.toLowerCase().includes(term.toLowerCase())) {
+        result = wrapMatch(result, term);
+      }
     }
   }
-  
   return result;
 }
