@@ -1,13 +1,9 @@
 name: Deploy Examples Site
 
-# Single source of truth for deploy branches (used in push triggers and build/extract matrices)
-# Master → /spotr/, others → /spotr/<branch>/
-# Update branches list in three places: on.push.branches, build.matrix.branch, extract.matrix.branch
 on:
   push:
-    branches: &deploy-branches
+    branches:
       - master
-      - v1-alt-stackblitz
     paths:
       - 'examples-site/**'
       - '.github/workflows/deploy-examples.yml'
@@ -19,18 +15,11 @@ permissions:
   id-token: write
 
 jobs:
-  # Build all branches in parallel
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        branch: *deploy-branches
     steps:
-      - name: Checkout ${{ matrix.branch }}
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ matrix.branch }}
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
@@ -45,92 +34,27 @@ jobs:
       - name: Build Astro site
         working-directory: examples-site
         env:
-          PUBLIC_STACKBLITZ_BRANCH: ${{ matrix.branch }}
+          PUBLIC_STACKBLITZ_BRANCH: master
         run: bun run build
 
       - name: Prepare output directory
         run: |
           mkdir -p deploy-output
-          if [ "${{ matrix.branch }}" = "master" ]; then
-            # Use . to copy contents including hidden files, handle empty directories
-            if [ -d "examples-site/dist" ] && [ "$(ls -A examples-site/dist 2>/dev/null)" ]; then
-              cp -r examples-site/dist/. deploy-output/ 2>/dev/null || cp -r examples-site/dist/* deploy-output/
-            else
-              echo "Warning: examples-site/dist is empty or missing"
-            fi
+          # Use . to copy contents including hidden files, handle empty directories
+          if [ -d "examples-site/dist" ] && [ "$(ls -A examples-site/dist 2>/dev/null)" ]; then
+            cp -r examples-site/dist/. deploy-output/ 2>/dev/null || cp -r examples-site/dist/* deploy-output/
           else
-            mkdir -p deploy-output/${{ matrix.branch }}
-            if [ -d "examples-site/dist" ] && [ "$(ls -A examples-site/dist 2>/dev/null)" ]; then
-              cp -r examples-site/dist/. deploy-output/${{ matrix.branch }}/ 2>/dev/null || cp -r examples-site/dist/* deploy-output/${{ matrix.branch }}/
-            else
-              echo "Warning: examples-site/dist is empty or missing"
-            fi
+            echo "Warning: examples-site/dist is empty or missing"
           fi
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: deploy-output
-          name: build-${{ matrix.branch }}
-
-  # Each branch extracts its artifact to a partial artifact with non-overlapping paths.
-  # Master → root files. Other branches → <branch>/ files. Merge avoids overwrites.
-  extract:
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        branch: *deploy-branches
-    steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-${{ matrix.branch }}
-          path: artifact-tar
-
-      - name: Extract to staging
-        run: |
-          mkdir -p staging
-          tar xvf artifact-tar/artifact.tar -C staging
-          echo "Extracted ${{ matrix.branch }}:"
-          ls -la staging/
-
-      - name: Upload partial artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: partial-${{ matrix.branch }}
-          path: staging
-
-  # Merge all partial artifacts (non-overlapping paths) and deploy
-  combine:
-    needs: extract
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download all partial artifacts
-        uses: actions/download-artifact@v4
-        with:
-          pattern: partial-*
-          merge-multiple: true
-          path: combined-output
-
-      - name: Verify combined structure
-        run: |
-          echo "Combined output:"
-          ls -la combined-output/
-          echo "Root (master):"
-          ls combined-output/*.html 2>/dev/null || true
-          echo "Preview branches:"
-          ls -d combined-output/*/ 2>/dev/null | grep -v _astro || true
-
-      - name: Upload combined artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: combined-output
-          name: combined-pages
+          name: pages-artifact
 
   deploy:
-    needs: combine
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -139,7 +63,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          artifact_name: combined-pages
+          artifact_name: pages-artifact
       - name: Output deployment URL
         run: |
           echo "Deployed to: ${{ steps.deployment.outputs.page_url }}"
