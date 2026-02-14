@@ -6,6 +6,7 @@
       "name": "spotr-preact-example",
       "dependencies": {
         "preact": "^10.27.0",
+        "spotr": "^1.0.0-alpha.0",
       },
       "devDependencies": {
         "@preact/preset-vite": "^2.10.0",
@@ -266,6 +267,8 @@
     "source-map": ["source-map@0.7.6", "", {}, "sha512-i5uvt8C3ikiWeNZSVZNWcfZPItFQOsYTUAOkcUPGd8DqDy1uOUikjt5dG+uRlwyvR108Fb9DOd4GvXfT0N2/uQ=="],
 
     "source-map-js": ["source-map-js@1.2.1", "", {}, "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="],
+
+    "spotr": ["spotr@1.0.0-alpha.0", "", { "peerDependencies": { "preact": ">=10", "react": ">=18", "solid-js": ">=1", "svelte": ">=4", "vue": ">=3" }, "optionalPeers": ["preact", "react", "solid-js", "svelte", "vue"] }, "sha512-HPDGLyWs0jfkPMJZtwZ0p8bztz9iUQU6eJbzq48bSYX4axzeyBZJqm0FC9TQibUZOobTjYHYQCNg7Jf8vk0F4w=="],
 
     "stack-trace": ["stack-trace@1.0.0-pre2", "", {}, "sha512-2ztBJRek8IVofG9DBJqdy2N5kulaacX30Nz7xmkYF6ale9WBVmIy6mFBchvGX7Vx/MyjBhx+Rcxqrj+dbOnQ6A=="],
 

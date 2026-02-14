@@ -5,6 +5,7 @@
     "": {
       "name": "spotr-svelte-example",
       "dependencies": {
+        "spotr": "^1.0.0-alpha.0",
         "svelte": "^5.0.0",
       },
       "devDependencies": {
@@ -191,6 +192,8 @@
     "sade": ["sade@1.8.1", "", { "dependencies": { "mri": "^1.1.0" } }, "sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A=="],
 
     "source-map-js": ["source-map-js@1.2.1", "", {}, "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="],
+
+    "spotr": ["spotr@1.0.0-alpha.0", "", { "peerDependencies": { "preact": ">=10", "react": ">=18", "solid-js": ">=1", "svelte": ">=4", "vue": ">=3" }, "optionalPeers": ["preact", "react", "solid-js", "svelte", "vue"] }, "sha512-HPDGLyWs0jfkPMJZtwZ0p8bztz9iUQU6eJbzq48bSYX4axzeyBZJqm0FC9TQibUZOobTjYHYQCNg7Jf8vk0F4w=="],
 
     "svelte": ["svelte@5.51.0", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "@jridgewell/sourcemap-codec": "^1.5.0", "@sveltejs/acorn-typescript": "^1.0.5", "@types/estree": "^1.0.5", "@types/trusted-types": "^2.0.7", "acorn": "^8.12.1", "aria-query": "^5.3.1", "axobject-query": "^4.1.0", "clsx": "^2.1.1", "devalue": "^5.6.2", "esm-env": "^1.2.1", "esrap": "^2.2.2", "is-reference": "^3.0.3", "locate-character": "^3.0.0", "magic-string": "^0.30.11", "zimmerframe": "^1.1.2" } }, "sha512-TOtjs5SjPi1iCXJ7aHwQBY+PEyk0koIc1FCKNFyS9kQuN4FBma9nRuxM4f4A0b5SCdej812vf2Rcql2I0s9FZg=="],
 

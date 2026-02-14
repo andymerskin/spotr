@@ -6,6 +6,7 @@
       "name": "spotr-solid-example",
       "dependencies": {
         "solid-js": "^1.9.0",
+        "spotr": "^1.0.0-alpha.0",
       },
       "devDependencies": {
         "typescript": "^5.9.3",
@@ -244,6 +245,8 @@
     "solid-refresh": ["solid-refresh@0.6.3", "", { "dependencies": { "@babel/generator": "^7.23.6", "@babel/helper-module-imports": "^7.22.15", "@babel/types": "^7.23.6" }, "peerDependencies": { "solid-js": "^1.3" } }, "sha512-F3aPsX6hVw9ttm5LYlth8Q15x6MlI/J3Dn+o3EQyRTtTxidepSTwAYdozt01/YA+7ObcciagGEyXIopGZzQtbA=="],
 
     "source-map-js": ["source-map-js@1.2.1", "", {}, "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="],
+
+    "spotr": ["spotr@1.0.0-alpha.0", "", { "peerDependencies": { "preact": ">=10", "react": ">=18", "solid-js": ">=1", "svelte": ">=4", "vue": ">=3" }, "optionalPeers": ["preact", "react", "solid-js", "svelte", "vue"] }, "sha512-HPDGLyWs0jfkPMJZtwZ0p8bztz9iUQU6eJbzq48bSYX4axzeyBZJqm0FC9TQibUZOobTjYHYQCNg7Jf8vk0F4w=="],
 
     "tinyglobby": ["tinyglobby@0.2.15", "", { "dependencies": { "fdir": "^6.5.0", "picomatch": "^4.0.3" } }, "sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ=="],
 

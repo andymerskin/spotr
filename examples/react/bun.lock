@@ -7,6 +7,7 @@
       "dependencies": {
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
+        "spotr": "^1.0.0-alpha.0",
       },
       "devDependencies": {
         "@types/react": "^18.3.18",
@@ -247,6 +248,8 @@
     "semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
 
     "source-map-js": ["source-map-js@1.2.1", "", {}, "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="],
+
+    "spotr": ["spotr@1.0.0-alpha.0", "", { "peerDependencies": { "preact": ">=10", "react": ">=18", "solid-js": ">=1", "svelte": ">=4", "vue": ">=3" }, "optionalPeers": ["preact", "react", "solid-js", "svelte", "vue"] }, "sha512-HPDGLyWs0jfkPMJZtwZ0p8bztz9iUQU6eJbzq48bSYX4axzeyBZJqm0FC9TQibUZOobTjYHYQCNg7Jf8vk0F4w=="],
 
     "tinyglobby": ["tinyglobby@0.2.15", "", { "dependencies": { "fdir": "^6.5.0", "picomatch": "^4.0.3" } }, "sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ=="],
 
