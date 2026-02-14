@@ -1,12 +1,11 @@
 name: Deploy Examples Site
 
 # Easy-to-modify branch list - add new preview branches here
-# Master branch deploys to /spotr/, preview branches deploy to /spotr/<branch-name>/
+# Preview branches deploy to /spotr/<branch-name>/
 # To add a new branch: add it to the matrix below AND to the push branches list
 on:
   push:
     branches:
-      - master
       - v1-alt-stackblitz
     paths:
       - 'examples-site/**'
@@ -27,7 +26,6 @@ jobs:
       matrix:
         # Add new preview branches here - they'll automatically deploy to /spotr/<branch-name>/
         branch:
-          - master
           - v1-alt-stackblitz
           # Add more branches here as needed:
           # - feature-new-ui
@@ -38,16 +36,14 @@ jobs:
         with:
           ref: ${{ matrix.branch }}
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
       
       - name: Install dependencies
         working-directory: examples-site
         run: |
           if [ -f "package.json" ]; then
-            npm ci
+            bun install
           fi
       
       - name: Build Astro site
@@ -55,19 +51,14 @@ jobs:
         env:
           PUBLIC_STACKBLITZ_BRANCH: ${{ matrix.branch }}
         run: |
-          npm run build
+          bun run build
       
       - name: Prepare output directory
         run: |
           mkdir -p deploy-output
-          if [ "${{ matrix.branch }}" == "master" ]; then
-            # Master branch goes to root
-            cp -r examples-site/dist/* deploy-output/
-          else
-            # Preview branches go to subdirectories
-            mkdir -p deploy-output/${{ matrix.branch }}
-            cp -r examples-site/dist/* deploy-output/${{ matrix.branch }}/
-          fi
+          # Preview branches go to subdirectories
+          mkdir -p deploy-output/${{ matrix.branch }}
+          cp -r examples-site/dist/* deploy-output/${{ matrix.branch }}/
       
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
@@ -91,8 +82,6 @@ jobs:
         run: |
           echo "Combined output structure:"
           ls -la combined-output/ || true
-          echo "Master branch files:"
-          ls -la combined-output/ | head -10 || true
           echo "Preview branch directories:"
           ls -d combined-output/*/ 2>/dev/null || true
       
