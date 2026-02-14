@@ -7,9 +7,9 @@ import tailwindcss from '@tailwindcss/vite';
 const branchName = (typeof process !== 'undefined' && process.env?.PUBLIC_STACKBLITZ_BRANCH) || 'master';
 
 // Set base path for GitHub Pages deployment
-// GitHub Pages project sites automatically serve from /spotr/, so base should only be the path within the project
-// For master branch, use /, for other branches use /<branch-name>/
-const base = branchName === 'master' ? '/' : `/${branchName}/`;
+// GitHub Pages project sites serve from /spotr/, so base must include the repository name
+// For master branch, use /spotr/, for other branches use /spotr/<branch-name>/
+const base = branchName === 'master' ? '/spotr/' : `/spotr/${branchName}/`;
 
 // https://astro.build/config
 export default defineConfig({
