@@ -149,82 +149,41 @@ const section = getSectionFromUrl();
 const sec = SECTION_CONFIGS[section];
 const { query, setQuery, results } = createSpotr({ collection: sec.data, ...sec.config } as import('../../../src/types').SpotrOptions<Person | Game>);
 
-const styles: Record<string, Record<string, string | number>> = {
-  container: {
-    fontFamily: 'sans-serif',
-    padding: 16,
-    backgroundColor: '#1a1a1a',
-    color: '#e5e5e5',
-    minHeight: '100vh',
-    maxWidth: 960,
-    margin: '0 auto',
-  },
-  title: { fontSize: 24, marginBottom: 16 },
-  input: {
-    width: '100%',
-    maxWidth: 400,
-    padding: '8px 12px',
-    marginBottom: 12,
-    backgroundColor: '#2a2a2a',
-    border: '1px solid #444',
-    color: '#e5e5e5',
-    borderRadius: 4,
-  },
-  buttons: { display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 },
-  button: {
-    padding: '4px 12px',
-    backgroundColor: '#2a2a2a',
-    border: '1px solid #444',
-    color: '#e5e5e5',
-    borderRadius: 4,
-    cursor: 'pointer',
-  },
-  table: { borderCollapse: 'collapse' as const, width: '100%' },
-  th: {
-    textAlign: 'left',
-    padding: '8px 12px',
-    borderBottom: '1px solid #444',
-    backgroundColor: '#2a2a2a',
-  },
-  tr: { borderBottom: '1px solid #333' },
-  td: { padding: '8px 12px' },
-};
-
 export default function App() {
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>{sec.title}</h1>
+    <div class="container">
+      <h1 class="title">{sec.title}</h1>
       <input
         type="text"
         value={query()}
         onInput={(e) => setQuery((e.target as HTMLInputElement).value)}
         placeholder="Search..."
-        style={styles.input}
+        class="input"
       />
-      <div style={styles.buttons}>
+      <div class="buttons">
         {sec.examples.map((ex) => (
-          <button onClick={() => setQuery(ex)} style={styles.button}>
+          <button onClick={() => setQuery(ex)} class="button">
             {ex}
           </button>
         ))}
       </div>
-      <table style={styles.table}>
+      <table class="table">
         <thead>
           <tr>
-            <th style={styles.th}>Score</th>
+            <th class="th">Score</th>
             {sec.columns.map((col) => (
-              <th style={styles.th}>{col}</th>
+              <th class="th">{col}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {results().results.map((item) => (
-            <tr style={styles.tr}>
-              <td style={styles.td}>
+            <tr class="tr">
+              <td class="td">
                 {item.score != null ? item.score.toFixed(2) : '-'}
               </td>
               {sec.columns.map((col) => (
-                <td style={styles.td}>
+                <td class="td">
                   <span
                     innerHTML={highlightCellValue(
                       getNestedValue(item.item, col),
@@ -238,7 +197,6 @@ export default function App() {
           ))}
         </tbody>
       </table>
-      <style>{`.keyword-highlight { background: #fef08a; font-weight: bold; }`}</style>
     </div>
   );
 }
