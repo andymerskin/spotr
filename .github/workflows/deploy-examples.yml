@@ -58,9 +58,13 @@ jobs:
       - name: Prepare output directory
         run: |
           mkdir -p deploy-output
-          # Preview branches go to subdirectories
-          mkdir -p deploy-output/${{ matrix.branch }}
-          cp -r examples-site/dist/* deploy-output/${{ matrix.branch }}/
+          # Master branch goes to root, preview branches go to subdirectories
+          if [ "${{ matrix.branch }}" = "master" ]; then
+            cp -r examples-site/dist/* deploy-output/
+          else
+            mkdir -p deploy-output/${{ matrix.branch }}
+            cp -r examples-site/dist/* deploy-output/${{ matrix.branch }}/
+          fi
       
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
