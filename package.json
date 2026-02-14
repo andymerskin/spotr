@@ -58,6 +58,7 @@
     "typecheck:all": "bun run typecheck && cd examples/react && bun run typecheck && cd ../vue && bun run typecheck && cd ../solid && bun run typecheck && cd ../preact && bun run typecheck",
     "lint": "eslint src/ examples/shared examples/react/src examples/vue/src examples/svelte/src examples/solid/src examples/preact/src",
     "sync-examples": "bun run scripts/sync-examples.ts",
+    "install:examples": "bun run scripts/install-examples.ts",
     "prepare": "husky"
   },
   "peerDependencies": {
