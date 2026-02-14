@@ -10,7 +10,7 @@ A powerful and minimal client-side fuzzy search library with zero dependencies.
 - **Fuzzy Matching** - Configurable threshold (0-1) for fuzzy string matching
 - **Nested Field Support** - Dot notation for deeply nested object properties
 - **Keyword Filtering** - Pre-filter collections with custom keyword handlers
-- **Framework Integrations** - React hooks and Vue composables
+- **Framework Integrations** - React, Vue, Svelte, Solid, and Preact support
 - **TypeScript** - Full type definitions included
 
 ## Installation
@@ -162,6 +162,53 @@ const spotr = useSpotr(() => ({
 const results = computed(() => spotr.value?.query(query.value));
 ```
 
+## Svelte Store
+
+```typescript
+import { createSpotr } from 'spotr/svelte';
+
+const { spotr, query, results } = createSpotr({
+  collection: games,
+  fields: [{ name: 'title', weight: 1 }],
+});
+
+// query is a writable store, results is a derived store
+// Use $query and $results in your Svelte template
+```
+
+## Solid Hook
+
+```typescript
+import { createSpotr } from 'spotr/solid';
+
+const { query, setQuery, results } = createSpotr({
+  collection: games,
+  fields: [{ name: 'title', weight: 1 }],
+});
+
+// query() is a signal getter, setQuery is a signal setter, results() is a memo
+```
+
+## Preact Hook
+
+```typescript
+import { useSpotr } from 'spotr/preact';
+
+function GameSearch({ games, searchQuery }) {
+  const spotr = useSpotr({
+    collection: games,
+    fields: [{ name: 'title', weight: 1 }],
+  });
+  
+  const { results } = useMemo(
+    () => spotr.query(searchQuery),
+    [spotr, searchQuery]
+  );
+  
+  return <ResultsTable results={results} />;
+}
+```
+
 ## API Methods
 
 ### `query(search: string): SpotrResult<T>`
@@ -179,6 +226,33 @@ Update the collection.
 ### `collection: T[]` (getter)
 
 Access the current collection.
+
+## Development
+
+This project uses [Bun](https://bun.sh) as the package manager. After cloning the repository, install dependencies with:
+
+```sh
+bun install
+```
+
+### Core Scripts
+
+- `bun run build` - Build the library (outputs to `dist/`)
+- `bun run test` - Run all tests once
+- `bun run test:watch` - Run tests in watch mode
+- `bun run typecheck` - Type check the library (`tsc --noEmit`)
+- `bun run lint` - Lint the codebase (ESLint)
+
+### Example Scripts
+
+- `bun run examples:typecheck` - Type check all example applications
+- `bun run examples:sync` - Sync shared files from `examples/shared/` to all examples
+- `bun run examples:install` - Install dependencies for all examples
+- `bun run examples:update` - Update dependencies for all examples
+
+### Setup Scripts
+
+- `bun run prepare` - Setup Husky git hooks (runs automatically on install)
 
 ## License
 
