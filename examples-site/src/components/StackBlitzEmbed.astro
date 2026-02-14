@@ -7,12 +7,13 @@ interface Props {
 const { framework, example } = Astro.props;
 
 const branch = import.meta.env.PUBLIC_STACKBLITZ_BRANCH || 'v1-alt-stackblitz';
-const baseUrl = `https://stackblitz.com/github/andymerskin/spotr/tree/${branch}`;
+const baseUrl = `https://stackblitz.com/fork/github/andymerskin/spotr/tree/${branch}`;
 const params = new URLSearchParams({
   configPath: `examples/${framework}`,
   embed: '1',
   view: 'preview',
-  hideExplorer: '1',
+  hideExplorer: '0',
+  startScript: 'dev',
 });
 params.set('initialpath', encodeURIComponent(`?example=${example}`));
 const src = `${baseUrl}?${params.toString()}`;
