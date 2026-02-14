@@ -1,0 +1,20 @@
+{
+  "name": "spotr-vanilla-example",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3",
+    "vite": "^6.1.0"
+  },
+  "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.4",
+    "@fsegurai/codemirror-theme-vscode-dark": "^6.2.4",
+    "codemirror": "^6.0.2"
+  }
+}
