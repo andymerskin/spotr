@@ -12,7 +12,7 @@ const { currentFramework, example } = Astro.props;
 <div class="flex gap-2 mb-4 flex-wrap" id="framework-tabs">
   {frameworks.map((f) => (
     <a
-      href={`/${example}?framework=${f.id}`}
+      href={`${import.meta.env.BASE_URL}${example}?framework=${f.id}`}
       data-framework={f.id}
       class:list={[
         'px-4 py-2 rounded-lg border transition-colors',
