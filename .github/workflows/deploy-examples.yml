@@ -6,6 +6,7 @@ name: Deploy Examples Site
 on:
   push:
     branches:
+      - master
       - v1-alt-stackblitz
     paths:
       - 'examples-site/**'
@@ -26,6 +27,7 @@ jobs:
       matrix:
         # Add new preview branches here - they'll automatically deploy to /spotr/<branch-name>/
         branch:
+          - master
           - v1-alt-stackblitz
           # Add more branches here as needed:
           # - feature-new-ui
