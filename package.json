@@ -59,6 +59,7 @@
     "lint": "eslint src/ examples/shared examples/react/src examples/vue/src examples/svelte/src examples/solid/src examples/preact/src",
     "sync-examples": "bun run scripts/sync-examples.ts",
     "install:examples": "bun run scripts/install-examples.ts",
+    "update:examples": "bun run scripts/update-examples.ts",
     "prepare": "husky"
   },
   "peerDependencies": {
