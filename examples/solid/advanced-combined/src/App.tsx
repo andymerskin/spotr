@@ -6,7 +6,7 @@ import {
   highlightCellValue,
 } from './utils';
 import type { Game } from './types';
-import './App.css';
+import './styles.css';
 
 const title = 'Advanced - Combined';
 const columns = ['title', 'metadata.developer', 'metadata.publisher', 'completed'];

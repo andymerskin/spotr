@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 .container {
   font-family: sans-serif;
   padding: 16px;
@@ -60,7 +64,7 @@
   padding: 8px 12px;
 }
 
-:global(.keyword-highlight) {
+.keyword-highlight {
   background: #fef08a;
   font-weight: bold;
 }

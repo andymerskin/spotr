@@ -6,7 +6,7 @@ import {
   highlightCellValue,
 } from './utils';
 import type { Game } from './types';
-import './App.css';
+import './styles.css';
 
 const title = 'Keywords - Basic';
 const columns = ['title', 'releaseYear', 'completed'];

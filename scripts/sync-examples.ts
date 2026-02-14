@@ -67,4 +67,13 @@ for (const framework of frameworks) {
   }
 }
 
+// Copy styles.css to each example's src/
+const stylesCss = readFileSync(join(sharedDir, 'styles.css'), 'utf-8');
+for (const framework of frameworks) {
+  for (const example of examples) {
+    const exampleSrcDir = join(repoRoot, 'examples', framework, example, 'src');
+    writeFileSync(join(exampleSrcDir, 'styles.css'), stylesCss);
+  }
+}
+
 console.log(`✅ Synced shared files to ${frameworks.length * examples.length} example folders`);

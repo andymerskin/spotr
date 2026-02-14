@@ -6,7 +6,7 @@ import {
   highlightCellValue,
 } from './utils';
 import type { Person } from './types';
-import './App.css';
+import './styles.css';
 
 const title = 'Fields - Basic';
 const columns = ['firstName', 'lastName', 'email'];
