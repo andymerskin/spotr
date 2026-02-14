@@ -6,15 +6,31 @@ interface Props {
 
 const { framework, example } = Astro.props;
 
+// Map frameworks to their App file paths where spotr configuration lives
+const frameworkAppFiles: Record<string, string> = {
+  react: 'src/App.tsx',
+  vue: 'src/App.vue',
+  svelte: 'src/App.svelte',
+  solid: 'src/App.tsx',
+  preact: 'src/App.tsx',
+};
+
 const branch = import.meta.env.PUBLIC_STACKBLITZ_BRANCH || 'v1-alt-stackblitz';
 const baseUrl = `https://stackblitz.com/fork/github/andymerskin/spotr/tree/${branch}/examples/${framework}`;
 const params = new URLSearchParams({
   embed: '1',
-  view: 'editor',
+  view: 'preview',
   hideExplorer: '0',
   startScript: 'dev',
 });
 params.set('initialpath', encodeURIComponent(`?example=${example}`));
+
+// Add file parameter if we have a mapping for this framework
+const appFile = frameworkAppFiles[framework];
+if (appFile) {
+  params.set('file', appFile);
+}
+
 const src = `${baseUrl}?${params.toString()}`;
 ---
 
