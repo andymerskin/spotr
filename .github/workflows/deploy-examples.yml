@@ -3,7 +3,7 @@ name: Deploy Examples Site
 on:
   push:
     branches:
-      - main
+      - master
       - v1-alt-stackblitz  # Add other branches as needed
     paths:
       - 'examples-site/**'
@@ -33,6 +33,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
