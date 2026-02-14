@@ -1,8 +1,8 @@
-import { createSpotr } from '../../../src/solid';
-import peopleData from '../../shared/people.json';
-import gamesData from '../../shared/games.json';
-import { getNestedValue, highlightCellValue } from '../../shared/utils';
-import type { Person, Game } from '../../shared/types';
+import { createSpotr } from 'spotr/solid';
+import peopleData from './data/people.json';
+import gamesData from './data/games.json';
+import { getNestedValue, highlightCellValue } from './utils';
+import type { Person, Game } from './types';
 
 type SectionKey =
   | 'fields-basic'

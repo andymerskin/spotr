@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useSpotr } from '../../../src/vue';
-import peopleData from '../../shared/people.json';
-import gamesData from '../../shared/games.json';
-import { getNestedValue, highlightCellValue } from '../../shared/utils';
-import type { Person, Game } from '../../shared/types';
+import { useSpotr } from 'spotr/vue';
+import peopleData from './data/people.json';
+import gamesData from './data/games.json';
+import { getNestedValue, highlightCellValue } from './utils';
+import type { Person, Game } from './types';
 
 type SectionKey =
   | 'fields-basic'
