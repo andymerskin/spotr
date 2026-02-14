@@ -23,7 +23,7 @@ const config = {
   threshold: 0.3,
   fields: [{ name: 'title', weight: 1 }],
   keywords: {
-    mode: 'and',
+    mode: 'and' as const,
     definitions: [
       { name: 'completed', triggers: ['done', 'complete', 'finished'], handler: completedHandler },
       { name: 'platform', triggers: ['ps4', 'ps5', 'xbox', 'pc', 'switch'], handler: platformHandler },

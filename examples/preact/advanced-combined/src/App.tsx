@@ -33,7 +33,7 @@ const config = {
     { name: 'metadata.publisher', weight: 0.6 },
   ],
   keywords: {
-    mode: 'and',
+    mode: 'and' as const,
     definitions: [
       { name: 'completed', triggers: ['done', 'complete', 'finished'], handler: completedHandler },
       {
@@ -93,7 +93,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {result.results.map((r, i) => (
+          {result.results.map((r) => (
             <tr  style={styles.tr}>
               <td style={styles.td}>{r.score != null ? r.score.toFixed(2) : '-'}</td>
               {columns.map((col) => (

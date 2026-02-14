@@ -1,4 +1,4 @@
-import { createRoot } from 'react-dom/client';
+import { render } from 'solid-js/web';
 import App from './App';
 
-createRoot(document.getElementById('root')!).render(<App />);
+render(() => <App />, document.getElementById('root')!);

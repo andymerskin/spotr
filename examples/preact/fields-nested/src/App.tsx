@@ -72,7 +72,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {result.results.map((r, i) => (
+          {result.results.map((r) => (
             <tr  style={styles.tr}>
               <td style={styles.td}>{r.score != null ? r.score.toFixed(2) : '-'}</td>
               {columns.map((col) => (

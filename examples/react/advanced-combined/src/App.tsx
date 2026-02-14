@@ -33,7 +33,7 @@ const config = {
     { name: 'metadata.publisher', weight: 0.6 },
   ],
   keywords: {
-    mode: 'and',
+    mode: 'and' as const,
     definitions: [
       { name: 'completed', triggers: ['done', 'complete', 'finished'], handler: completedHandler },
       {
