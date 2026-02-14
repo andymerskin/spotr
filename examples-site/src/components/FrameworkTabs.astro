@@ -1,0 +1,28 @@
+---
+import { frameworks } from '../data/examples';
+
+interface Props {
+  currentFramework: string;
+  example: string;
+}
+
+const { currentFramework, example } = Astro.props;
+---
+
+<div class="flex gap-2 mb-4 flex-wrap" id="framework-tabs">
+  {frameworks.map((f) => (
+    <a
+      href={`${import.meta.env.BASE_URL}${example}?framework=${f.id}`}
+      data-framework={f.id}
+      class:list={[
+        'px-4 py-2 rounded-lg border transition-colors',
+        currentFramework === f.id
+          ? 'bg-neutral-700 border-neutral-500 text-neutral-100'
+          : 'bg-neutral-800 border-neutral-600 text-neutral-400 hover:text-neutral-200',
+      ]}
+    >
+      <span class="mr-2">{f.logo}</span>
+      {f.name}
+    </a>
+  ))}
+</div>

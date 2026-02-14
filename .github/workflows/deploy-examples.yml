@@ -1,0 +1,118 @@
+name: Deploy Examples Site
+
+# Easy-to-modify branch list - add new preview branches here
+# Preview branches deploy to /spotr/<branch-name>/
+# To add a new branch: add it to the matrix below AND to the push branches list
+on:
+  push:
+    branches:
+      - v1-alt-stackblitz
+    paths:
+      - 'examples-site/**'
+      - '.github/workflows/deploy-examples.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  # Build all branches in parallel using matrix strategy
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Add new preview branches here - they'll automatically deploy to /spotr/<branch-name>/
+        branch:
+          - v1-alt-stackblitz
+          # Add more branches here as needed:
+          # - feature-new-ui
+          # - experiment-dark-mode
+    steps:
+      - name: Checkout ${{ matrix.branch }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+      
+      - name: Install dependencies
+        working-directory: examples-site
+        run: |
+          if [ -f "package.json" ]; then
+            bun install
+          fi
+      
+      - name: Build Astro site
+        working-directory: examples-site
+        env:
+          PUBLIC_STACKBLITZ_BRANCH: ${{ matrix.branch }}
+        run: |
+          bun run build
+      
+      - name: Prepare output directory
+        run: |
+          mkdir -p deploy-output
+          # Preview branches go to subdirectories
+          mkdir -p deploy-output/${{ matrix.branch }}
+          cp -r examples-site/dist/* deploy-output/${{ matrix.branch }}/
+      
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: deploy-output
+          name: build-${{ matrix.branch }}
+
+  # Combine all branch artifacts into single deployment
+  combine:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: build-*
+          merge-multiple: true
+          path: combined-output
+      
+      - name: Verify combined structure
+        run: |
+          echo "Combined output structure:"
+          ls -la combined-output/ || true
+          echo "Preview branch directories:"
+          ls -d combined-output/*/ 2>/dev/null || true
+      
+      - name: Extract artifacts
+        working-directory: combined-output
+        run: |
+          for f in *.tar; do
+            [ -f "$f" ] || continue
+            tar xvf "$f"
+            rm "$f"
+          done
+          echo "Extracted structure:"
+          ls -la
+          ls -d */ 2>/dev/null || true
+      
+      - name: Upload combined artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: combined-output
+          name: combined-pages
+
+  # Deploy combined artifact to GitHub Pages
+  deploy:
+    needs: combine
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: combined-pages

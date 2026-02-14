@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "title": "The Witcher 3",
+    "platforms": ["PS4", "PS5", "PC"],
+    "releaseYear": 2015,
+    "completed": true,
+    "metadata": {
+      "developer": "CD Projekt Red",
+      "publisher": "CD Projekt"
+    }
+  },
+  {
+    "id": 2,
+    "title": "Elden Ring",
+    "platforms": ["PS5", "Xbox Series X", "PC"],
+    "releaseYear": 2022,
+    "completed": false,
+    "metadata": {
+      "developer": "FromSoftware",
+      "publisher": "Bandai Namco"
+    }
+  },
+  {
+    "id": 3,
+    "title": "Zelda: Breath of the Wild",
+    "platforms": ["Switch", "Wii U"],
+    "releaseYear": 2017,
+    "completed": true,
+    "metadata": {
+      "developer": "Nintendo EPD",
+      "publisher": "Nintendo"
+    }
+  },
+  {
+    "id": 4,
+    "title": "Hades",
+    "platforms": ["PS4", "PS5", "Xbox Series X", "Switch", "PC"],
+    "releaseYear": 2020,
+    "completed": true,
+    "metadata": {
+      "developer": "Supergiant Games",
+      "publisher": "Supergiant Games"
+    }
+  },
+  {
+    "id": 5,
+    "title": "Hollow Knight",
+    "platforms": ["PS4", "Switch", "PC"],
+    "releaseYear": 2017,
+    "completed": true,
+    "metadata": {
+      "developer": "Team Cherry",
+      "publisher": "Team Cherry"
+    }
+  },
+  {
+    "id": 6,
+    "title": "Dark Souls III",
+    "platforms": ["PS4", "Xbox One", "PC"],
+    "releaseYear": 2016,
+    "completed": true,
+    "metadata": {
+      "developer": "FromSoftware",
+      "publisher": "Bandai Namco"
+    }
+  },
+  {
+    "id": 7,
+    "title": "Celeste",
+    "platforms": ["PS4", "Switch", "Xbox One", "PC"],
+    "releaseYear": 2018,
+    "completed": false,
+    "metadata": {
+      "developer": "Maddy Makes Games",
+      "publisher": "Matt Makes Games"
+    }
+  },
+  {
+    "id": 8,
+    "title": "Sekiro: Shadows Die Twice",
+    "platforms": ["PS4", "Xbox One", "PC"],
+    "releaseYear": 2019,
+    "completed": true,
+    "metadata": {
+      "developer": "FromSoftware",
+      "publisher": "Activision"
+    }
+  },
+  {
+    "id": 9,
+    "title": "Red Dead Redemption 2",
+    "platforms": ["PS4", "Xbox One", "PC"],
+    "releaseYear": 2018,
+    "completed": false,
+    "metadata": {
+      "developer": "Rockstar Games",
+      "publisher": "Rockstar Games"
+    }
+  },
+  {
+    "id": 10,
+    "title": "God of War",
+    "platforms": ["PS4", "PC"],
+    "releaseYear": 2018,
+    "completed": true,
+    "metadata": {
+      "developer": "Santa Monica Studio",
+      "publisher": "Sony Interactive"
+    }
+  },
+  {
+    "id": 11,
+    "title": "Spider-Man",
+    "platforms": ["PS4", "PS5", "PC"],
+    "releaseYear": 2018,
+    "completed": true,
+    "metadata": {
+      "developer": "Insomniac Games",
+      "publisher": "Sony Interactive"
+    }
+  },
+  {
+    "id": 12,
+    "title": "Horizon Zero Dawn",
+    "platforms": ["PS4", "PC"],
+    "releaseYear": 2017,
+    "completed": false,
+    "metadata": {
+      "developer": "Guerrilla Games",
+      "publisher": "Sony Interactive"
+    }
+  },
+  {
+    "id": 13,
+    "title": "Final Fantasy VII Remake",
+    "platforms": ["PS4", "PS5", "PC"],
+    "releaseYear": 2020,
+    "completed": false,
+    "metadata": {
+      "developer": "Square Enix",
+      "publisher": "Square Enix"
+    }
+  },
+  {
+    "id": 14,
+    "title": "Resident Evil Village",
+    "platforms": ["PS4", "PS5", "Xbox Series X", "PC"],
+    "releaseYear": 2021,
+    "completed": true,
+    "metadata": {
+      "developer": "Capcom",
+      "publisher": "Capcom"
+    }
+  },
+  {
+    "id": 15,
+    "title": "Returnal",
+    "platforms": ["PS5", "PC"],
+    "releaseYear": 2021,
+    "completed": false,
+    "metadata": {
+      "developer": "Housemarque",
+      "publisher": "Sony Interactive"
+    }
+  },
+  {
+    "id": 16,
+    "title": "Death Stranding",
+    "platforms": ["PS4", "PS5", "PC"],
+    "releaseYear": 2019,
+    "completed": true,
+    "metadata": {
+      "developer": "Kojima Productions",
+      "publisher": "Sony Interactive"
+    }
+  },
+  {
+    "id": 17,
+    "title": "Ghost of Tsushima",
+    "platforms": ["PS4", "PS5", "PC"],
+    "releaseYear": 2020,
+    "completed": true,
+    "metadata": {
+      "developer": "Sucker Punch",
+      "publisher": "Sony Interactive"
+    }
+  },
+  {
+    "id": 18,
+    "title": "Demon's Souls",
+    "platforms": ["PS5"],
+    "releaseYear": 2020,
+    "completed": false,
+    "metadata": {
+      "developer": "Bluepoint Games",
+      "publisher": "Sony Interactive"
+    }
+  },
+  {
+    "id": 19,
+    "title": "Bloodborne",
+    "platforms": ["PS4"],
+    "releaseYear": 2015,
+    "completed": true,
+    "metadata": {
+      "developer": "FromSoftware",
+      "publisher": "Sony Interactive"
+    }
+  },
+  {
+    "id": 20,
+    "title": "Cyberpunk 2077",
+    "platforms": ["PS4", "PS5", "Xbox Series X", "PC"],
+    "releaseYear": 2020,
+    "completed": false,
+    "metadata": {
+      "developer": "CD Projekt Red",
+      "publisher": "CD Projekt"
+    }
+  }
+]
