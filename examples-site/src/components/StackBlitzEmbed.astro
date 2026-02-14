@@ -8,40 +8,25 @@ const { framework, example } = Astro.props;
 
 // Map frameworks to their App file paths where spotr configuration lives
 const frameworkAppFiles: Record<string, string> = {
-  react: 'src/App.tsx',
-  vue: 'src/App.vue',
-  svelte: 'src/App.svelte',
-  solid: 'src/App.tsx',
-  preact: 'src/App.tsx',
+  react: "src/App.tsx",
+  vue: "src/App.vue",
+  svelte: "src/App.svelte",
+  solid: "src/App.tsx",
+  preact: "src/App.tsx",
 };
 
-const branch = 'master';
-const baseUrl = `https://stackblitz.com/github/andymerskin/spotr/tree/${branch}/examples/${framework}`;
-const params = new URLSearchParams({
-  embed: '1',
-  view: 'preview',
-  hideExplorer: '0',
-  startScript: 'dev',
-});
-params.set('initialpath', encodeURIComponent(`?example=${example}`));
-
-// Add file parameter if we have a mapping for this framework
-const appFile = frameworkAppFiles[framework];
-if (appFile) {
-  params.set('file', appFile);
-}
-
-const src = `${baseUrl}?${params.toString()}`;
+const branch = "master";
+const src = `https://stackblitz.com/github/andymerskin/spotr/tree/${branch}/examples/${framework}/${example}?embed=1&theme=dark&preset=node&file=${frameworkAppFiles[framework]}`;
 ---
 
-<div class="w-full h-[600px] border border-neutral-600 rounded-lg overflow-hidden">
+<div class="w-full border border-neutral-600 rounded-lg overflow-hidden">
   <iframe
     id="stackblitz-embed"
     data-framework={framework}
     data-example={example}
     src={src}
     title={`Spotr ${example} - ${framework} example`}
-    class="w-full h-full"
-    sandbox="allow-scripts allow-same-origin"
-  />
+    class="w-full h-full min-h-[80dvh] overflow-hidden bg-black"
+    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation allow-modals"
+  ></iframe>
 </div>
