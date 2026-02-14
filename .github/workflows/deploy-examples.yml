@@ -1,5 +1,8 @@
 name: Deploy Examples Site
 
+# Easy-to-modify branch list - add new preview branches here
+# Master branch deploys to /spotr/, preview branches deploy to /spotr/<branch-name>/
+# To add a new branch: add it to the matrix below AND to the push branches list
 on:
   push:
     branches:
@@ -16,22 +19,92 @@ permissions:
   id-token: write
 
 jobs:
+  # Build all branches in parallel using matrix strategy
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Add new preview branches here - they'll automatically deploy to /spotr/<branch-name>/
+        branch:
+          - master
+          - v1-alt-stackblitz
+          # Add more branches here as needed:
+          # - feature-new-ui
+          # - experiment-dark-mode
     steps:
-      - name: Checkout your repository using git
+      - name: Checkout ${{ matrix.branch }}
         uses: actions/checkout@v4
-      
-      - name: Install, build, and upload your site output
-        uses: withastro/action@v5
         with:
-          path: examples-site
+          ref: ${{ matrix.branch }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
           node-version: 22
+      
+      - name: Install dependencies
+        working-directory: examples-site
+        run: |
+          if [ -f "package.json" ]; then
+            npm ci
+          fi
+      
+      - name: Build Astro site
+        working-directory: examples-site
         env:
-          PUBLIC_STACKBLITZ_BRANCH: ${{ github.ref_name }}
+          PUBLIC_STACKBLITZ_BRANCH: ${{ matrix.branch }}
+        run: |
+          npm run build
+      
+      - name: Prepare output directory
+        run: |
+          mkdir -p deploy-output
+          if [ "${{ matrix.branch }}" == "master" ]; then
+            # Master branch goes to root
+            cp -r examples-site/dist/* deploy-output/
+          else
+            # Preview branches go to subdirectories
+            mkdir -p deploy-output/${{ matrix.branch }}
+            cp -r examples-site/dist/* deploy-output/${{ matrix.branch }}/
+          fi
+      
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: deploy-output
+          name: build-${{ matrix.branch }}
 
-  deploy:
+  # Combine all branch artifacts into single deployment
+  combine:
     needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: build-*
+          merge-multiple: true
+          path: combined-output
+      
+      - name: Verify combined structure
+        run: |
+          echo "Combined output structure:"
+          ls -la combined-output/ || true
+          echo "Master branch files:"
+          ls -la combined-output/ | head -10 || true
+          echo "Preview branch directories:"
+          ls -d combined-output/*/ 2>/dev/null || true
+      
+      - name: Upload combined artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: combined-output
+          name: combined-pages
+
+  # Deploy combined artifact to GitHub Pages
+  deploy:
+    needs: combine
     runs-on: ubuntu-latest
     environment:
       name: github-pages
