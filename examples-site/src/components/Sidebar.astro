@@ -20,8 +20,8 @@ const { currentExample } = Astro.props;
         <a
           href={`${import.meta.env.BASE_URL}${ex.slug}`}
           class:list={[
-            'block text-left w-full py-1 text-neutral-400 hover:text-neutral-100',
-            currentExample === ex.slug && 'font-bold text-neutral-100',
+            'block text-left w-full py-1 px-3 rounded text-neutral-400 hover:text-neutral-100 hover:bg-cyan-900',
+            currentExample === ex.slug && 'font-bold bg-cyan-900 text-cyan-200!',
           ]}
         >
           {ex.title}
