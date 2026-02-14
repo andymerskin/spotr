@@ -1,12 +1,152 @@
 # AI Agent Guidelines
 
-This document provides guidelines for AI agents working on this codebase, specifically regarding files that are automatically synced from `examples/shared/` to individual example directories.
+This document provides comprehensive guidelines for AI agents working on the Spotr codebase.
+
+## Project Overview & Tech Stack
+
+**Spotr** is a powerful and minimal client-side fuzzy search library with zero dependencies.
+
+### Core Technologies
+
+- **Language**: TypeScript (strict mode enabled)
+- **Package Manager**: Bun (v1.1.38)
+- **Build Tool**: Vite (v6.4.1) with `preserveModules` for tree-shaking
+- **Testing**: Vitest (v3.2.4) with globals enabled
+- **Linting**: ESLint with TypeScript ESLint
+- **Module System**: ES Modules (`type: "module"`)
+
+### Framework Integrations
+
+The library provides framework-specific integrations for:
+- React (hooks: `useSpotr`)
+- Vue (composables: `useSpotr`)
+- Svelte (`useSpotr` store)
+- Solid (`useSpotr` hook)
+- Preact (`useSpotr` hook)
+
+### Build Output
+
+- Dual format: ESM (`.js`) and CommonJS (`.cjs`)
+- TypeScript declarations (`.d.ts`)
+- Source maps enabled
+- Preserves module structure for optimal tree-shaking
+
+## Development Environment
+
+### Prerequisites
+
+- Bun v1.1.38 (specified in `packageManager` field)
+- Node.js (for running examples with npm)
+
+### Initial Setup
+
+```bash
+# Install dependencies
+bun install
+
+# Install example dependencies
+bun run examples:install
+
+# Sync shared files to examples
+bun run examples:sync
+```
+
+## Commands & Scripts
+
+### Core Library Commands
+
+- `bun run build` - Build the library (outputs to `dist/`)
+- `bun run test` - Run all tests once
+- `bun run test:watch` - Run tests in watch mode
+- `bun run typecheck` - Type check main library (`tsc --noEmit`)
+- `bun run lint` - Lint codebase (ESLint)
+
+### Example Commands
+
+- `bun run examples:typecheck` - Type check all examples
+- `bun run examples:sync` - Sync shared files to examples (`scripts/sync-examples.ts`)
+- `bun run examples:install` - Install example dependencies (`scripts/install-examples.ts`)
+- `bun run examples:update` - Update example dependencies (`scripts/update-examples.ts`)
+
+### Utility Commands
+
+- `bun run prepare` - Husky setup (runs automatically on install)
+
+### File-Scoped Commands
+
+For faster feedback loops, use these single-file commands:
+
+- **Type checking**: `tsc --noEmit path/to/file.ts` or `bun run typecheck -- --noEmit path/to/file.ts`
+- **Linting**: `eslint path/to/file.ts` or `bun run lint -- path/to/file.ts`
+- **Testing**: `vitest run path/to/file.test.ts` or `bun run test path/to/file.test.ts`
+
+## Project Structure
+
+```
+spotr/
+├── src/                          # Core library source
+│   ├── index.ts                  # Main exports
+│   ├── Spotr.ts                  # Core Spotr class
+│   ├── types.ts                  # TypeScript type definitions
+│   ├── errors.ts                 # Error classes and codes
+│   ├── fuzzy/                    # Fuzzy matching algorithms
+│   │   ├── index.ts
+│   │   ├── levenshtein.ts        # Levenshtein distance calculation
+│   │   └── scorer.ts             # Item scoring logic
+│   ├── utils/                    # Utility functions
+│   │   ├── index.ts
+│   │   ├── tokenize.ts           # Query tokenization
+│   │   ├── nested.ts             # Nested field access utilities
+│   │   └── validate.ts           # Option validation
+│   ├── react/                    # React integration
+│   │   └── index.ts              # useSpotr hook
+│   ├── vue/                      # Vue integration
+│   │   └── index.ts              # useSpotr composable
+│   ├── svelte/                   # Svelte integration
+│   │   └── index.ts              # useSpotr store
+│   ├── solid/                    # Solid integration
+│   │   └── index.ts              # useSpotr hook
+│   └── preact/                   # Preact integration
+│       └── index.ts              # useSpotr hook
+├── test/                         # Test files
+│   ├── Spotr.test.ts
+│   ├── fuzzy.test.ts
+│   └── nested.test.ts
+├── examples/                     # Example applications
+│   ├── shared/                   # Shared resources (see Synced Files section)
+│   │   ├── people.json
+│   │   ├── games.json
+│   │   ├── types.ts
+│   │   ├── utils.ts
+│   │   └── styles.css
+│   ├── react/                    # React examples
+│   │   ├── fields-basic/
+│   │   ├── fields-nested/
+│   │   ├── keywords-basic/
+│   │   ├── keywords-advanced/
+│   │   └── advanced-combined/
+│   ├── vue/                      # Vue examples (same structure)
+│   ├── svelte/                   # Svelte examples (same structure)
+│   ├── solid/                    # Solid examples (same structure)
+│   └── preact/                   # Preact examples (same structure)
+├── scripts/                      # Build and utility scripts
+│   ├── sync-examples.ts
+│   ├── typecheck-examples.ts
+│   ├── install-examples.ts
+│   └── update-examples.ts
+├── dist/                         # Build output (generated)
+├── vite.config.ts                # Vite configuration
+├── vitest.config.ts              # Vitest configuration
+├── tsconfig.json                 # TypeScript configuration
+├── eslint.config.js              # ESLint configuration
+└── package.json
+```
 
 ## Important: Synced Files
 
 Several files are automatically synced from `examples/shared/` to all example directories via the `scripts/sync-examples.ts` script. These files are overwritten when the sync script runs, so they should **NEVER** be edited directly in individual example directories.
 
-## Files Synced by scripts/sync-examples.ts
+### Files Synced by scripts/sync-examples.ts
 
 The sync script copies the following files from `examples/shared/` to each example:
 
@@ -15,7 +155,7 @@ The sync script copies the following files from `examples/shared/` to each examp
 3. **utils.ts** → `examples/{framework}/{example}/src/utils.ts` (with import adaptation)
 4. **styles.css** → `examples/{framework}/{example}/src/styles.css`
 
-## ⚠️ Files That Should NOT Be Edited
+### ⚠️ Files That Should NOT Be Edited
 
 **Agents must NEVER edit these files in individual example directories:**
 
@@ -24,9 +164,9 @@ The sync script copies the following files from `examples/shared/` to each examp
 - `examples/{react|vue|svelte|solid|preact}/{example}/src/utils.ts`
 - `examples/{react|vue|svelte|solid|preact}/{example}/src/styles.css`
 
-These files are automatically overwritten when `bun run sync-examples` is executed. Any changes made directly to these files will be lost.
+These files are automatically overwritten when `bun run examples:sync` is executed. Any changes made directly to these files will be lost.
 
-## ✅ Files That SHOULD Be Edited
+### ✅ Files That SHOULD Be Edited
 
 **Agents should ONLY edit these files in the shared directory:**
 
@@ -36,9 +176,9 @@ These files are automatically overwritten when `bun run sync-examples` is execut
 - `examples/shared/utils.ts`
 - `examples/shared/styles.css`
 
-After editing shared files, run `bun run sync-examples` to propagate changes to all examples.
+After editing shared files, run `bun run examples:sync` to propagate changes to all examples.
 
-## Example-Specific Files That Can Be Edited
+### Example-Specific Files That Can Be Edited
 
 These files are unique to each example and can be edited directly:
 
@@ -49,20 +189,20 @@ These files are unique to each example and can be edited directly:
 - `examples/{framework}/{example}/tsconfig.json`
 - `examples/{framework}/{example}/index.html`
 
-## Workflow
+### Workflow
 
-### When modifying shared code/types/styles/data:
+#### When modifying shared code/types/styles/data:
 
 1. Edit files in `examples/shared/`
-2. Run `bun run sync-examples` to propagate changes to all examples
+2. Run `bun run examples:sync` to propagate changes to all examples
 3. Commit both the shared file changes and the synced files
 
-### When modifying example-specific code:
+#### When modifying example-specific code:
 
 1. Edit files directly in the example directory
 2. No sync step needed
 
-## File Structure
+### File Structure
 
 ```
 examples/
@@ -85,6 +225,186 @@ examples/
 └── ...
 ```
 
+## Code Style & Conventions
+
+### TypeScript
+
+- **Strict mode**: Enabled (`strict: true` in `tsconfig.json`)
+- **Module system**: ES Modules (`type: "module"`)
+- **Target**: ES2022
+- **Naming conventions**:
+  - Classes: PascalCase (`Spotr`, `SpotrError`)
+  - Functions: camelCase (`useSpotr`, `scoreItem`, `tokenize`)
+  - Types/Interfaces: PascalCase (`SpotrOptions`, `SpotrResult`)
+  - Constants: UPPER_SNAKE_CASE (`ErrorCodes`)
+  - Private properties: Prefix with underscore (`_collection`, `_fields`)
+
+### File Organization
+
+- One main export per file (except index files)
+- Index files (`index.ts`) re-export from implementation files
+- Group related functionality in directories (`fuzzy/`, `utils/`)
+- Framework integrations in separate directories (`react/`, `vue/`, etc.)
+
+### Import/Export Patterns
+
+```typescript
+// Prefer named exports
+export function useSpotr<T>(options: SpotrOptions<T>): Spotr<T> { ... }
+
+// Re-export types from index files
+export type { SpotrOptions, SpotrResult } from './types';
+
+// Use type imports for types
+import type { SpotrOptions } from '../types';
+```
+
+### Framework-Specific Patterns
+
+#### React
+
+- Use `useRef` for instance management
+- Implement shallow equality checks for options
+- Export hook and types from `react/index.ts`
+
+```typescript
+export function useSpotr<T extends object>(
+  options: SpotrOptions<T>
+): Spotr<T> { ... }
+```
+
+#### Vue
+
+- Use `shallowRef` for reactive instance
+- Use `watch` with `toValue` for reactive options
+- Accept `MaybeRefOrGetter` for flexible API
+
+```typescript
+export function useSpotr<T extends object>(
+  options: MaybeRefOrGetter<SpotrOptions<T>>
+) { ... }
+```
+
+### Error Handling
+
+- Use custom `SpotrError` class with error codes
+- Define error codes as const object (`ErrorCodes`)
+- Provide descriptive error messages
+- Validate inputs early and throw errors immediately
+
+## Testing Guidelines
+
+### Framework
+
+- **Vitest** with globals enabled (no need to import `describe`, `test`, `expect`)
+- Node.js environment (not DOM)
+- Test files: `test/*.test.ts` or `test/*.test.tsx`
+
+### Test File Naming
+
+- `*.test.ts` for TypeScript test files
+- `*.test.tsx` for React component tests (if needed)
+
+### Running Tests
+
+- `bun run test` - Run all tests once
+- `bun run test:watch` - Run tests in watch mode
+- `vitest run path/to/file.test.ts` - Run specific test file
+
+### Test Structure
+
+```typescript
+import { describe, test, expect } from 'vitest';
+import { Spotr } from '../src/Spotr';
+
+describe('Spotr', () => {
+  test('should match items', () => {
+    // Test implementation
+  });
+});
+```
+
+### Pre-Commit Checks
+
+- Run `bun run typecheck` before committing
+- Run `bun run lint` before committing
+- Run `bun run test` before committing (or rely on CI)
+
+## Git Workflow
+
+### Pre-Commit Hooks
+
+Husky is configured (`prepare` script) to run pre-commit hooks. Ensure all checks pass before committing.
+
+### Commit Guidelines
+
+- Commit shared file changes and synced files together when modifying `examples/shared/`
+- Commit example-specific changes independently
+- Don't commit `dist/` directory (build artifacts)
+- Don't commit `node_modules/` (ignored)
+
+### What to Commit
+
+- ✅ Source code changes (`src/`, `test/`, `examples/`)
+- ✅ Configuration files (`*.config.*`, `tsconfig.json`, `package.json`)
+- ✅ Documentation (`README.md`, `AGENTS.md`)
+- ✅ Synced files after running `examples:sync`
+- ❌ Build output (`dist/`)
+- ❌ Dependencies (`node_modules/`)
+
+## Boundaries & Permissions
+
+### ✅ Agents Can Do Without Permission
+
+- Read any file in the repository
+- Run linting on single files: `eslint path/to/file.ts`
+- Run type checking on single files: `tsc --noEmit path/to/file.ts`
+- Run tests on single files: `vitest run path/to/file.test.ts`
+- Edit source code files
+- Edit example files (following synced files rules)
+- Run build commands locally
+
+### ⚠️ Requires Approval
+
+- Installing new packages (`bun add`, `bun install`)
+- Updating dependencies (`bun update`)
+- Modifying `package.json` dependencies
+- Running production builds for release
+- Git operations (commits, pushes, branch creation)
+- Modifying CI/CD configuration
+- Changing build configuration significantly
+
+## Common Pitfalls
+
+### Synced Files
+
+- ❌ **Don't edit synced files directly** in example directories
+- ✅ Always edit files in `examples/shared/` and run `bun run examples:sync`
+
+### Build Artifacts
+
+- ❌ **Don't modify `dist/` directory** - it's generated by `bun run build`
+- ❌ **Don't commit `dist/`** - it's in `.gitignore`
+
+### Framework-Specific Gotchas
+
+- **React**: Options are compared with shallow equality - ensure stable references
+- **Vue**: Options can be reactive - use `toValue()` to unwrap refs/getters
+- **Svelte**: Store-based API differs from hooks pattern
+- **TypeScript**: Ensure all types are exported from `src/index.ts` for framework packages
+
+### Import Paths
+
+- Use `'spotr'` for main library imports in examples
+- Use `'spotr/react'`, `'spotr/vue'`, etc. for framework-specific imports
+- Don't use relative paths to `../../src/` in examples (use published package)
+
+### Type Checking
+
+- Run `bun run typecheck` after making type changes
+- Run `bun run examples:typecheck` to verify examples still type-check
+- Framework integrations may have different type requirements
+
 ## Examples
 
 ### ✅ Correct: Editing Shared Files
@@ -92,7 +412,7 @@ examples/
 **Task:** Update the Person type to include a new field.
 
 1. Edit `examples/shared/types.ts`
-2. Run `bun run sync-examples`
+2. Run `bun run examples:sync`
 3. All examples now have the updated type
 
 ### ❌ Incorrect: Editing Synced Files Directly
@@ -109,10 +429,23 @@ examples/
 1. Edit `examples/react/fields-basic/src/App.tsx`
 2. No sync step needed
 
+### ✅ Correct: Adding a New Framework Integration
+
+**Task:** Add support for a new framework.
+
+1. Create `src/{framework}/index.ts` with `useSpotr` implementation
+2. Add entry point in `vite.config.ts`
+3. Export from `package.json` exports field
+4. Add tests in `test/{framework}.test.ts`
+5. Update documentation
+
 ## Summary
 
-- **Shared files** (`examples/shared/*`) → Edit here, then sync
+- **Shared files** (`examples/shared/*`) → Edit here, then sync with `bun run examples:sync`
 - **Synced files** (`examples/{framework}/{example}/src/{data|types|utils|styles}.*`) → Never edit directly
 - **Example-specific files** (`examples/{framework}/{example}/src/{App|main}.*`) → Edit directly
+- **Core library** (`src/`) → Standard TypeScript with strict mode
+- **Tests** (`test/`) → Vitest with globals enabled
+- **Build** → Vite with preserveModules for tree-shaking
 
 When in doubt, check `scripts/sync-examples.ts` to see which files are synced.
