@@ -254,6 +254,12 @@ examples/
 
 ## Code Style & Conventions
 
+### Cursor & Interactive Elements (Site/Tailwind)
+
+- **Always add `cursor-pointer`** to all `<button>` elements and any links (`<a>`) without an `href`
+- Links with an `href` already get `cursor: pointer` from browsers; links styled as buttons or without href need explicit `cursor-pointer`
+- Use Tailwind: `cursor-pointer` on interactive elements that look clickable
+
 ### Spacing (Site/Tailwind)
 
 - **Avoid bottom margins** (`mb-*`) for vertical spacing
