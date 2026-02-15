@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar.astro';
 import FrameworkTabs from '../components/FrameworkTabs.astro';
 import StackBlitzEmbed from '../components/StackBlitzEmbed.astro';
 import { examples, frameworks } from '../data/examples';
+import { marked } from 'marked';
 
 export function getStaticPaths() {
   return examples.map((ex) => ({ params: { example: ex.slug } }));
@@ -21,6 +22,8 @@ const framework: 'react' | 'vue' | 'svelte' | 'solid' | 'preact' =
 const validExample = examples.find((e) => e.slug === example) ?? examples[0];
 const exampleSlug = example ?? validExample.slug;
 const exampleTitle = validExample.title;
+const exampleDescription = validExample.description;
+const descriptionHtml = exampleDescription ? marked.parse(exampleDescription) : '';
 ---
 
 <Layout title={exampleTitle}>
@@ -28,6 +31,9 @@ const exampleTitle = validExample.title;
     <Sidebar currentExample={exampleSlug} />
     <main class="ml-60 flex-1 p-8">
       <h1 class="text-2xl font-bold mb-4 text-neutral-100">{exampleTitle}</h1>
+      {descriptionHtml && (
+        <div class="description-prose text-neutral-400 mb-4" set:html={descriptionHtml} />
+      )}
       <FrameworkTabs currentFramework={framework} example={exampleSlug} />
       <StackBlitzEmbed framework={framework} example={exampleSlug} />
     </main>
