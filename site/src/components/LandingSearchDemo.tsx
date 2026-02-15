@@ -291,16 +291,19 @@ export default function LandingSearchDemo({ people, games }: Props) {
     return activeSpotr.query(query);
   }, [query, dataset, peopleSpotr, gamesSpotr, people, games]);
 
-  const peopleTextExamples = ["alice", "acme", "los angeles"];
-  const peopleKeywordExamples = ["subscribed", "alice subscribed"];
-  const gamesTextExamples = ["witcher", "FromSoftware", "red", "spider"];
-  const gamesKeywordExamples = ["done", "spider done", "sony", "xbox", "2020"];
+  const peopleTextExamples = ["alice", "aloce", "acme", "los angeles"];
+  const peopleKeywordExamples = ["subscribed"];
+  const peopleCombinedExamples = ["alice subscribed"];
+  const gamesTextExamples = ["witcher", "spider", "spoder", "FromSoftware"];
+  const gamesKeywordExamples = ["done", "sony", "xbox", "2020"];
+  const gamesCombinedExamples = ["spider done"];
 
   const textExamples =
     dataset === "people" ? peopleTextExamples : gamesTextExamples;
   const keywordExamples =
     dataset === "people" ? peopleKeywordExamples : gamesKeywordExamples;
-
+  const combinedExamples =
+    dataset === "people" ? peopleCombinedExamples : gamesCombinedExamples;
   return (
     <div className="w-full max-w-6xl mx-auto">
       {/* Search row: bar + toggle */}
@@ -356,10 +359,10 @@ export default function LandingSearchDemo({ people, games }: Props) {
       </div>
 
       {/* Example queries: text and keywords */}
-      <div className="flex flex-col gap-2 mt-3">
+      <div className="flex flex-wrap gap-x-4 gap-y-2 items-center mt-3">
         <div className="flex flex-wrap gap-2 items-center">
           <span className="text-xs text-neutral-500 self-center mr-1">
-            Search:
+            Try:
           </span>
           {textExamples.map((q) => (
             <button
@@ -376,6 +379,20 @@ export default function LandingSearchDemo({ people, games }: Props) {
             Keywords:
           </span>
           {keywordExamples.map((q) => (
+            <button
+              key={q}
+              onClick={() => setQuery(q)}
+              className="px-3 py-1.5 text-sm rounded-md bg-neutral-800 text-neutral-300 hover:bg-neutral-700 hover:text-neutral-100 transition-colors cursor-pointer"
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-xs text-neutral-500 self-center mr-1">
+            Combined:
+          </span>
+          {combinedExamples.map((q) => (
             <button
               key={q}
               onClick={() => setQuery(q)}
