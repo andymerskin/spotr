@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
@@ -88,6 +88,12 @@ function SearchComponent() {
 
 export default function HeaderCodeExample() {
   const [selectedFramework, setSelectedFramework] = useState<FrameworkId>('react');
+  const [mounted, setMounted] = useState(false);
+
+  // CodeMirror uses useLayoutEffect; only render it on the client to avoid SSR warning/hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="w-[500px] max-w-full">
@@ -109,42 +115,51 @@ export default function HeaderCodeExample() {
         ))}
       </div>
 
-      {/* CodeMirror box */}
-      <div 
+      {/* CodeMirror box - only render CodeMirror after mount to avoid useLayoutEffect SSR warning */}
+      <div
         className="border border-neutral-700 rounded-lg overflow-hidden header-codemirror-container"
-        style={{ 
-          width: '500px', 
+        style={{
+          width: '500px',
           maxWidth: '100%',
-          backgroundColor: 'transparent'
+          backgroundColor: 'transparent',
         }}
       >
-        <CodeMirror
-          value={snippets[selectedFramework]}
-          height="480px"
-          extensions={[
-            javascript({ jsx: true, typescript: false }),
-            oneDark
-          ]}
-          editable={false}
-          readOnly={true}
-          basicSetup={{
-            lineNumbers: false,
-            foldGutter: false,
-            dropCursor: false,
-            allowMultipleSelections: false,
-            indentOnInput: false,
-            bracketMatching: false,
-            closeBrackets: false,
-            autocompletion: false,
-            highlightSelectionMatches: false,
-          }}
-          className="text-sm"
-          style={{ 
-            width: '500px',
-            maxWidth: '100%',
-            fontSize: '14px'
-          }}
-        />
+        {mounted ? (
+          <CodeMirror
+            value={snippets[selectedFramework]}
+            height="480px"
+            extensions={[
+              javascript({ jsx: true, typescript: false }),
+              oneDark,
+            ]}
+            editable={false}
+            readOnly={true}
+            basicSetup={{
+              lineNumbers: false,
+              foldGutter: false,
+              dropCursor: false,
+              allowMultipleSelections: false,
+              indentOnInput: false,
+              bracketMatching: false,
+              closeBrackets: false,
+              autocompletion: false,
+              highlightSelectionMatches: false,
+            }}
+            className="text-sm"
+            style={{
+              width: '500px',
+              maxWidth: '100%',
+              fontSize: '14px',
+            }}
+          />
+        ) : (
+          <div
+            className="p-4 text-sm font-mono text-neutral-300 whitespace-pre overflow-auto"
+            style={{ height: '480px', width: '500px', maxWidth: '100%', fontSize: '14px' }}
+          >
+            {snippets[selectedFramework]}
+          </div>
+        )}
       </div>
     </div>
   );
