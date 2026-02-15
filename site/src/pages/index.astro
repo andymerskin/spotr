@@ -23,7 +23,7 @@ import { Icon } from "astro-icon/components";
 
         {/* Description */}
         <h1 class="mt-8 text-2xl font-bold text-neutral-100 text-center">
-          A powerful and minimal client-side fuzzy search library
+          A powerful fuzzy search library for client-side collections
         </h1>
 
         {/* Buttons */}
@@ -40,7 +40,11 @@ import { Icon } from "astro-icon/components";
             rel="noopener noreferrer"
             class="px-6 py-3 bg-neutral-800 text-neutral-200 font-medium rounded-lg border border-neutral-700 hover:bg-neutral-700 transition-colors flex items-center gap-2"
           >
-            <Icon name="skill-icons:github-dark" class="inline-block" size={20} />
+            <Icon
+              name="skill-icons:github-dark"
+              class="inline-block"
+              size={20}
+            />
             GitHub
           </a>
         </div>
@@ -51,11 +55,23 @@ import { Icon } from "astro-icon/components";
     <main class="w-full px-6 py-12">
       <div class="w-full max-w-6xl mx-auto flex flex-col items-center">
         {/* Try it out headline */}
-        <h2 class="text-xl font-bold text-neutral-100">Try it out!</h2>
+        <div class="w-full flex items-center gap-4">
+          <div class="flex-1 h-px bg-neutral-700"></div>
+          <h2
+            class="text-sm font-semibold text-amber-300 uppercase tracking-wider"
+          >
+            Try it out!
+          </h2>
+          <div class="flex-1 h-px bg-neutral-700"></div>
+        </div>
 
         {/* Interactive Demo */}
         <div class="mt-4 w-full">
-          <LandingSearchDemo client:load people={peopleData} games={gamesData} />
+          <LandingSearchDemo
+            client:load
+            people={peopleData}
+            games={gamesData}
+          />
         </div>
       </div>
     </main>
@@ -67,7 +83,7 @@ import { Icon } from "astro-icon/components";
         <p class="text-sm text-neutral-400">
           <a
             href={`${import.meta.env.BASE_URL}examples`}
-            class="hover:text-cyan-400 transition-colors"
+            class="hover:text-cyan-400"
           >
             Examples
           </a>
@@ -76,9 +92,8 @@ import { Icon } from "astro-icon/components";
             href="https://github.com/andymerskin/spotr"
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-cyan-400 transition-colors inline-flex items-center gap-1.5"
+            class="hover:text-cyan-400"
           >
-            <Icon name="skill-icons:github-dark" class="inline-block" size={16} />
             GitHub
           </a>
         </p>
@@ -87,7 +102,7 @@ import { Icon } from "astro-icon/components";
             href="https://astro.build"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-cyan-500 hover:text-cyan-400 transition-colors">Astro</a
+            class="text-cyan-500 hover:text-cyan-400">Astro</a
           >
         </p>
       </div>
