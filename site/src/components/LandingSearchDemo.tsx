@@ -1,6 +1,108 @@
 import { useState, useMemo } from "react";
 import { useSpotr } from "spotr/react";
 
+function highlightMatches(
+  text: string | number,
+  tokens: string[],
+): React.ReactNode {
+  const textStr = String(text);
+
+  // If no tokens, return plain text
+  if (tokens.length === 0) {
+    return textStr;
+  }
+
+  // Find all match ranges for each token (case-insensitive)
+  const ranges: Array<[number, number]> = [];
+  const textLower = textStr.toLowerCase();
+
+  for (const token of tokens) {
+    if (!token) continue; // Skip empty tokens
+
+    const tokenLower = token.toLowerCase();
+    let startIndex = 0;
+
+    while (true) {
+      const index = textLower.indexOf(tokenLower, startIndex);
+      if (index === -1) break;
+
+      ranges.push([index, index + token.length]);
+      startIndex = index + 1;
+    }
+  }
+
+  // If no matches found, return plain text
+  if (ranges.length === 0) {
+    return textStr;
+  }
+
+  // Sort ranges by start position
+  ranges.sort((a, b) => a[0] - b[0]);
+
+  // Merge overlapping or adjacent ranges
+  const mergedRanges: Array<[number, number]> = [];
+  let currentRange = ranges[0];
+
+  for (let i = 1; i < ranges.length; i++) {
+    const [start, end] = ranges[i];
+    const [currentStart, currentEnd] = currentRange;
+
+    // If ranges overlap or are adjacent, merge them
+    if (start <= currentEnd) {
+      currentRange = [currentStart, Math.max(currentEnd, end)];
+    } else {
+      mergedRanges.push(currentRange);
+      currentRange = [start, end];
+    }
+  }
+  mergedRanges.push(currentRange);
+
+  // Build segments: plain text and highlighted text
+  const segments: Array<{ text: string; highlight: boolean }> = [];
+  let lastIndex = 0;
+
+  for (const [start, end] of mergedRanges) {
+    // Add plain text before this match
+    if (start > lastIndex) {
+      segments.push({
+        text: textStr.slice(lastIndex, start),
+        highlight: false,
+      });
+    }
+
+    // Add highlighted match
+    segments.push({
+      text: textStr.slice(start, end),
+      highlight: true,
+    });
+
+    lastIndex = end;
+  }
+
+  // Add remaining plain text after last match
+  if (lastIndex < textStr.length) {
+    segments.push({
+      text: textStr.slice(lastIndex),
+      highlight: false,
+    });
+  }
+
+  // Render segments
+  return (
+    <>
+      {segments.map((segment, idx) =>
+        segment.highlight ? (
+          <span key={idx} className="bg-amber-300 text-black">
+            {segment.text}
+          </span>
+        ) : (
+          segment.text
+        ),
+      )}
+    </>
+  );
+}
+
 interface Person {
   id: number;
   firstName: string;
@@ -304,10 +406,10 @@ export default function LandingSearchDemo({ people, games }: Props) {
                 <>
                   <th className={TH_CELL}>Score</th>
                   <th className={TH_CELL}>Title</th>
-                  <th className={TH_CELL}>Platforms</th>
-                  <th className={TH_CELL}>Year</th>
-                  <th className={TH_CELL}>Completed</th>
                   <th className={TH_CELL}>Developer</th>
+                  <th className={TH_CELL}>Year</th>
+                  <th className={TH_CELL}>Platforms</th>
+                  <th className={TH_CELL}>Completed</th>
                 </>
               )}
             </tr>
@@ -335,17 +437,34 @@ export default function LandingSearchDemo({ people, games }: Props) {
                     {dataset === "people" ? (
                       <>
                         <td className={TD_CELL}>
-                          {(r.item as Person).firstName}
+                          {highlightMatches(
+                            (r.item as Person).firstName,
+                            result.tokens,
+                          )}
                         </td>
                         <td className={TD_CELL}>
-                          {(r.item as Person).lastName}
+                          {highlightMatches(
+                            (r.item as Person).lastName,
+                            result.tokens,
+                          )}
                         </td>
-                        <td className={TD_CELL}>{(r.item as Person).email}</td>
                         <td className={TD_CELL}>
-                          {(r.item as Person).address.city}
+                          {highlightMatches(
+                            (r.item as Person).email,
+                            result.tokens,
+                          )}
                         </td>
                         <td className={TD_CELL}>
-                          {(r.item as Person).company.name}
+                          {highlightMatches(
+                            (r.item as Person).address.city,
+                            result.tokens,
+                          )}
+                        </td>
+                        <td className={TD_CELL}>
+                          {highlightMatches(
+                            (r.item as Person).company.name,
+                            result.tokens,
+                          )}
                         </td>
                         <td className={TD_CELL}>
                           {(r.item as Person).subscribed ? "✅" : "❌"}
@@ -353,18 +472,32 @@ export default function LandingSearchDemo({ people, games }: Props) {
                       </>
                     ) : (
                       <>
-                        <td className={TD_CELL}>{(r.item as Game).title}</td>
                         <td className={TD_CELL}>
-                          {(r.item as Game).platforms.join(", ")}
+                          {highlightMatches(
+                            (r.item as Game).title,
+                            result.tokens,
+                          )}
                         </td>
                         <td className={TD_CELL}>
-                          {(r.item as Game).releaseYear}
+                          {highlightMatches(
+                            (r.item as Game).metadata.developer,
+                            result.tokens,
+                          )}
+                        </td>
+                        <td className={TD_CELL}>
+                          {highlightMatches(
+                            (r.item as Game).releaseYear,
+                            result.tokens,
+                          )}
+                        </td>
+                        <td className={TD_CELL}>
+                          {highlightMatches(
+                            (r.item as Game).platforms.join(", "),
+                            result.tokens,
+                          )}
                         </td>
                         <td className={TD_CELL}>
                           {(r.item as Game).completed ? "✅" : "❌"}
-                        </td>
-                        <td className={TD_CELL}>
-                          {(r.item as Game).metadata.developer}
                         </td>
                       </>
                     )}
