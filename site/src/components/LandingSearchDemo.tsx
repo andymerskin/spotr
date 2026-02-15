@@ -149,7 +149,7 @@ export default function LandingSearchDemo({ people, games }: Props) {
         <div className="flex gap-2 shrink-0">
           <button
             onClick={() => setDataset('people')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`cursor-pointer px-4 py-2 rounded-lg font-medium transition-colors ${
               dataset === 'people'
                 ? 'bg-cyan-600 text-white'
                 : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
@@ -159,7 +159,7 @@ export default function LandingSearchDemo({ people, games }: Props) {
           </button>
           <button
             onClick={() => setDataset('games')}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            className={`cursor-pointer px-4 py-2 rounded-lg font-medium transition-colors ${
               dataset === 'games'
                 ? 'bg-cyan-600 text-white'
                 : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
