@@ -218,5 +218,93 @@
       "developer": "CD Projekt Red",
       "publisher": "CD Projekt"
     }
+  },
+  {
+    "id": 21,
+    "title": "Spider-Man (2000)",
+    "platforms": ["PS1", "N64", "Dreamcast", "PC"],
+    "releaseYear": 2000,
+    "completed": true,
+    "metadata": {
+      "developer": "Neversoft",
+      "publisher": "Activision"
+    }
+  },
+  {
+    "id": 22,
+    "title": "Spider-Man 2",
+    "platforms": ["PS2", "Xbox", "GameCube", "PC"],
+    "releaseYear": 2004,
+    "completed": true,
+    "metadata": {
+      "developer": "Treyarch",
+      "publisher": "Activision"
+    }
+  },
+  {
+    "id": 23,
+    "title": "Spider-Man: Web of Shadows",
+    "platforms": ["PS3", "Xbox 360", "Wii", "PC"],
+    "releaseYear": 2008,
+    "completed": false,
+    "metadata": {
+      "developer": "Shaba Games",
+      "publisher": "Activision"
+    }
+  },
+  {
+    "id": 24,
+    "title": "The Amazing Spider-Man",
+    "platforms": ["PS3", "Xbox 360", "Wii", "PC"],
+    "releaseYear": 2012,
+    "completed": false,
+    "metadata": {
+      "developer": "Beenox",
+      "publisher": "Activision"
+    }
+  },
+  {
+    "id": 25,
+    "title": "Marvel's Spider-Man: Miles Morales",
+    "platforms": ["PS4", "PS5", "PC"],
+    "releaseYear": 2020,
+    "completed": true,
+    "metadata": {
+      "developer": "Insomniac Games",
+      "publisher": "Sony Interactive"
+    }
+  },
+  {
+    "id": 26,
+    "title": "Marvel's Spider-Man 2",
+    "platforms": ["PS5"],
+    "releaseYear": 2023,
+    "completed": false,
+    "metadata": {
+      "developer": "Insomniac Games",
+      "publisher": "Sony Interactive"
+    }
+  },
+  {
+    "id": 27,
+    "title": "The Witcher",
+    "platforms": ["PC"],
+    "releaseYear": 2007,
+    "completed": true,
+    "metadata": {
+      "developer": "CD Projekt Red",
+      "publisher": "CD Projekt"
+    }
+  },
+  {
+    "id": 28,
+    "title": "The Witcher 2: Assassins of Kings",
+    "platforms": ["PC", "Xbox 360"],
+    "releaseYear": 2011,
+    "completed": true,
+    "metadata": {
+      "developer": "CD Projekt Red",
+      "publisher": "CD Projekt"
+    }
   }
 ]

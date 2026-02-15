@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { useSpotr } from 'spotr/react';
+import { useState, useMemo } from "react";
+import { useSpotr } from "spotr/react";
 
 interface Person {
   id: number;
@@ -42,6 +42,9 @@ const SearchIcon = () => (
   </svg>
 );
 
+const TH_CELL = "px-4 py-3 text-left text-sm font-semibold text-neutral-200";
+const TD_CELL = "px-4 py-3 text-sm text-neutral-300";
+
 const ClearIcon = () => (
   <svg
     className="w-5 h-5 text-neutral-400 hover:text-neutral-200"
@@ -60,21 +63,52 @@ const ClearIcon = () => (
 );
 
 export default function LandingSearchDemo({ people, games }: Props) {
-  const [query, setQuery] = useState('');
-  const [dataset, setDataset] = useState<'people' | 'games'>('people');
+  const [query, setQuery] = useState("");
+  const [dataset, setDataset] = useState<"people" | "games">("people");
+
+  // Extract unique platforms and years from games collection
+  const gamePlatforms = useMemo(() => {
+    const platforms = new Set<string>();
+    games.forEach((game) => {
+      game.platforms.forEach((platform) => {
+        platforms.add(platform.toLowerCase());
+      });
+    });
+    return Array.from(platforms);
+  }, [games]);
+
+  const gameYears = useMemo(() => {
+    const years = new Set<number>();
+    games.forEach((game) => {
+      years.add(game.releaseYear);
+    });
+    return Array.from(years)
+      .sort((a, b) => b - a)
+      .map(String);
+  }, [games]);
 
   const peopleConfig = useMemo(
     () => ({
       collection: people,
       threshold: 0.6,
       fields: [
-        { name: 'firstName', weight: 1 },
-        { name: 'lastName', weight: 1 },
-        { name: 'email', weight: 0.7 },
+        { name: "firstName", weight: 1 },
+        { name: "lastName", weight: 1 },
+        { name: "email", weight: 0.8 },
+        { name: "address.city", weight: 0.7 },
+        { name: "company.name", weight: 0.7 },
+      ],
+      keywords: [
+        {
+          name: "subscribed",
+          triggers: ["subscribed", "subs"],
+          handler: (collection: Person[]) =>
+            collection.filter((item) => item.subscribed),
+        },
       ],
       limit: 50,
     }),
-    [people]
+    [people],
   );
 
   const gamesConfig = useMemo(
@@ -82,24 +116,68 @@ export default function LandingSearchDemo({ people, games }: Props) {
       collection: games,
       threshold: 0.6,
       fields: [
-        { name: 'title', weight: 1 },
-        { name: 'metadata.developer', weight: 0.9 },
+        { name: "title", weight: 1 },
+        { name: "metadata.developer", weight: 0.9 },
+      ],
+      keywords: [
+        {
+          name: "completed",
+          triggers: ["done", "complete", "finished"],
+          handler: (collection: Game[]) =>
+            collection.filter((item) => item.completed),
+        },
+        {
+          name: "platform",
+          triggers: [...gamePlatforms, "sony"],
+          handler: (collection: Game[], terms?: string[]) =>
+            collection.filter((item) =>
+              (terms ?? []).some((t) => {
+                const lowerT = t.toLowerCase();
+                if (lowerT === "sony") {
+                  return item.platforms.some(
+                    (p) =>
+                      p.toLowerCase().includes("ps4") ||
+                      p.toLowerCase().includes("ps5"),
+                  );
+                }
+                return item.platforms.some((p) =>
+                  p.toLowerCase().includes(lowerT),
+                );
+              }),
+            ),
+        },
+        {
+          name: "year",
+          triggers: gameYears,
+          handler: (collection: Game[], terms?: string[]) =>
+            collection.filter((item) =>
+              (terms ?? []).some((t) => item.releaseYear === parseInt(t, 10)),
+            ),
+        },
       ],
       limit: 50,
     }),
-    [games]
+    [games, gamePlatforms, gameYears],
   );
 
   const peopleSpotr = useSpotr<Person>(peopleConfig);
   const gamesSpotr = useSpotr<Game>(gamesConfig);
 
   const result = useMemo(() => {
-    const activeSpotr = dataset === 'people' ? peopleSpotr : gamesSpotr;
-    const activeCollection = dataset === 'people' ? people : games;
+    const activeSpotr = dataset === "people" ? peopleSpotr : gamesSpotr;
+    const activeCollection = dataset === "people" ? people : games;
 
     if (!query.trim()) {
+      const sorted =
+        dataset === "people"
+          ? [...(activeCollection as Person[])].sort((a, b) =>
+              a.firstName.localeCompare(b.firstName),
+            )
+          : [...(activeCollection as Game[])].sort((a, b) =>
+              a.title.localeCompare(b.title),
+            );
       return {
-        results: activeCollection.slice(0, 50).map((item) => ({
+        results: sorted.slice(0, 50).map((item) => ({
           item,
           score: null as number | null,
         })),
@@ -111,12 +189,15 @@ export default function LandingSearchDemo({ people, games }: Props) {
     return activeSpotr.query(query);
   }, [query, dataset, peopleSpotr, gamesSpotr, people, games]);
 
-  const formatCellValue = (val: unknown): string => {
-    if (val == null) return '-';
-    if (Array.isArray(val)) return val.join(', ');
-    if (typeof val === 'object') return JSON.stringify(val);
-    return String(val);
-  };
+  const peopleTextExamples = ["alice", "acme", "los angeles"];
+  const peopleKeywordExamples = ["subscribed", "alice subscribed"];
+  const gamesTextExamples = ["witcher", "FromSoftware", "red", "spider"];
+  const gamesKeywordExamples = ["done", "spider done", "sony", "xbox", "2020"];
+
+  const textExamples =
+    dataset === "people" ? peopleTextExamples : gamesTextExamples;
+  const keywordExamples =
+    dataset === "people" ? peopleKeywordExamples : gamesKeywordExamples;
 
   return (
     <div className="w-full max-w-6xl mx-auto">
@@ -130,13 +211,15 @@ export default function LandingSearchDemo({ people, games }: Props) {
           <input
             type="text"
             value={query}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setQuery(e.target.value)
+            }
             placeholder={`Search ${dataset}...`}
             className="w-full pl-11 pr-11 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:border-transparent"
           />
           {query && (
             <button
-              onClick={() => setQuery('')}
+              onClick={() => setQuery("")}
               className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-neutral-700 rounded transition-colors"
               aria-label="Clear search"
             >
@@ -148,21 +231,21 @@ export default function LandingSearchDemo({ people, games }: Props) {
         {/* Toggle */}
         <div className="flex gap-2 shrink-0">
           <button
-            onClick={() => setDataset('people')}
+            onClick={() => setDataset("people")}
             className={`cursor-pointer px-4 py-2 rounded-lg font-medium transition-colors ${
-              dataset === 'people'
-                ? 'bg-cyan-600 text-white'
-                : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
+              dataset === "people"
+                ? "bg-cyan-600 text-white"
+                : "bg-neutral-800 text-neutral-400 hover:bg-neutral-700"
             }`}
           >
             People
           </button>
           <button
-            onClick={() => setDataset('games')}
+            onClick={() => setDataset("games")}
             className={`cursor-pointer px-4 py-2 rounded-lg font-medium transition-colors ${
-              dataset === 'games'
-                ? 'bg-cyan-600 text-white'
-                : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
+              dataset === "games"
+                ? "bg-cyan-600 text-white"
+                : "bg-neutral-800 text-neutral-400 hover:bg-neutral-700"
             }`}
           >
             Games
@@ -170,52 +253,61 @@ export default function LandingSearchDemo({ people, games }: Props) {
         </div>
       </div>
 
+      {/* Example queries: text and keywords */}
+      <div className="flex flex-col gap-2 mt-3">
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-xs text-neutral-500 self-center mr-1">
+            Search:
+          </span>
+          {textExamples.map((q) => (
+            <button
+              key={q}
+              onClick={() => setQuery(q)}
+              className="px-3 py-1.5 text-sm rounded-md bg-neutral-800 text-neutral-300 hover:bg-neutral-700 hover:text-neutral-100 transition-colors cursor-pointer"
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-xs text-neutral-500 self-center mr-1">
+            Keywords:
+          </span>
+          {keywordExamples.map((q) => (
+            <button
+              key={q}
+              onClick={() => setQuery(q)}
+              className="px-3 py-1.5 text-sm rounded-md bg-neutral-800 text-neutral-300 hover:bg-neutral-700 hover:text-neutral-100 transition-colors cursor-pointer"
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Table */}
-      <div className="overflow-x-auto border border-neutral-700 rounded-lg">
+      <div className="overflow-x-auto border border-neutral-700 rounded-lg mt-6 min-h-[450px]">
         <table className="w-full">
           <thead className="bg-neutral-800">
             <tr>
-              {dataset === 'people' ? (
+              {dataset === "people" ? (
                 <>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    Score
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    First Name
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    Last Name
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    Email
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    City
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    Company
-                  </th>
+                  <th className={TH_CELL}>Score</th>
+                  <th className={TH_CELL}>First Name</th>
+                  <th className={TH_CELL}>Last Name</th>
+                  <th className={TH_CELL}>Email</th>
+                  <th className={TH_CELL}>City</th>
+                  <th className={TH_CELL}>Company</th>
+                  <th className={TH_CELL}>Subscribed</th>
                 </>
               ) : (
                 <>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    Score
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    Title
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    Platforms
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    Year
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    Completed
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-neutral-200">
-                    Developer
-                  </th>
+                  <th className={TH_CELL}>Score</th>
+                  <th className={TH_CELL}>Title</th>
+                  <th className={TH_CELL}>Platforms</th>
+                  <th className={TH_CELL}>Year</th>
+                  <th className={TH_CELL}>Completed</th>
+                  <th className={TH_CELL}>Developer</th>
                 </>
               )}
             </tr>
@@ -224,60 +316,61 @@ export default function LandingSearchDemo({ people, games }: Props) {
             {result.results.length === 0 ? (
               <tr>
                 <td
-                  colSpan={dataset === 'people' ? 6 : 6}
+                  colSpan={dataset === "people" ? 7 : 6}
                   className="px-4 py-8 text-center text-neutral-400"
                 >
                   No results found
                 </td>
               </tr>
             ) : (
-              result.results.map((r: { item: Person | Game; score: number | null }) => (
-                <tr
-                  key={r.item.id}
-                  className="bg-neutral-900 hover:bg-neutral-800 transition-colors"
-                >
-                  <td className="px-4 py-3 text-sm text-neutral-300">
-                    {r.score != null ? r.score.toFixed(2) : '-'}
-                  </td>
-                  {dataset === 'people' ? (
-                    <>
-                      <td className="px-4 py-3 text-sm text-neutral-200">
-                        {(r.item as Person).firstName}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-neutral-200">
-                        {(r.item as Person).lastName}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-neutral-300">
-                        {(r.item as Person).email}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-neutral-300">
-                        {(r.item as Person).address.city}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-neutral-300">
-                        {(r.item as Person).company.name}
-                      </td>
-                    </>
-                  ) : (
-                    <>
-                      <td className="px-4 py-3 text-sm text-neutral-200">
-                        {(r.item as Game).title}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-neutral-300">
-                        {(r.item as Game).platforms.join(', ')}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-neutral-300">
-                        {(r.item as Game).releaseYear}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-neutral-300">
-                        {(r.item as Game).completed ? 'Yes' : 'No'}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-neutral-300">
-                        {(r.item as Game).metadata.developer}
-                      </td>
-                    </>
-                  )}
-                </tr>
-              ))
+              result.results.map(
+                (r: { item: Person | Game; score: number | null }) => (
+                  <tr
+                    key={r.item.id}
+                    className="bg-neutral-900 hover:bg-neutral-800 transition-colors"
+                  >
+                    <td className={TD_CELL}>
+                      {r.score != null ? r.score.toFixed(2) : "-"}
+                    </td>
+                    {dataset === "people" ? (
+                      <>
+                        <td className={TD_CELL}>
+                          {(r.item as Person).firstName}
+                        </td>
+                        <td className={TD_CELL}>
+                          {(r.item as Person).lastName}
+                        </td>
+                        <td className={TD_CELL}>{(r.item as Person).email}</td>
+                        <td className={TD_CELL}>
+                          {(r.item as Person).address.city}
+                        </td>
+                        <td className={TD_CELL}>
+                          {(r.item as Person).company.name}
+                        </td>
+                        <td className={TD_CELL}>
+                          {(r.item as Person).subscribed ? "✅" : "❌"}
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td className={TD_CELL}>{(r.item as Game).title}</td>
+                        <td className={TD_CELL}>
+                          {(r.item as Game).platforms.join(", ")}
+                        </td>
+                        <td className={TD_CELL}>
+                          {(r.item as Game).releaseYear}
+                        </td>
+                        <td className={TD_CELL}>
+                          {(r.item as Game).completed ? "✅" : "❌"}
+                        </td>
+                        <td className={TD_CELL}>
+                          {(r.item as Game).metadata.developer}
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                ),
+              )
             )}
           </tbody>
         </table>
