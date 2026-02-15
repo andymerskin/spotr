@@ -23,5 +23,12 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [react(), icon()]
+  integrations: [
+    react(),
+    icon({
+      include: {
+        'skill-icons': ['react-dark', 'vuejs-dark', 'svelte', 'solidjs-dark', 'github-dark'],
+      },
+    }),
+  ]
 });

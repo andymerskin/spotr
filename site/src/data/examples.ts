@@ -9,10 +9,10 @@ export const examples = [
 export type ExampleSlug = (typeof examples)[number]['slug'];
 
 export const frameworks = [
-  { id: 'react', name: 'React', logo: 'react' },
-  { id: 'vue', name: 'Vue', logo: 'vue' },
-  { id: 'svelte', name: 'Svelte', logo: 'svelte' },
-  { id: 'solid', name: 'Solid', logo: 'solid' },
+  { id: 'react', name: 'React', logo: 'skill-icons:react-dark' },
+  { id: 'vue', name: 'Vue', logo: 'skill-icons:vuejs-dark' },
+  { id: 'svelte', name: 'Svelte', logo: 'skill-icons:svelte' },
+  { id: 'solid', name: 'Solid', logo: 'skill-icons:solidjs-dark' },
   { id: 'preact', name: 'Preact', logo: 'preact' },
 ] as const;
 

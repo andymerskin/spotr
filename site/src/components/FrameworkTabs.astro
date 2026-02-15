@@ -20,7 +20,7 @@ const { currentFramework, example } = Astro.props;
         class:list={[
           'px-4 py-2 rounded-lg transition-colors',
           currentFramework === f.id
-            ? 'bg-neutral-800 text-white'
+            ? 'bg-neutral-700 text-white'
             : 'text-neutral-400 hover:text-neutral-200',
         ]}
       >
@@ -60,7 +60,7 @@ const { currentFramework, example } = Astro.props;
       // Check what's actually rendered - if it matches URL, do nothing
       const currentActive = (() => {
         for (const a of tabsEl.querySelectorAll('a[data-framework]')) {
-          if (a.classList.contains('bg-neutral-800') && a.classList.contains('text-white')) {
+          if (a.classList.contains('bg-neutral-700') && a.classList.contains('text-white')) {
             return a.getAttribute('data-framework');
           }
         }
@@ -76,10 +76,10 @@ const { currentFramework, example } = Astro.props;
         const isActive = a.getAttribute('data-framework') === framework;
         
         if (isActive) {
-          a.classList.add('bg-neutral-800', 'text-white');
+          a.classList.add('bg-neutral-700', 'text-white');
           a.classList.remove('text-neutral-400');
         } else {
-          a.classList.remove('bg-neutral-800', 'text-white');
+          a.classList.remove('bg-neutral-700', 'text-white');
           a.classList.add('text-neutral-400');
         }
       }

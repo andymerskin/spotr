@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import LandingSearchDemo from "../components/LandingSearchDemo";
 import peopleData from "../data/people.json";
 import gamesData from "../data/games.json";
+import { Icon } from "astro-icon/components";
 ---
 
 <Layout title="Spotr">
@@ -37,8 +38,9 @@ import gamesData from "../data/games.json";
           href="https://github.com/andymerskin/spotr"
           target="_blank"
           rel="noopener noreferrer"
-          class="px-6 py-3 bg-neutral-800 text-neutral-200 font-medium rounded-lg border border-neutral-700 hover:bg-neutral-700 transition-colors"
+          class="px-6 py-3 bg-neutral-800 text-neutral-200 font-medium rounded-lg border border-neutral-700 hover:bg-neutral-700 transition-colors flex items-center gap-2"
         >
+          <Icon name="skill-icons:github-dark" class="inline-block" size={20} />
           GitHub
         </a>
       </div>
@@ -68,8 +70,9 @@ import gamesData from "../data/games.json";
             href="https://github.com/andymerskin/spotr"
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-cyan-400 transition-colors"
+            class="hover:text-cyan-400 transition-colors inline-flex items-center gap-1.5"
           >
+            <Icon name="skill-icons:github-dark" class="inline-block" size={16} />
             GitHub
           </a>
         </p>
