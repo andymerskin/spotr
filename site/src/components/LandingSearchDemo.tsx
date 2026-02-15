@@ -130,7 +130,7 @@ export default function LandingSearchDemo({ people, games }: Props) {
           <input
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
             placeholder={`Search ${dataset}...`}
             className="w-full pl-11 pr-11 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:border-transparent"
           />
@@ -231,7 +231,7 @@ export default function LandingSearchDemo({ people, games }: Props) {
                 </td>
               </tr>
             ) : (
-              result.results.map((r) => (
+              result.results.map((r: { item: Person | Game; score: number | null }) => (
                 <tr
                   key={r.item.id}
                   className="bg-neutral-900 hover:bg-neutral-800 transition-colors"
