@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'examples-site/**'
+      - 'site/**'
       - 'examples/**'
       - '.github/workflows/deploy-examples.yml'
   workflow_dispatch:
@@ -26,14 +26,14 @@ jobs:
         uses: oven-sh/setup-bun@v1
 
       - name: Install dependencies
-        working-directory: examples-site
+        working-directory: site
         run: |
           if [ -f "package.json" ]; then
             bun install
           fi
 
       - name: Build Astro site
-        working-directory: examples-site
+        working-directory: site
         env:
           PUBLIC_STACKBLITZ_BRANCH: master
         run: bun run build
@@ -42,10 +42,10 @@ jobs:
         run: |
           mkdir -p deploy-output
           # Use . to copy contents including hidden files, handle empty directories
-          if [ -d "examples-site/dist" ] && [ "$(ls -A examples-site/dist 2>/dev/null)" ]; then
-            cp -r examples-site/dist/. deploy-output/ 2>/dev/null || cp -r examples-site/dist/* deploy-output/
+          if [ -d "site/dist" ] && [ "$(ls -A site/dist 2>/dev/null)" ]; then
+            cp -r site/dist/. deploy-output/ 2>/dev/null || cp -r site/dist/* deploy-output/
           else
-            echo "Warning: examples-site/dist is empty or missing"
+            echo "Warning: site/dist is empty or missing"
           fi
 
       - name: Upload build artifact

@@ -55,21 +55,21 @@ bun run examples:sync
 
 This repository uses **Bun workspaces** to manage the monorepo structure:
 
-- **Root** (`/`) is the workspace host with `"workspaces": ["packages/spotr", "examples-site"]`
+- **Root** (`/`) is the workspace host with `"workspaces": ["packages/spotr", "site"]`
 - **packages/spotr** (`/packages/spotr`) is the `spotr` library package (publishable)
-- **examples-site** (`/examples-site`) is a workspace member that depends on `spotr` via `"spotr": "workspace:*"`
+- **site** (`/site`) is a workspace member that depends on `spotr` via `"spotr": "workspace:*"`
 
 **Important:** Always run `bun install` from the **repository root**. Bun will automatically:
 - Install dependencies for all workspaces
-- Link the local `spotr` package into `examples-site/node_modules/spotr` (as a symlink)
+- Link the local `spotr` package into `site/node_modules/spotr` (as a symlink)
 - Manage a single `bun.lock` file at the root
 
-The `examples-site` package depends on `spotr` using the workspace protocol (`workspace:*`), which resolves to the local `packages/spotr` package. No manual symlinking scripts or `file:..` dependencies are needed.
+The `site` package depends on `spotr` using the workspace protocol (`workspace:*`), which resolves to the local `packages/spotr` package. No manual symlinking scripts or `file:..` dependencies are needed.
 
 **Running workspace commands:**
 - `bun run build` - Builds the spotr library (delegates to `packages/spotr`)
 - `bun run --filter spotr <command>` - Run a command in the spotr workspace
-- `bun run --filter examples-site <command>` - Run a command in the examples-site workspace
+- `bun run --filter site <command>` - Run a command in the site workspace
 
 ## Commands & Scripts
 
@@ -161,12 +161,12 @@ spotr/
 │   ├── typecheck-examples.ts
 │   ├── install-examples.ts
 │   └── update-examples.ts
-├── examples-site/                # Examples site (workspace member)
+├── site/                         # Examples site (workspace member)
 │   ├── src/
 │   ├── package.json              # Depends on "spotr": "workspace:*"
 │   └── ...
 ├── eslint.config.js              # ESLint configuration (root)
-└── package.json                  # Root workspace config with "workspaces": ["packages/spotr", "examples-site"]
+└── package.json                  # Root workspace config with "workspaces": ["packages/spotr", "site"]
 ```
 
 ## Important: Synced Files

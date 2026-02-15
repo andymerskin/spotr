@@ -4,7 +4,7 @@
   "private": true,
   "workspaces": [
     "packages/spotr",
-    "examples-site"
+    "site"
   ],
   "scripts": {
     "build": "bun run --filter spotr build",

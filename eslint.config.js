@@ -9,7 +9,7 @@ export default tseslint.config(
       '**/dist/**',
       '**/node_modules/**',
       '**/*.min.js',
-      'examples-site/**',
+      'site/**',
       'examples/**/dist/**',
       'packages/**/dist/**',
     ],
