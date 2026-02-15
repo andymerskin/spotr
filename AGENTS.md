@@ -254,6 +254,13 @@ examples/
 
 ## Code Style & Conventions
 
+### Spacing (Site/Tailwind)
+
+- **Avoid bottom margins** (`mb-*`) for vertical spacing
+- **Prefer top margins** (`mt-*`) or **Tailwind space utilities** (`space-x-*`, `space-y-*`)
+- Use `space-y-*` on parent containers for consistent vertical gaps between siblings
+- Use `mt-*` on elements that need specific top spacing
+
 ### TypeScript
 
 - **Strict mode**: Enabled (`strict: true` in `tsconfig.json`)
@@ -356,6 +363,35 @@ describe('Spotr', () => {
 - Run `bun run typecheck` before committing
 - Run `bun run lint` before committing
 - Run `bun run test` before committing (or rely on CI)
+
+**Note:** These checks should already pass if you followed the "Before Finishing Your Changes" workflow below. Pre-commit checks serve as a final verification.
+
+## Before Finishing Your Changes
+
+**When you have finished all edits for your task, before considering the task complete, you MUST:**
+
+1. **Run TypeScript check on changed files:**
+   - For the main library (`packages/spotr`): Run `bun run typecheck` from root, or use file-scoped checking: `tsc --noEmit path/to/file.ts` from `packages/spotr/` directory
+   - For examples: If you changed example code, run `bun run examples:typecheck` from root, or run typecheck in the specific example directory (e.g., `cd examples/react/fields-basic && bun run typecheck`)
+   - For site (`site/`): Run typecheck from the `site` directory if available, or run `tsc --noEmit` / Astro check as appropriate
+   - See **File-Scoped Commands** section above for exact commands
+
+2. **Fix all TypeScript errors:**
+   - Resolve any TypeScript errors reported by the check
+   - Re-run the TypeScript check until it passes with zero errors
+   - Do not proceed until all TypeScript errors are fixed
+
+3. **Run linter on changed files:**
+   - For main library or examples: Run `bun run lint` from root, or use file-scoped checking: `eslint path/to/file.ts` or `bun run lint -- path/to/file.ts`
+   - For site files: Run ESLint against site paths (e.g., `eslint site/src` from root if the config supports it)
+   - See **File-Scoped Commands** section above for exact commands
+
+4. **Fix all lint errors and warnings:**
+   - Resolve any ESLint errors and warnings reported by the linter
+   - Re-run the linter until it passes with zero errors and zero warnings
+   - Do not proceed until all lint issues are fixed
+
+**This workflow ensures that all code changes are type-safe and follow project linting standards before the task is considered complete.** See **Pre-Commit Checks** above for final verification steps before committing.
 
 ## Git Workflow
 
