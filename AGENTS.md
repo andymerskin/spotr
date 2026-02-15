@@ -261,6 +261,16 @@ examples/
 - Use `space-y-*` on parent containers for consistent vertical gaps between siblings
 - Use `mt-*` on elements that need specific top spacing
 
+### Icons & Iconography
+
+- **Principle:** Always use the project's Iconify-based icon library. Do not import SVG files manually or paste inline SVG markup from the web.
+- **logos** (`@iconify-json/logos`): Use for framework and tech logos (React, Vue, Svelte, Solid, Preact, GitHub, etc.). Icon names: `logos:react`, `logos:vue`, `logos:svelte`, `logos:solidjs`, `logos:preact`, `logos:github`, etc. Browse at [icon-sets.iconify.design/logos](https://icon-sets.iconify.design/logos/).
+- **Solar Icon Collection** (`@iconify-json/solar`): Use for all other icons (search, close, settings, etc.). Icon names: `solar:magnifer-linear`, `solar:close-circle-linear`, etc.
+- **Usage patterns:**
+  - **Astro:** `import { Icon } from 'astro-icon/components'`; use `<Icon name="logos:react" />` or `<Icon name="solar:magnifer-linear" />`. Ensure the icon set is included in `astro.config.mjs` under the icon integration.
+  - **React:** `import { Icon } from '@iconify/react'`; use `<Icon icon="logos:react" />` or `<Icon icon="solar:magnifer-linear" />`. Add `@iconify-json/logos` and/or `@iconify-json/solar` as dev dependencies if you need them bundled.
+- **Avoid:** Manually writing or pasting SVG markup, importing `.svg` files for icons, or using other icon sets when logos or Solar would suffice.
+
 ### TypeScript
 
 - **Strict mode**: Enabled (`strict: true` in `tsconfig.json`)
@@ -467,6 +477,11 @@ Husky is configured (`prepare` script) to run pre-commit hooks. Ensure all check
 - Run `bun run typecheck` after making type changes
 - Run `bun run examples:typecheck` to verify examples still type-check
 - Framework integrations may have different type requirements
+
+### Icons
+
+- ❌ **Don't paste inline SVGs from the web or add new SVG icon files**
+- ✅ Use logos or Solar from Iconify instead
 
 ## Examples
 
