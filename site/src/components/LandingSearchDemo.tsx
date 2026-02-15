@@ -238,6 +238,8 @@ export default function LandingSearchDemo({ people, games }: Props) {
                 if (lowerT === "sony") {
                   return item.platforms.some(
                     (p) =>
+                      p.toLowerCase().includes("ps2") ||
+                      p.toLowerCase().includes("ps3") ||
                       p.toLowerCase().includes("ps4") ||
                       p.toLowerCase().includes("ps5"),
                   );
