@@ -192,7 +192,7 @@ export default function LandingSearchDemo({ people, games }: Props) {
   const peopleConfig = useMemo(
     () => ({
       collection: people,
-      threshold: 0.6,
+      threshold: 0.3,
       fields: [
         { name: "firstName", weight: 1 },
         { name: "lastName", weight: 1 },
@@ -216,7 +216,7 @@ export default function LandingSearchDemo({ people, games }: Props) {
   const gamesConfig = useMemo(
     () => ({
       collection: games,
-      threshold: 0.6,
+      threshold: 0.3,
       fields: [
         { name: "title", weight: 1 },
         { name: "metadata.developer", weight: 0.9 },
