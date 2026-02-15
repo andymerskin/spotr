@@ -26,11 +26,10 @@ jobs:
         uses: oven-sh/setup-bun@v1
 
       - name: Install dependencies
-        working-directory: site
-        run: |
-          if [ -f "package.json" ]; then
-            bun install
-          fi
+        run: bun install
+
+      - name: Build spotr library
+        run: bun run --filter spotr build
 
       - name: Build Astro site
         working-directory: site
