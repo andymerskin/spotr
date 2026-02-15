@@ -1,9 +1,9 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Sidebar from '../components/Sidebar.astro';
-import FrameworkTabs from '../components/FrameworkTabs.astro';
-import StackBlitzEmbed from '../components/StackBlitzEmbed.astro';
-import { examples, frameworks } from '../data/examples';
+import Layout from '../../layouts/Layout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import FrameworkTabs from '../../components/FrameworkTabs.astro';
+import StackBlitzEmbed from '../../components/StackBlitzEmbed.astro';
+import { examples, frameworks } from '../../data/examples';
 import { marked } from 'marked';
 
 export function getStaticPaths() {
@@ -34,7 +34,7 @@ const descriptionHtml = exampleDescription ? marked.parse(exampleDescription) : 
       {descriptionHtml && (
         <div class="description-prose text-neutral-400 mb-4" set:html={descriptionHtml} />
       )}
-      <FrameworkTabs currentFramework={framework} example={exampleSlug} />
+      <FrameworkTabs currentFramework={framework} example={`examples/${exampleSlug}`} />
       <StackBlitzEmbed framework={framework} example={exampleSlug} />
     </main>
   </div>

@@ -1,3 +1,48 @@
 ---
-return Astro.redirect(import.meta.env.BASE_URL + 'fields-basic');
+import Layout from '../layouts/Layout.astro';
+import LandingSearchDemo from '../components/LandingSearchDemo';
+import peopleData from '../data/people.json';
+import gamesData from '../data/games.json';
 ---
+
+<Layout title="Spotr">
+  <div class="min-h-screen bg-neutral-900 flex flex-col items-center py-12 px-4">
+    <div class="w-full max-w-6xl flex flex-col items-center">
+      {/* Logo */}
+      <div class="mb-8 flex items-center gap-3">
+        <img
+          src={`${import.meta.env.BASE_URL}spotr.svg`}
+          alt="Spotr"
+          class="w-24 h-24"
+        />
+        <span class="text-3xl font-bold text-neutral-100">Spotr</span>
+      </div>
+
+      {/* Description */}
+      <h1 class="text-2xl font-bold text-neutral-100 mb-6 text-center">
+        A powerful and minimal client-side fuzzy search library
+      </h1>
+
+      {/* Buttons */}
+      <div class="flex gap-4 mb-12">
+        <a
+          href={`${import.meta.env.BASE_URL}examples`}
+          class="px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors"
+        >
+          Examples
+        </a>
+        <a
+          href="https://github.com/andymerskin/spotr"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-6 py-3 bg-neutral-800 text-neutral-200 font-medium rounded-lg border border-neutral-700 hover:bg-neutral-700 transition-colors"
+        >
+          GitHub
+        </a>
+      </div>
+
+      {/* Interactive Demo */}
+      <LandingSearchDemo client:load people={peopleData} games={gamesData} />
+    </div>
+  </div>
+</Layout>

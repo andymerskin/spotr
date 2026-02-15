@@ -41,7 +41,7 @@ The library provides framework-specific integrations for:
 ### Initial Setup
 
 ```bash
-# Install dependencies
+# Install dependencies (must be run from repo root)
 bun install
 
 # Install example dependencies
@@ -50,6 +50,26 @@ bun run examples:install
 # Sync shared files to examples
 bun run examples:sync
 ```
+
+### Workspace Setup
+
+This repository uses **Bun workspaces** to manage the monorepo structure:
+
+- **Root** (`/`) is the workspace host with `"workspaces": ["packages/spotr", "examples-site"]`
+- **packages/spotr** (`/packages/spotr`) is the `spotr` library package (publishable)
+- **examples-site** (`/examples-site`) is a workspace member that depends on `spotr` via `"spotr": "workspace:*"`
+
+**Important:** Always run `bun install` from the **repository root**. Bun will automatically:
+- Install dependencies for all workspaces
+- Link the local `spotr` package into `examples-site/node_modules/spotr` (as a symlink)
+- Manage a single `bun.lock` file at the root
+
+The `examples-site` package depends on `spotr` using the workspace protocol (`workspace:*`), which resolves to the local `packages/spotr` package. No manual symlinking scripts or `file:..` dependencies are needed.
+
+**Running workspace commands:**
+- `bun run build` - Builds the spotr library (delegates to `packages/spotr`)
+- `bun run --filter spotr <command>` - Run a command in the spotr workspace
+- `bun run --filter examples-site <command>` - Run a command in the examples-site workspace
 
 ## Commands & Scripts
 
@@ -84,34 +104,41 @@ For faster feedback loops, use these single-file commands:
 
 ```
 spotr/
-├── src/                          # Core library source
-│   ├── index.ts                  # Main exports
-│   ├── Spotr.ts                  # Core Spotr class
-│   ├── types.ts                  # TypeScript type definitions
-│   ├── errors.ts                 # Error classes and codes
-│   ├── fuzzy/                    # Fuzzy matching algorithms
-│   │   ├── index.ts
-│   │   ├── levenshtein.ts        # Levenshtein distance calculation
-│   │   └── scorer.ts             # Item scoring logic
-│   ├── utils/                    # Utility functions
-│   │   ├── index.ts
-│   │   ├── tokenize.ts           # Query tokenization
-│   │   ├── nested.ts             # Nested field access utilities
-│   │   └── validate.ts           # Option validation
-│   ├── react/                    # React integration
-│   │   └── index.ts              # useSpotr hook
-│   ├── vue/                      # Vue integration
-│   │   └── index.ts              # useSpotr composable
-│   ├── svelte/                   # Svelte integration
-│   │   └── index.ts              # useSpotr store
-│   ├── solid/                    # Solid integration
-│   │   └── index.ts              # useSpotr hook
-│   └── preact/                   # Preact integration
-│       └── index.ts              # useSpotr hook
-├── test/                         # Test files
-│   ├── Spotr.test.ts
-│   ├── fuzzy.test.ts
-│   └── nested.test.ts
+├── packages/
+│   └── spotr/                   # Core library package (workspace member)
+│       ├── src/                  # Core library source
+│       │   ├── index.ts          # Main exports
+│       │   ├── Spotr.ts          # Core Spotr class
+│       │   ├── types.ts          # TypeScript type definitions
+│       │   ├── errors.ts         # Error classes and codes
+│       │   ├── fuzzy/            # Fuzzy matching algorithms
+│       │   │   ├── index.ts
+│       │   │   ├── levenshtein.ts # Levenshtein distance calculation
+│       │   │   └── scorer.ts     # Item scoring logic
+│       │   ├── utils/            # Utility functions
+│       │   │   ├── index.ts
+│       │   │   ├── tokenize.ts   # Query tokenization
+│       │   │   ├── nested.ts     # Nested field access utilities
+│       │   │   └── validate.ts   # Option validation
+│       │   ├── react/            # React integration
+│       │   │   └── index.ts      # useSpotr hook
+│       │   ├── vue/              # Vue integration
+│       │   │   └── index.ts      # useSpotr composable
+│       │   ├── svelte/           # Svelte integration
+│       │   │   └── index.ts      # useSpotr store
+│       │   ├── solid/            # Solid integration
+│       │   │   └── index.ts      # useSpotr hook
+│       │   └── preact/           # Preact integration
+│       │       └── index.ts      # useSpotr hook
+│       ├── test/                 # Test files
+│       │   ├── Spotr.test.ts
+│       │   ├── fuzzy.test.ts
+│       │   └── nested.test.ts
+│       ├── dist/                 # Build output (generated)
+│       ├── vite.config.ts        # Vite configuration
+│       ├── vitest.config.ts      # Vitest configuration
+│       ├── tsconfig.json         # TypeScript configuration
+│       └── package.json          # Library package.json
 ├── examples/                     # Example applications
 │   ├── shared/                   # Shared resources (see Synced Files section)
 │   │   ├── people.json
@@ -134,12 +161,12 @@ spotr/
 │   ├── typecheck-examples.ts
 │   ├── install-examples.ts
 │   └── update-examples.ts
-├── dist/                         # Build output (generated)
-├── vite.config.ts                # Vite configuration
-├── vitest.config.ts              # Vitest configuration
-├── tsconfig.json                 # TypeScript configuration
-├── eslint.config.js              # ESLint configuration
-└── package.json
+├── examples-site/                # Examples site (workspace member)
+│   ├── src/
+│   ├── package.json              # Depends on "spotr": "workspace:*"
+│   └── ...
+├── eslint.config.js              # ESLint configuration (root)
+└── package.json                  # Root workspace config with "workspaces": ["packages/spotr", "examples-site"]
 ```
 
 ## Important: Synced Files

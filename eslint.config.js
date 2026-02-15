@@ -11,6 +11,7 @@ export default tseslint.config(
       '**/*.min.js',
       'examples-site/**',
       'examples/**/dist/**',
+      'packages/**/dist/**',
     ],
   }
 );
