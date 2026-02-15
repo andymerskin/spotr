@@ -103,7 +103,7 @@ export default function HeaderCodeExample() {
           <button
             key={framework.id}
             onClick={() => setSelectedFramework(framework.id)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center ${
+            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center cursor-pointer ${
               selectedFramework === framework.id
                 ? 'bg-neutral-700 text-white'
                 : 'bg-neutral-800 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-700'
