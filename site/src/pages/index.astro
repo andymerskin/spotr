@@ -1,61 +1,106 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import LandingSearchDemo from "../components/LandingSearchDemo";
+import HeaderCodeExample from "../components/HeaderCodeExample";
 import peopleData from "../data/people.json";
 import gamesData from "../data/games.json";
 import { Icon } from "astro-icon/components";
 ---
 
 <Layout title="Spotr">
-  <div class="min-h-screen bg-neutral-900 flex flex-col">
+  <div class="min-h-screen bg-neutral-950 flex flex-col">
     {/* Header section - full width with darker background */}
-    <header class="w-full bg-neutral-950 py-16 px-8">
-      <div class="w-full max-w-6xl mx-auto flex flex-col items-center">
-        {/* Logo */}
-        <div class="flex items-center gap-3">
-          <img
-            src={`${import.meta.env.BASE_URL}spotr.svg`}
-            alt="Spotr"
-            class="w-24 h-24"
-          />
-          <span class="text-3xl font-bold text-neutral-100">Spotr</span>
+    <header class="w-full bg-neutral-900 py-16 px-8">
+      <div
+        class="w-full max-w-6xl mx-auto flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-12"
+      >
+        {/* Left column - Logo, description, buttons */}
+        <div class="flex flex-col items-start flex-1">
+          {/* Logo */}
+          <div class="flex items-center gap-3">
+            <img
+              src={`${import.meta.env.BASE_URL}spotr.svg`}
+              alt="Spotr"
+              class="w-24 h-24"
+            />
+            <span class="text-5xl font-bold text-neutral-100">Spotr</span>
+          </div>
+
+          {/* Description */}
+          <h1
+            class="mt-8 text-3xl leading-normal font-bold text-neutral-100 text-left"
+          >
+            A powerful fuzzy search library for client-side collections
+          </h1>
+
+          <ul class="list-carets">
+            <li>
+              <span
+                ><strong>Zero Dependencies</strong> - Custom Levenshtein implementation,
+                no external deps</span>
+            </li>
+            <li>
+              <span
+                ><strong>Fuzzy Matching</strong> - Configurable threshold (0-1) for
+                fuzzy string matching</span>
+            </li>
+            <li>
+              <span
+                ><strong>Nested Field Support</strong> - Dot notation for deeply nested
+                object properties</span>
+            </li>
+            <li>
+              <span
+                ><strong>Keywords</strong> - Add custom filtering logic for exact
+                keyword matches</span>
+            </li>
+            <li>
+              <span
+                ><strong>Framework Integrations</strong> - React, Vue, Svelte, Solid,
+                and Preact support</span>
+            </li>
+            <li>
+              <span
+                ><strong>TypeScript</strong> - Full type definitions included</span>
+            </li>
+          </ul>
+
+          {/* Buttons */}
+          <div class="mt-6 flex gap-4">
+            <a
+              href={`${import.meta.env.BASE_URL}examples`}
+              class="px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors"
+            >
+              Examples
+            </a>
+            <a
+              href="https://github.com/andymerskin/spotr"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-6 py-3 bg-neutral-800 text-neutral-200 font-medium rounded-lg border border-neutral-700 hover:bg-neutral-700 transition-colors flex items-center gap-2"
+            >
+              <Icon
+                name="logos:github-icon"
+                class="inline-block invert"
+                size={20}
+              />
+              GitHub
+            </a>
+          </div>
         </div>
 
-        {/* Description */}
-        <h1 class="mt-8 text-2xl font-bold text-neutral-100 text-center">
-          A powerful fuzzy search library for client-side collections
-        </h1>
-
-        {/* Buttons */}
-        <div class="mt-6 flex gap-4">
-          <a
-            href={`${import.meta.env.BASE_URL}examples`}
-            class="px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors"
-          >
-            Examples
-          </a>
-          <a
-            href="https://github.com/andymerskin/spotr"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="px-6 py-3 bg-neutral-800 text-neutral-200 font-medium rounded-lg border border-neutral-700 hover:bg-neutral-700 transition-colors flex items-center gap-2"
-          >
-            <Icon
-              name="skill-icons:github-dark"
-              class="inline-block"
-              size={20}
-            />
-            GitHub
-          </a>
+        {/* Right column - Framework code example */}
+        <div class="shrink-0 w-full lg:w-auto">
+          <HeaderCodeExample client:load />
         </div>
       </div>
     </header>
 
     {/* Main content section */}
     <main class="w-full px-6 py-12">
-      <div class="w-full max-w-6xl mx-auto flex flex-col items-center">
+      <div class="w-full max-w-6xl mx-auto">
         {/* Try it out headline */}
-        <div class="w-full flex items-center gap-4">
+        <!-- <div class="w-full flex items-center gap-4">
           <div class="flex-1 h-px bg-neutral-700"></div>
           <h2
             class="text-sm font-semibold text-amber-300 uppercase tracking-wider"
@@ -63,10 +108,11 @@ import { Icon } from "astro-icon/components";
             Try it out!
           </h2>
           <div class="flex-1 h-px bg-neutral-700"></div>
-        </div>
+        </div> -->
+        <h2 class="text-3xl font-bold text-neutral-100">Give it a shot!</h2>
 
         {/* Interactive Demo */}
-        <div class="mt-4 w-full">
+        <div class="mt-8 w-full">
           <LandingSearchDemo
             client:load
             people={peopleData}
@@ -78,9 +124,11 @@ import { Icon } from "astro-icon/components";
 
     {/* Footer */}
     <footer class="w-full mt-12 py-6 border-t border-neutral-800">
-      <div class="w-full max-w-6xl mx-auto px-4 text-center space-y-3">
+      <div
+        class="w-full max-w-6xl mx-auto flex flex-col items-center px-4 text-center space-y-3"
+      >
         <h2 class="font-jersey text-4xl text-emerald-500">munchkin.dev</h2>
-        <p class="text-sm text-neutral-400">
+        <p class="text-sm text-neutral-400 flex items-center gap-2">
           <a
             href={`${import.meta.env.BASE_URL}examples`}
             class="hover:text-cyan-400"
@@ -92,8 +140,13 @@ import { Icon } from "astro-icon/components";
             href="https://github.com/andymerskin/spotr"
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-cyan-400"
+            class="hover:text-cyan-400 inline-flex items-center gap-1"
           >
+            <Icon
+              name="logos:github-icon"
+              class="inline-block invert"
+              size={16}
+            />
             GitHub
           </a>
         </p>

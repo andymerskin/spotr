@@ -27,7 +27,7 @@ export default defineConfig({
     react(),
     icon({
       include: {
-        'skill-icons': ['react-dark', 'vuejs-dark', 'svelte', 'solidjs-dark', 'github-dark'],
+        'logos': ['react', 'vue', 'svelte-icon', 'solidjs-icon', 'preact', 'github-icon'],
       },
     }),
   ]

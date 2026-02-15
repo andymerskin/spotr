@@ -9,7 +9,7 @@ A powerful and minimal client-side fuzzy search library with zero dependencies.
 - **Zero Dependencies** - Custom Levenshtein implementation, no external deps
 - **Fuzzy Matching** - Configurable threshold (0-1) for fuzzy string matching
 - **Nested Field Support** - Dot notation for deeply nested object properties
-- **Keyword Filtering** - Pre-filter collections with custom keyword handlers
+- **Keywords** - Add custom filtering logic for exact keyword matches
 - **Framework Integrations** - React, Vue, Svelte, Solid, and Preact support
 - **TypeScript** - Full type definitions included
 

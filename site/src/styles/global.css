@@ -6,6 +6,34 @@
   --font-jersey: "Jersey 10", sans-serif;
 }
 
+/* Reusable list with right-facing carets (amber) */
+.list-carets {
+  margin-top: 1rem;
+  list-style: none;
+  padding-left: 0;
+  font-size: 1rem;
+  color: rgb(163 163 163); /* neutral-400 */
+}
+
+.list-carets > li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.list-carets > li + li {
+  margin-top: 0.25rem;
+}
+
+.list-carets > li::before {
+  position: relative;
+  top: -0.125rem;
+  content: "›";
+  color: rgb(252 211 77); /* amber-300 */
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
 .description-prose code {
   font-family: ui-monospace, monospace;
   font-size: 0.875em;
@@ -13,4 +41,31 @@
   border-radius: 0.25rem;
   background-color: rgb(64 64 64); /* neutral-700 for dark theme */
   color: rgb(229 229 229); /* neutral-200 */
+}
+
+/* Fix CodeMirror width to prevent shifting in header */
+.header-codemirror-container .cm-editor {
+  width: 500px !important;
+  max-width: 100% !important;
+}
+
+.header-codemirror-container .cm-scroller {
+  width: 500px !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+}
+
+.header-codemirror-container .cm-content {
+  width: 500px !important;
+  max-width: 100% !important;
+}
+
+/* Ensure One Dark theme is applied */
+.header-codemirror-container .cm-editor.cm-focused {
+  outline: none;
+}
+
+.header-codemirror-container .cm-editor {
+  background-color: #282c34 !important;
+  color: #abb2bf !important;
 }
