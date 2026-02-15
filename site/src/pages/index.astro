@@ -1,15 +1,17 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import LandingSearchDemo from '../components/LandingSearchDemo';
-import peopleData from '../data/people.json';
-import gamesData from '../data/games.json';
+import Layout from "../layouts/Layout.astro";
+import LandingSearchDemo from "../components/LandingSearchDemo";
+import peopleData from "../data/people.json";
+import gamesData from "../data/games.json";
 ---
 
 <Layout title="Spotr">
-  <div class="min-h-screen bg-neutral-900 flex flex-col items-center py-12 px-4">
+  <div
+    class="min-h-screen bg-neutral-900 flex flex-col items-center py-12 px-4"
+  >
     <div class="w-full max-w-6xl flex flex-col items-center">
       {/* Logo */}
-      <div class="mb-8 flex items-center gap-3">
+      <div class="flex items-center gap-3">
         <img
           src={`${import.meta.env.BASE_URL}spotr.svg`}
           alt="Spotr"
@@ -19,12 +21,12 @@ import gamesData from '../data/games.json';
       </div>
 
       {/* Description */}
-      <h1 class="text-2xl font-bold text-neutral-100 mb-6 text-center">
+      <h1 class="mt-8 text-2xl font-bold text-neutral-100 text-center">
         A powerful and minimal client-side fuzzy search library
       </h1>
 
       {/* Buttons */}
-      <div class="flex gap-4 mb-12">
+      <div class="mt-6 flex gap-4">
         <a
           href={`${import.meta.env.BASE_URL}examples`}
           class="px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors"
@@ -41,8 +43,45 @@ import gamesData from '../data/games.json';
         </a>
       </div>
 
+      {/* Try it out headline */}
+      <h2 class="mt-12 text-xl font-bold text-neutral-100">Try it out!</h2>
+
       {/* Interactive Demo */}
-      <LandingSearchDemo client:load people={peopleData} games={gamesData} />
+      <div class="mt-4 w-full">
+        <LandingSearchDemo client:load people={peopleData} games={gamesData} />
+      </div>
     </div>
+
+    {/* Footer */}
+    <footer class="w-full mt-12 py-6 border-t border-neutral-800">
+      <div class="w-full max-w-6xl mx-auto px-4 text-center space-y-3">
+        <h2 class="font-jersey text-4xl text-emerald-500">munchkin.dev</h2>
+        <p class="text-sm text-neutral-400">
+          <a
+            href={`${import.meta.env.BASE_URL}examples`}
+            class="hover:text-cyan-400 transition-colors"
+          >
+            Examples
+          </a>
+          <span class="mx-1 text-neutral-600">•</span>
+          <a
+            href="https://github.com/andymerskin/spotr"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-cyan-400 transition-colors"
+          >
+            GitHub
+          </a>
+        </p>
+        <p class="text-sm text-neutral-400">
+          © 2026 munchkin.dev. Built with <a
+            href="https://astro.build"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-cyan-500 hover:text-cyan-400 transition-colors">Astro</a
+          >
+        </p>
+      </div>
+    </footer>
   </div>
 </Layout>
