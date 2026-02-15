@@ -2,9 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 import LandingSearchDemo from "../components/LandingSearchDemo";
 import HeaderCodeExample from "../components/HeaderCodeExample";
+import InstallCommand from "../components/InstallCommand";
 import peopleData from "../data/people.json";
 import gamesData from "../data/games.json";
 import { Icon } from "astro-icon/components";
+import spotrPkg from "../../../packages/spotr/package.json";
 ---
 
 <Layout title="Spotr">
@@ -65,6 +67,23 @@ import { Icon } from "astro-icon/components";
             </li>
           </ul>
 
+          {/* Install command */}
+          <InstallCommand client:load />
+
+          {/* Bundle info */}
+          <p class="mt-3 text-sm text-neutral-400 flex items-center gap-2">
+            ESM + CJS, tree-shakeable
+            <span class="text-neutral-600">•</span>
+            <a
+              href="https://www.npmjs.com/package/spotr"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-cyan-400 transition-colors"
+            >
+              v{spotrPkg.version}
+            </a>
+          </p>
+
           {/* Buttons */}
           <div class="mt-6 flex gap-4">
             <a
@@ -72,6 +91,14 @@ import { Icon } from "astro-icon/components";
               class="px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors"
             >
               Examples
+            </a>
+            <a
+              href="https://github.com/andymerskin/spotr#readme"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-6 py-3 bg-neutral-800 text-neutral-200 font-medium rounded-lg border border-neutral-700 hover:bg-neutral-700 transition-colors"
+            >
+              Docs
             </a>
             <a
               href="https://github.com/andymerskin/spotr"
@@ -139,6 +166,15 @@ import { Icon } from "astro-icon/components";
               size={16}
             />
             GitHub
+          </a>
+          <span class="mx-1 text-neutral-600">•</span>
+          <a
+            href="https://www.npmjs.com/package/spotr"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-cyan-400"
+          >
+            v{spotrPkg.version}
           </a>
           <span class="mx-1 text-neutral-600">•</span>
           <a
