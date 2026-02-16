@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { Spotr } from '../src/Spotr';
-import { SpotrError, ErrorCodes } from '../src/errors';
+import { SpotrError } from '../src/errors';
 
 interface Game {
   title: string;
