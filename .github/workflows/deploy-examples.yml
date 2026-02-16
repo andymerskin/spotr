@@ -31,6 +31,10 @@ jobs:
       - name: Typecheck examples
         run: bun run examples:typecheck
 
+      - name: Typecheck site
+        working-directory: site
+        run: bun run typecheck
+
       - name: Build spotr library
         run: bun run --filter spotr build
 
