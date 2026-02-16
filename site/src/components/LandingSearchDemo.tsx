@@ -327,7 +327,7 @@ export default function LandingSearchDemo({ people, games }: Props) {
           {query && (
             <button
               onClick={() => setQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-neutral-700 rounded transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-neutral-700 rounded transition-colors cursor-pointer"
               aria-label="Clear search"
             >
               <ClearIcon />

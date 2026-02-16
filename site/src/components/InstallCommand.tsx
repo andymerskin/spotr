@@ -51,7 +51,7 @@ export default function InstallCommand() {
         <code className="flex-1 text-neutral-200 font-mono text-sm">{command}</code>
         <button
           onClick={handleCopy}
-          className="px-3 py-1.5 text-xs font-medium text-neutral-300 hover:text-neutral-100 bg-neutral-700 hover:bg-neutral-600 rounded transition-colors"
+          className="px-3 py-1.5 text-xs font-medium text-neutral-300 hover:text-neutral-100 bg-neutral-700 hover:bg-neutral-600 rounded transition-colors cursor-pointer"
           aria-label="Copy install command"
         >
           {copied ? 'Copied!' : 'Copy'}
