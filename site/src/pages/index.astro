@@ -67,25 +67,8 @@ import spotrPkg from "../../../packages/spotr/package.json";
             </li>
           </ul>
 
-          {/* Install command */}
-          <InstallCommand client:load />
-
-          {/* Bundle info */}
-          <p class="mt-3 text-sm text-neutral-400 flex items-center gap-2">
-            ESM + CJS, tree-shakeable
-            <span class="text-neutral-600">•</span>
-            <a
-              href="https://www.npmjs.com/package/spotr"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-cyan-400 transition-colors"
-            >
-              v{spotrPkg.version}
-            </a>
-          </p>
-
           {/* Buttons */}
-          <div class="mt-6 flex gap-4">
+          <div class="mt-8 flex gap-4">
             <a
               href={`${import.meta.env.BASE_URL}examples`}
               class="px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors"
@@ -114,6 +97,23 @@ import spotrPkg from "../../../packages/spotr/package.json";
               GitHub
             </a>
           </div>
+
+          {/* Install command */}
+          <InstallCommand client:load />
+
+          {/* Bundle info */}
+          <p class="mt-3 text-sm text-neutral-400 flex items-center gap-2">
+            ESM + CJS, tree-shakeable
+            <span class="text-neutral-600">•</span>
+            <a
+              href="https://www.npmjs.com/package/spotr"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-cyan-400 transition-colors"
+            >
+              v{spotrPkg.version}
+            </a>
+          </p>
         </div>
 
         {/* Right column - Framework code example */}
