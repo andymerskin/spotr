@@ -7,7 +7,9 @@ import icon from 'astro-icon';
 
 // Get branch name from environment variable (set by GitHub Actions workflow)
 // Fallback to 'master' for local development
-const branchName = (typeof process !== 'undefined' && process.env?.PUBLIC_STACKBLITZ_BRANCH) || 'master';
+const branchName =
+  (typeof process !== 'undefined' && process.env?.PUBLIC_STACKBLITZ_BRANCH) ||
+  'master';
 
 // Set base path for GitHub Pages deployment
 // GitHub Pages project sites serve from /spotr/, so base must include the repository name
@@ -20,15 +22,22 @@ export default defineConfig({
   base,
 
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
   },
 
   integrations: [
     react(),
     icon({
       include: {
-        'logos': ['react', 'vue', 'svelte-icon', 'solidjs-icon', 'preact', 'github-icon'],
+        logos: [
+          'react',
+          'vue',
+          'svelte-icon',
+          'solidjs-icon',
+          'preact',
+          'github-icon',
+        ],
       },
     }),
-  ]
+  ],
 });

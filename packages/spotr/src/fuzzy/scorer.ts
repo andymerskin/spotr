@@ -42,7 +42,12 @@ export function scoreItem<T>(
 
     let bestTokenScore = 0;
     for (const token of tokens) {
-      const score = fuzzyScore(token, stringValue, field.threshold, caseSensitive);
+      const score = fuzzyScore(
+        token,
+        stringValue,
+        field.threshold,
+        caseSensitive
+      );
       bestTokenScore = Math.max(bestTokenScore, score);
     }
 

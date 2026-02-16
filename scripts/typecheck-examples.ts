@@ -2,7 +2,13 @@ import { execSync } from 'child_process';
 import { join } from 'path';
 
 const frameworks = ['react', 'vue', 'svelte', 'solid', 'preact'];
-const examples = ['fields-basic', 'fields-nested', 'keywords-basic', 'keywords-advanced', 'advanced-combined'];
+const examples = [
+  'fields-basic',
+  'fields-nested',
+  'keywords-basic',
+  'keywords-advanced',
+  'advanced-combined',
+];
 const repoRoot = join(import.meta.dirname, '..');
 
 // First run typecheck in the root
@@ -23,7 +29,7 @@ for (const framework of frameworks) {
   for (const example of examples) {
     const exampleDir = join(repoRoot, 'examples', framework, example);
     console.log(`🔍 Running typecheck for ${framework}/${example}...`);
-    
+
     try {
       execSync('bun run typecheck', {
         cwd: exampleDir,

@@ -1,10 +1,7 @@
 import { createMemo } from 'solid-js';
 import { createSpotr } from 'spotr/solid';
 import gamesData from './data/games.json';
-import {
-  getNestedValue,
-  highlightCellValue,
-} from './utils';
+import { getNestedValue, highlightCellValue } from './utils';
 import type { Game } from './types';
 import './styles.css';
 
@@ -19,29 +16,32 @@ const config = {
   threshold: 0.3,
   fields: [{ name: 'title', weight: 1 }],
   keywords: [
-    { name: 'completed', triggers: ['done', 'complete', 'finished'], handler: completedHandler },
+    {
+      name: 'completed',
+      triggers: ['done', 'complete', 'finished'],
+      handler: completedHandler,
+    },
   ],
   limit: 20,
 };
 
 export default function App() {
   const { query, setQuery, results: spotrResults } = createSpotr(config);
-  
 
   const results = createMemo(() => {
-  const q = query();
-  if (!q.trim()) {
-    return {
-      results: (gamesData as Game[]).slice(0, config.limit).map((item) => ({ item, score: null as number | null })),
-      matchedKeywords: [] as { name: string; terms: string[] }[],
-      tokens: [] as string[],
-      warnings: [] as string[],
-    };
-  }
-  return spotrResults();
-});
-
-  
+    const q = query();
+    if (!q.trim()) {
+      return {
+        results: (gamesData as Game[])
+          .slice(0, config.limit)
+          .map((item) => ({ item, score: null as number | null })),
+        matchedKeywords: [] as { name: string; terms: string[] }[],
+        tokens: [] as string[],
+        warnings: [] as string[],
+      };
+    }
+    return spotrResults();
+  });
 
   return (
     <div class="container">
@@ -55,7 +55,7 @@ export default function App() {
       />
       <div class="buttons">
         {examples.map((ex) => (
-          <button  onClick={() => setQuery(ex)} class="button">
+          <button onClick={() => setQuery(ex)} class="button">
             {ex}
           </button>
         ))}
@@ -65,16 +65,16 @@ export default function App() {
           <tr>
             <th class="th">Score</th>
             {columns.map((col) => (
-              <th  class="th">
-                {col}
-              </th>
+              <th class="th">{col}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {results().results.map((item) => (
-            <tr  class="tr">
-              <td class="td">{item.score != null ? item.score.toFixed(2) : '-'}</td>
+            <tr class="tr">
+              <td class="td">
+                {item.score != null ? item.score.toFixed(2) : '-'}
+              </td>
               {columns.map((col) => (
                 <td class="td">
                   <span

@@ -16,7 +16,15 @@ export default defineConfig({
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: ['react', 'vue', 'svelte', 'svelte/store', 'solid-js', 'preact', 'preact/hooks'],
+      external: [
+        'react',
+        'vue',
+        'svelte',
+        'svelte/store',
+        'solid-js',
+        'preact',
+        'preact/hooks',
+      ],
       output: {
         preserveModules: true,
         globals: {

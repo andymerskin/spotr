@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "typecheck": "svelte-check"
+    "typecheck": "svelte-check",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "svelte": "^5.0.0",
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^5.0.0",
+    "prettier": "^3.8.1",
     "svelte-check": "^4.0.0",
     "typescript": "^5.9.3",
     "vite": "^6.1.0"

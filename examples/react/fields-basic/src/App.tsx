@@ -1,10 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useSpotr } from 'spotr/react';
 import peopleData from './data/people.json';
-import {
-  getNestedValue,
-  highlightCellValue,
-} from './utils';
+import { getNestedValue, highlightCellValue } from './utils';
 import type { Person } from './types';
 
 const title = 'Fields - Basic';
@@ -29,7 +26,9 @@ function App() {
   const result = useMemo(() => {
     if (!query.trim()) {
       return {
-        results: (peopleData as Person[]).slice(0, config.limit).map((item) => ({ item, score: null as number | null })),
+        results: (peopleData as Person[])
+          .slice(0, config.limit)
+          .map((item) => ({ item, score: null as number | null })),
         matchedKeywords: [] as { name: string; terms: string[] }[],
         tokens: [] as string[],
         warnings: [] as string[],
@@ -71,7 +70,9 @@ function App() {
         <tbody>
           {result.results.map((r, i) => (
             <tr key={i} className="tr">
-              <td className="td">{r.score != null ? r.score.toFixed(2) : '-'}</td>
+              <td className="td">
+                {r.score != null ? r.score.toFixed(2) : '-'}
+              </td>
               {columns.map((col) => (
                 <td key={col} className="td">
                   <span

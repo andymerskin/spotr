@@ -38,12 +38,12 @@ export function fuzzyScore(
   if (q.length === 0 || t.length === 0) return 0;
 
   if (t.includes(q)) {
-    return 0.9 + (0.1 * q.length / t.length);
+    return 0.9 + (0.1 * q.length) / t.length;
   }
 
   const distance = levenshteinDistance(q, t);
   const maxLen = Math.max(q.length, t.length);
-  const score = 1 - (distance / maxLen);
+  const score = 1 - distance / maxLen;
 
   return score >= threshold ? score : 0;
 }

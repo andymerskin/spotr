@@ -15,9 +15,5 @@
     "scripts/**/*",
     "eslint.config.js"
   ],
-  "exclude": [
-    "node_modules",
-    "**/dist",
-    "**/node_modules"
-  ]
+  "exclude": ["node_modules", "**/dist", "**/node_modules"]
 }

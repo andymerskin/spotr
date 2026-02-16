@@ -1,9 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Jersey+10&display=swap");
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Jersey+10&display=swap');
+@import 'tailwindcss';
 
 @theme {
-  --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-jersey: "Jersey 10", sans-serif;
+  --font-sans:
+    'Work Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-jersey: 'Jersey 10', sans-serif;
 }
 
 /* Reusable list with right-facing carets (amber) */
@@ -28,7 +30,7 @@
 .list-carets > li::before {
   position: relative;
   top: -0.125rem;
-  content: "›";
+  content: '›';
   color: rgb(252 211 77); /* amber-300 */
   font-size: 1.25rem;
   flex-shrink: 0;

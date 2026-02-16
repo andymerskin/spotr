@@ -52,7 +52,7 @@ const { results, matchedKeywords, tokens, warnings } = games.query('witcher');
 Array or Set of objects to search.
 
 ```typescript
-collection: gamesArray // or new Set(gamesArray)
+collection: gamesArray; // or new Set(gamesArray)
 ```
 
 ### `fields` (required)
@@ -61,11 +61,11 @@ Properties to search against with weight configuration. Supports dot notation fo
 
 ```typescript
 fields: [
-  'title',                              // string shorthand, weight: 1
-  { name: 'title', weight: 1 },         // full config
-  { name: 'email', weight: 0.7 },       // lower priority
+  'title', // string shorthand, weight: 1
+  { name: 'title', weight: 1 }, // full config
+  { name: 'email', weight: 0.7 }, // lower priority
   { name: 'address.city', weight: 0.8 }, // nested field
-]
+];
 ```
 
 ### `keywords` (optional)
@@ -86,7 +86,7 @@ keywords: {
       triggers: ['ps4', 'ps5', 'xbox', 'pc', 'switch'],
       handler: (collection, matchedTerms) =>
         collection.filter(item =>
-          matchedTerms.some(term => 
+          matchedTerms.some(term =>
             item.platforms.some(p => p.toLowerCase().includes(term))
           )
         ),
@@ -119,10 +119,10 @@ Minimum query length to trigger matching. Default: `1`
 
 ```typescript
 interface SpotrResult<T> {
-  results: ScoredResult<T>[];  // Array of { item, score }
-  matchedKeywords: MatchedKeyword[];  // Keywords that matched
-  tokens: string[];  // Non-keyword search terms
-  warnings: string[];  // Warnings (e.g., missing nested paths)
+  results: ScoredResult<T>[]; // Array of { item, score }
+  matchedKeywords: MatchedKeyword[]; // Keywords that matched
+  tokens: string[]; // Non-keyword search terms
+  warnings: string[]; // Warnings (e.g., missing nested paths)
 }
 ```
 
@@ -136,12 +136,12 @@ function GameSearch({ games, searchQuery }) {
     collection: games,
     fields: [{ name: 'title', weight: 1 }],
   });
-  
+
   const { results } = useMemo(
     () => spotr.query(searchQuery),
     [spotr, searchQuery]
   );
-  
+
   return <ResultsTable results={results} />;
 }
 ```
@@ -199,12 +199,12 @@ function GameSearch({ games, searchQuery }) {
     collection: games,
     fields: [{ name: 'title', weight: 1 }],
   });
-  
+
   const { results } = useMemo(
     () => spotr.query(searchQuery),
     [spotr, searchQuery]
   );
-  
+
   return <ResultsTable results={results} />;
 }
 ```
@@ -242,6 +242,7 @@ bun install
 - `bun run test:watch` - Run tests in watch mode
 - `bun run typecheck` - Type check the library (`tsc --noEmit`)
 - `bun run lint` - Lint the codebase (ESLint)
+- `bun run format` - Format the codebase (Prettier, whole repo from root)
 
 ### Example Scripts
 

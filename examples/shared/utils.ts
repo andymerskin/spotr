@@ -16,7 +16,12 @@ export function formatCellValue(val: unknown): string {
   if (val == null) return '-';
   if (Array.isArray(val)) return val.join(', ');
   if (typeof val === 'object') return JSON.stringify(val);
-  if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean') return String(val);
+  if (
+    typeof val === 'string' ||
+    typeof val === 'number' ||
+    typeof val === 'boolean'
+  )
+    return String(val);
   return String(val);
 }
 
@@ -55,11 +60,17 @@ export function highlightCellValue(
   if (columnKey === 'platforms' && Array.isArray(value)) {
     const platformKw = matchedKeywords.find((k) => k.name === 'platform');
     const terms = platformKw?.terms ?? [];
-    const joined = value.map((p: string) => {
-      const str = String(p);
-      const matchesTerm = terms.some((t) => str.toLowerCase().includes(t.toLowerCase()));
-      return matchesTerm ? `<mark class="${HIGHLIGHT_CLASS}">${str}</mark>` : str;
-    }).join(', ');
+    const joined = value
+      .map((p: string) => {
+        const str = String(p);
+        const matchesTerm = terms.some((t) =>
+          str.toLowerCase().includes(t.toLowerCase())
+        );
+        return matchesTerm
+          ? `<mark class="${HIGHLIGHT_CLASS}">${str}</mark>`
+          : str;
+      })
+      .join(', ');
     return joined || '-';
   }
 

@@ -20,4 +20,9 @@ export function useSpotr<T extends object>(
 }
 
 export { Spotr } from '../Spotr';
-export type { SpotrOptions, SpotrResult, ScoredResult, MatchedKeyword } from '../types';
+export type {
+  SpotrOptions,
+  SpotrResult,
+  ScoredResult,
+  MatchedKeyword,
+} from '../types';

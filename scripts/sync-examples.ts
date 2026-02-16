@@ -2,7 +2,13 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join } from 'path';
 
 const frameworks = ['react', 'vue', 'svelte', 'solid', 'preact'];
-const examples = ['fields-basic', 'fields-nested', 'keywords-basic', 'keywords-advanced', 'advanced-combined'];
+const examples = [
+  'fields-basic',
+  'fields-nested',
+  'keywords-basic',
+  'keywords-advanced',
+  'advanced-combined',
+];
 const repoRoot = join(import.meta.dirname, '..');
 const sharedDir = join(repoRoot, 'examples', 'shared');
 
@@ -20,7 +26,7 @@ for (const framework of frameworks) {
   for (const example of examples) {
     const exampleDir = join(repoRoot, 'examples', framework, example);
     const dataDir = join(exampleDir, 'src', 'data');
-    
+
     if (!existsSync(dataDir)) {
       mkdirSync(dataDir, { recursive: true });
     }
@@ -30,9 +36,16 @@ for (const framework of frameworks) {
 // Copy data files to each example's src/data/
 for (const framework of frameworks) {
   for (const example of examples) {
-    const exampleDataDir = join(repoRoot, 'examples', framework, example, 'src', 'data');
+    const exampleDataDir = join(
+      repoRoot,
+      'examples',
+      framework,
+      example,
+      'src',
+      'data'
+    );
     const dataFiles = exampleDataFiles[example] || [];
-    
+
     for (const dataFile of dataFiles) {
       const sourcePath = join(sharedDir, dataFile);
       const targetPath = join(exampleDataDir, dataFile);
@@ -76,4 +89,6 @@ for (const framework of frameworks) {
   }
 }
 
-console.log(`✅ Synced shared files to ${frameworks.length * examples.length} example folders`);
+console.log(
+  `✅ Synced shared files to ${frameworks.length * examples.length} example folders`
+);

@@ -12,7 +12,9 @@ const examples = ['witcher', 'done', 'ps5', 'nintendo'];
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 const platformHandler = (col: Game[], terms?: string[]) =>
   col.filter((i) =>
-    (terms ?? []).some((t) => i.platforms.some((p) => p.toLowerCase().includes(t)))
+    (terms ?? []).some((t) =>
+      i.platforms.some((p) => p.toLowerCase().includes(t))
+    )
   );
 const recentHandler = (col: Game[]) => col.filter((i) => i.releaseYear >= 2020);
 
@@ -23,8 +25,16 @@ const config = {
   keywords: {
     mode: 'and',
     definitions: [
-      { name: 'completed', triggers: ['done', 'complete', 'finished'], handler: completedHandler },
-      { name: 'platform', triggers: ['ps4', 'ps5', 'xbox', 'pc', 'switch'], handler: platformHandler },
+      {
+        name: 'completed',
+        triggers: ['done', 'complete', 'finished'],
+        handler: completedHandler,
+      },
+      {
+        name: 'platform',
+        triggers: ['ps4', 'ps5', 'xbox', 'pc', 'switch'],
+        handler: platformHandler,
+      },
       { name: 'recent', triggers: ['recent', 'new'], handler: recentHandler },
     ],
   },
@@ -32,23 +42,29 @@ const config = {
 };
 
 const query = ref('');
-const spotrRef = useSpotr(config as import('vue').MaybeRefOrGetter<import('spotr').SpotrOptions<Game>>);
+const spotrRef = useSpotr(
+  config as import('vue').MaybeRefOrGetter<import('spotr').SpotrOptions<Game>>
+);
 
 const result = computed(() => {
   if (!query.value.trim()) {
     return {
-      results: (gamesData as Game[]).slice(0, config.limit).map((item) => ({ item, score: null as number | null })),
+      results: (gamesData as Game[])
+        .slice(0, config.limit)
+        .map((item) => ({ item, score: null as number | null })),
       matchedKeywords: [] as { name: string; terms: string[] }[],
       tokens: [] as string[],
       warnings: [] as string[],
     };
   }
-  return spotrRef.value?.query(query.value) ?? {
-    results: [],
-    matchedKeywords: [],
-    tokens: [],
-    warnings: [],
-  };
+  return (
+    spotrRef.value?.query(query.value) ?? {
+      results: [],
+      matchedKeywords: [],
+      tokens: [],
+      warnings: [],
+    }
+  );
 });
 </script>
 
@@ -85,7 +101,13 @@ const result = computed(() => {
             v-for="col in columns"
             :key="col"
             class="td"
-            v-html="highlightCellValue(getNestedValue(r.item, col), col, result.matchedKeywords)"
+            v-html="
+              highlightCellValue(
+                getNestedValue(r.item, col),
+                col,
+                result.matchedKeywords
+              )
+            "
           />
         </tr>
       </tbody>

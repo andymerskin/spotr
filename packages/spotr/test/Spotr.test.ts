@@ -14,9 +14,24 @@ interface Game {
 }
 
 const games: Game[] = [
-  { title: 'The Witcher 3', genres: ['rpg', 'action'], releaseYear: 2015, completed: true },
-  { title: 'Elden Ring', genres: ['rpg', 'action'], releaseYear: 2022, completed: false },
-  { title: 'Zelda: Breath of the Wild', genres: ['adventure', 'action'], releaseYear: 2017, completed: true },
+  {
+    title: 'The Witcher 3',
+    genres: ['rpg', 'action'],
+    releaseYear: 2015,
+    completed: true,
+  },
+  {
+    title: 'Elden Ring',
+    genres: ['rpg', 'action'],
+    releaseYear: 2022,
+    completed: false,
+  },
+  {
+    title: 'Zelda: Breath of the Wild',
+    genres: ['adventure', 'action'],
+    releaseYear: 2017,
+    completed: true,
+  },
 ];
 
 interface Person {
@@ -44,7 +59,10 @@ describe('Spotr', () => {
   describe('constructor validation', () => {
     it('throws for invalid collection', () => {
       expect(() => {
-        new Spotr({ collection: 'invalid' as unknown as object[], fields: ['name'] });
+        new Spotr({
+          collection: 'invalid' as unknown as object[],
+          fields: ['name'],
+        });
       }).toThrow(SpotrError);
     });
 
@@ -64,7 +82,10 @@ describe('Spotr', () => {
     });
 
     it('accepts Set as collection', () => {
-      const spotr = new Spotr({ collection: new Set(people), fields: ['firstName'] });
+      const spotr = new Spotr({
+        collection: new Set(people),
+        fields: ['firstName'],
+      });
       expect(spotr.collection).toHaveLength(2);
     });
   });
@@ -116,7 +137,9 @@ describe('Spotr', () => {
       });
       const result = spotr.query('zelda');
       for (let i = 1; i < result.results.length; i++) {
-        expect(result.results[i - 1].score).toBeGreaterThanOrEqual(result.results[i].score);
+        expect(result.results[i - 1].score).toBeGreaterThanOrEqual(
+          result.results[i].score
+        );
       }
     });
   });
@@ -176,7 +199,8 @@ describe('Spotr', () => {
           {
             name: 'completed',
             triggers: ['done', 'complete'],
-            handler: (collection) => collection.filter((item) => item.completed),
+            handler: (collection) =>
+              collection.filter((item) => item.completed),
           },
         ],
       });
@@ -194,7 +218,8 @@ describe('Spotr', () => {
           {
             name: 'completed',
             triggers: ['done'],
-            handler: (collection) => collection.filter((item) => item.completed),
+            handler: (collection) =>
+              collection.filter((item) => item.completed),
           },
         ],
       });
@@ -214,12 +239,14 @@ describe('Spotr', () => {
             {
               name: 'completed',
               triggers: ['done'],
-              handler: (collection) => collection.filter((item) => item.completed),
+              handler: (collection) =>
+                collection.filter((item) => item.completed),
             },
             {
               name: 'recent',
               triggers: ['recent'],
-              handler: (collection) => collection.filter((item) => item.releaseYear >= 2020),
+              handler: (collection) =>
+                collection.filter((item) => item.releaseYear >= 2020),
             },
           ],
         },
@@ -238,12 +265,14 @@ describe('Spotr', () => {
             {
               name: 'completed',
               triggers: ['done'],
-              handler: (collection) => collection.filter((item) => item.completed),
+              handler: (collection) =>
+                collection.filter((item) => item.completed),
             },
             {
               name: 'recent',
               triggers: ['recent'],
-              handler: (collection) => collection.filter((item) => item.releaseYear >= 2020),
+              handler: (collection) =>
+                collection.filter((item) => item.releaseYear >= 2020),
             },
           ],
         },

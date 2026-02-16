@@ -7,13 +7,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "solid-js": "^1.9.0",
     "spotr": "1.0.0-alpha.0"
   },
   "devDependencies": {
+    "prettier": "^3.8.1",
     "typescript": "^5.9.3",
     "vite": "^6.1.0",
     "vite-plugin-solid": "^2.10.0"

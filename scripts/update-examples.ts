@@ -2,7 +2,13 @@ import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
 const frameworks = ['react', 'vue', 'svelte', 'solid', 'preact'];
-const examples = ['fields-basic', 'fields-nested', 'keywords-basic', 'keywords-advanced', 'advanced-combined'];
+const examples = [
+  'fields-basic',
+  'fields-nested',
+  'keywords-basic',
+  'keywords-advanced',
+  'advanced-combined',
+];
 const repoRoot = join(import.meta.dirname, '..');
 
 // Read the version from root package.json
@@ -22,22 +28,26 @@ for (const framework of frameworks) {
   for (const example of examples) {
     const exampleDir = join(repoRoot, 'examples', framework, example);
     const packageJsonPath = join(exampleDir, 'package.json');
-    
+
     try {
       const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-      
+
       // Ensure dependencies exist
       if (!packageJson.dependencies) {
         packageJson.dependencies = {};
       }
-      
+
       // Update spotr to use exact version (no ^ or ~ prefix)
       // Remove any file: or link: prefixes to ensure remote package
       packageJson.dependencies.spotr = spotrVersion;
-      
+
       // Write back with proper formatting (2 space indent)
-      writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf-8');
-      
+      writeFileSync(
+        packageJsonPath,
+        JSON.stringify(packageJson, null, 2) + '\n',
+        'utf-8'
+      );
+
       console.log(`✅ Updated ${framework}/${example}: spotr@${spotrVersion}`);
     } catch (error) {
       console.error(`❌ Failed to update ${framework}/${example}:`, error);

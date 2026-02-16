@@ -87,7 +87,8 @@ function SearchComponent() {
 };
 
 export default function HeaderCodeExample() {
-  const [selectedFramework, setSelectedFramework] = useState<FrameworkId>('react');
+  const [selectedFramework, setSelectedFramework] =
+    useState<FrameworkId>('react');
   const [mounted, setMounted] = useState(false);
 
   // CodeMirror uses useLayoutEffect; only render it on the client to avoid SSR warning/hydration mismatch
@@ -109,7 +110,12 @@ export default function HeaderCodeExample() {
                 : 'bg-neutral-800 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-700'
             }`}
           >
-            <Icon icon={framework.logo} className="mr-1.5 shrink-0" width={16} height={16} />
+            <Icon
+              icon={framework.logo}
+              className="mr-1.5 shrink-0"
+              width={16}
+              height={16}
+            />
             {framework.name}
           </button>
         ))}
@@ -128,10 +134,7 @@ export default function HeaderCodeExample() {
           <CodeMirror
             value={snippets[selectedFramework]}
             height="480px"
-            extensions={[
-              javascript({ jsx: true, typescript: false }),
-              oneDark,
-            ]}
+            extensions={[javascript({ jsx: true, typescript: false }), oneDark]}
             editable={false}
             readOnly={true}
             basicSetup={{
@@ -155,7 +158,12 @@ export default function HeaderCodeExample() {
         ) : (
           <div
             className="p-4 text-sm font-mono text-neutral-300 whitespace-pre overflow-auto"
-            style={{ height: '480px', width: '500px', maxWidth: '100%', fontSize: '14px' }}
+            style={{
+              height: '480px',
+              width: '500px',
+              maxWidth: '100%',
+              fontSize: '14px',
+            }}
           >
             {snippets[selectedFramework]}
           </div>

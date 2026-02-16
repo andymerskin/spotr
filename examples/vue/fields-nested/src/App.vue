@@ -24,23 +24,29 @@ const config = {
 };
 
 const query = ref('');
-const spotrRef = useSpotr(config as import('vue').MaybeRefOrGetter<import('spotr').SpotrOptions<Person>>);
+const spotrRef = useSpotr(
+  config as import('vue').MaybeRefOrGetter<import('spotr').SpotrOptions<Person>>
+);
 
 const result = computed(() => {
   if (!query.value.trim()) {
     return {
-      results: (peopleData as Person[]).slice(0, config.limit).map((item) => ({ item, score: null as number | null })),
+      results: (peopleData as Person[])
+        .slice(0, config.limit)
+        .map((item) => ({ item, score: null as number | null })),
       matchedKeywords: [] as { name: string; terms: string[] }[],
       tokens: [] as string[],
       warnings: [] as string[],
     };
   }
-  return spotrRef.value?.query(query.value) ?? {
-    results: [],
-    matchedKeywords: [],
-    tokens: [],
-    warnings: [],
-  };
+  return (
+    spotrRef.value?.query(query.value) ?? {
+      results: [],
+      matchedKeywords: [],
+      tokens: [],
+      warnings: [],
+    }
+  );
 });
 </script>
 
@@ -77,7 +83,13 @@ const result = computed(() => {
             v-for="col in columns"
             :key="col"
             class="td"
-            v-html="highlightCellValue(getNestedValue(r.item, col), col, result.matchedKeywords)"
+            v-html="
+              highlightCellValue(
+                getNestedValue(r.item, col),
+                col,
+                result.matchedKeywords
+              )
+            "
           />
         </tr>
       </tbody>

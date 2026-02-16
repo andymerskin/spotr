@@ -48,7 +48,9 @@ export default function InstallCommand() {
 
       {/* Command display and copy button */}
       <div className="flex items-center gap-3 px-4 py-3">
-        <code className="flex-1 text-neutral-200 font-mono text-sm">{command}</code>
+        <code className="flex-1 text-neutral-200 font-mono text-sm">
+          {command}
+        </code>
         <button
           onClick={handleCopy}
           className="px-3 py-1.5 text-xs font-medium text-neutral-300 hover:text-neutral-100 bg-neutral-700 hover:bg-neutral-600 rounded transition-colors cursor-pointer"

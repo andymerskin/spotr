@@ -4,7 +4,12 @@ import type { SpotrOptions } from '../types';
 
 function shallowEqual(a: unknown, b: unknown): boolean {
   if (a === b) return true;
-  if (typeof a !== 'object' || typeof b !== 'object' || a === null || b === null) {
+  if (
+    typeof a !== 'object' ||
+    typeof b !== 'object' ||
+    a === null ||
+    b === null
+  ) {
     return false;
   }
 
@@ -14,7 +19,10 @@ function shallowEqual(a: unknown, b: unknown): boolean {
   if (keysA.length !== keysB.length) return false;
 
   for (const key of keysA) {
-    if ((a as Record<string, unknown>)[key] !== (b as Record<string, unknown>)[key]) {
+    if (
+      (a as Record<string, unknown>)[key] !==
+      (b as Record<string, unknown>)[key]
+    ) {
       return false;
     }
   }
@@ -39,4 +47,9 @@ export function useSpotr<T extends object>(options: SpotrOptions<T>): Spotr<T> {
 }
 
 export { Spotr } from '../Spotr';
-export type { SpotrOptions, SpotrResult, ScoredResult, MatchedKeyword } from '../types';
+export type {
+  SpotrOptions,
+  SpotrResult,
+  ScoredResult,
+  MatchedKeyword,
+} from '../types';

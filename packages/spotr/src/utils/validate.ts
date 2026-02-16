@@ -1,5 +1,11 @@
 import { SpotrError, ErrorCodes } from '../errors';
-import type { SpotrOptions, FieldConfig, KeywordsConfig, KeywordDefinition, NormalizedKeywordsConfig } from '../types';
+import type {
+  SpotrOptions,
+  FieldConfig,
+  KeywordsConfig,
+  KeywordDefinition,
+  NormalizedKeywordsConfig,
+} from '../types';
 
 export function validateCollection<T>(collection: unknown): T[] {
   if (!Array.isArray(collection) && !(collection instanceof Set)) {
@@ -8,7 +14,9 @@ export function validateCollection<T>(collection: unknown): T[] {
       ErrorCodes.INVALID_COLLECTION
     );
   }
-  return (collection instanceof Set ? Array.from(collection) : collection) as T[];
+  return (
+    collection instanceof Set ? Array.from(collection) : collection
+  ) as T[];
 }
 
 export function validateFields(fields: FieldConfig[]): void {
@@ -37,7 +45,11 @@ export function validateFields(fields: FieldConfig[]): void {
     }
 
     if (field.weight !== undefined) {
-      if (typeof field.weight !== 'number' || field.weight < 0 || field.weight > 1) {
+      if (
+        typeof field.weight !== 'number' ||
+        field.weight < 0 ||
+        field.weight > 1
+      ) {
         throw new SpotrError(
           `fields.${field.name}.weight must be between 0 and 1, received ${field.weight}`,
           ErrorCodes.INVALID_FIELD_WEIGHT
@@ -46,7 +58,11 @@ export function validateFields(fields: FieldConfig[]): void {
     }
 
     if (field.threshold !== undefined) {
-      if (typeof field.threshold !== 'number' || field.threshold < 0 || field.threshold > 1) {
+      if (
+        typeof field.threshold !== 'number' ||
+        field.threshold < 0 ||
+        field.threshold > 1
+      ) {
         throw new SpotrError(
           `fields.${field.name}.threshold must be between 0 and 1, received ${field.threshold}`,
           ErrorCodes.INVALID_FIELD_CONFIG
@@ -56,7 +72,9 @@ export function validateFields(fields: FieldConfig[]): void {
   }
 }
 
-export function validateKeywords<T>(keywords: KeywordsConfig<T>): NormalizedKeywordsConfig {
+export function validateKeywords<T>(
+  keywords: KeywordsConfig<T>
+): NormalizedKeywordsConfig {
   const normalized: NormalizedKeywordsConfig = {
     mode: 'and',
     definitions: [],
@@ -66,7 +84,8 @@ export function validateKeywords<T>(keywords: KeywordsConfig<T>): NormalizedKeyw
     normalized.definitions = keywords as KeywordDefinition<unknown>[];
   } else {
     normalized.mode = keywords.mode ?? 'and';
-    normalized.definitions = keywords.definitions as KeywordDefinition<unknown>[];
+    normalized.definitions =
+      keywords.definitions as KeywordDefinition<unknown>[];
   }
 
   for (const [index, def] of normalized.definitions.entries()) {
@@ -93,7 +112,9 @@ export function validateKeywords<T>(keywords: KeywordsConfig<T>): NormalizedKeyw
   return normalized;
 }
 
-export function validateOptions<T extends object>(options: SpotrOptions<T>): {
+export function validateOptions<T extends object>(
+  options: SpotrOptions<T>
+): {
   collection: T[];
   threshold: number;
   limit: number;
@@ -105,7 +126,11 @@ export function validateOptions<T extends object>(options: SpotrOptions<T>): {
   validateFields(options.fields);
 
   if (options.threshold !== undefined) {
-    if (typeof options.threshold !== 'number' || options.threshold < 0 || options.threshold > 1) {
+    if (
+      typeof options.threshold !== 'number' ||
+      options.threshold < 0 ||
+      options.threshold > 1
+    ) {
       throw new SpotrError(
         `threshold must be between 0 and 1, received ${options.threshold}`,
         ErrorCodes.INVALID_FIELD_CONFIG
@@ -113,14 +138,20 @@ export function validateOptions<T extends object>(options: SpotrOptions<T>): {
     }
   }
 
-  if (options.limit !== undefined && (typeof options.limit !== 'number' || options.limit < 1)) {
+  if (
+    options.limit !== undefined &&
+    (typeof options.limit !== 'number' || options.limit < 1)
+  ) {
     throw new SpotrError(
       `limit must be a positive number, received ${options.limit}`,
       ErrorCodes.INVALID_FIELD_CONFIG
     );
   }
 
-  if (options.debounce !== undefined && (typeof options.debounce !== 'number' || options.debounce < 0)) {
+  if (
+    options.debounce !== undefined &&
+    (typeof options.debounce !== 'number' || options.debounce < 0)
+  ) {
     throw new SpotrError(
       `debounce must be a non-negative number, received ${options.debounce}`,
       ErrorCodes.INVALID_FIELD_CONFIG

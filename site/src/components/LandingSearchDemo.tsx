@@ -1,9 +1,9 @@
-import { useState, useMemo } from "react";
-import { useSpotr } from "spotr/react";
+import { useState, useMemo } from 'react';
+import { useSpotr } from 'spotr/react';
 
 function highlightMatches(
   text: string | number,
-  tokens: string[],
+  tokens: string[]
 ): React.ReactNode {
   const textStr = String(text);
 
@@ -97,7 +97,7 @@ function highlightMatches(
           </span>
         ) : (
           segment.text
-        ),
+        )
       )}
     </>
   );
@@ -144,8 +144,8 @@ const SearchIcon = () => (
   </svg>
 );
 
-const TH_CELL = "px-4 py-3 text-left text-sm font-semibold text-neutral-200";
-const TD_CELL = "px-4 py-3 text-sm text-neutral-300";
+const TH_CELL = 'px-4 py-3 text-left text-sm font-semibold text-neutral-200';
+const TD_CELL = 'px-4 py-3 text-sm text-neutral-300';
 
 const ClearIcon = () => (
   <svg
@@ -165,8 +165,8 @@ const ClearIcon = () => (
 );
 
 export default function LandingSearchDemo({ people, games }: Props) {
-  const [query, setQuery] = useState("");
-  const [dataset, setDataset] = useState<"people" | "games">("people");
+  const [query, setQuery] = useState('');
+  const [dataset, setDataset] = useState<'people' | 'games'>('people');
 
   // Extract unique platforms and years from games collection
   const gamePlatforms = useMemo(() => {
@@ -194,23 +194,23 @@ export default function LandingSearchDemo({ people, games }: Props) {
       collection: people,
       threshold: 0.3,
       fields: [
-        { name: "firstName", weight: 1 },
-        { name: "lastName", weight: 1 },
-        { name: "email", weight: 0.8 },
-        { name: "address.city", weight: 0.7 },
-        { name: "company.name", weight: 0.7 },
+        { name: 'firstName', weight: 1 },
+        { name: 'lastName', weight: 1 },
+        { name: 'email', weight: 0.8 },
+        { name: 'address.city', weight: 0.7 },
+        { name: 'company.name', weight: 0.7 },
       ],
       keywords: [
         {
-          name: "subscribed",
-          triggers: ["subscribed", "subs"],
+          name: 'subscribed',
+          triggers: ['subscribed', 'subs'],
           handler: (collection: Person[]) =>
             collection.filter((item) => item.subscribed),
         },
       ],
       limit: 50,
     }),
-    [people],
+    [people]
   );
 
   const gamesConfig = useMemo(
@@ -218,67 +218,67 @@ export default function LandingSearchDemo({ people, games }: Props) {
       collection: games,
       threshold: 0.3,
       fields: [
-        { name: "title", weight: 1 },
-        { name: "metadata.developer", weight: 0.9 },
+        { name: 'title', weight: 1 },
+        { name: 'metadata.developer', weight: 0.9 },
       ],
       keywords: [
         {
-          name: "completed",
-          triggers: ["done", "complete", "finished"],
+          name: 'completed',
+          triggers: ['done', 'complete', 'finished'],
           handler: (collection: Game[]) =>
             collection.filter((item) => item.completed),
         },
         {
-          name: "platform",
-          triggers: [...gamePlatforms, "sony"],
+          name: 'platform',
+          triggers: [...gamePlatforms, 'sony'],
           handler: (collection: Game[], terms?: string[]) =>
             collection.filter((item) =>
               (terms ?? []).some((t) => {
                 const lowerT = t.toLowerCase();
-                if (lowerT === "sony") {
+                if (lowerT === 'sony') {
                   return item.platforms.some(
                     (p) =>
-                      p.toLowerCase().includes("ps2") ||
-                      p.toLowerCase().includes("ps3") ||
-                      p.toLowerCase().includes("ps4") ||
-                      p.toLowerCase().includes("ps5"),
+                      p.toLowerCase().includes('ps2') ||
+                      p.toLowerCase().includes('ps3') ||
+                      p.toLowerCase().includes('ps4') ||
+                      p.toLowerCase().includes('ps5')
                   );
                 }
                 return item.platforms.some((p) =>
-                  p.toLowerCase().includes(lowerT),
+                  p.toLowerCase().includes(lowerT)
                 );
-              }),
+              })
             ),
         },
         {
-          name: "year",
+          name: 'year',
           triggers: gameYears,
           handler: (collection: Game[], terms?: string[]) =>
             collection.filter((item) =>
-              (terms ?? []).some((t) => item.releaseYear === parseInt(t, 10)),
+              (terms ?? []).some((t) => item.releaseYear === parseInt(t, 10))
             ),
         },
       ],
       limit: 50,
     }),
-    [games, gamePlatforms, gameYears],
+    [games, gamePlatforms, gameYears]
   );
 
   const peopleSpotr = useSpotr<Person>(peopleConfig);
   const gamesSpotr = useSpotr<Game>(gamesConfig);
 
   const result = useMemo(() => {
-    const activeSpotr = dataset === "people" ? peopleSpotr : gamesSpotr;
-    const activeCollection = dataset === "people" ? people : games;
+    const activeSpotr = dataset === 'people' ? peopleSpotr : gamesSpotr;
+    const activeCollection = dataset === 'people' ? people : games;
 
     if (!query.trim()) {
       const sorted =
-        dataset === "people"
+        dataset === 'people'
           ? [...(activeCollection as Person[])].sort((a, b) =>
-              a.firstName.localeCompare(b.firstName),
+              a.firstName.localeCompare(b.firstName)
             )
           : [...(activeCollection as Game[])].sort((a, b) =>
-              a.title.localeCompare(b.title),
+              a.title.localeCompare(b.title)
             );
       return {
         results: sorted.slice(0, 50).map((item) => ({
@@ -293,19 +293,19 @@ export default function LandingSearchDemo({ people, games }: Props) {
     return activeSpotr.query(query);
   }, [query, dataset, peopleSpotr, gamesSpotr, people, games]);
 
-  const peopleTextExamples = ["alice", "aloce", "acme", "los angeles"];
-  const peopleKeywordExamples = ["subscribed"];
-  const peopleCombinedExamples = ["alice subscribed"];
-  const gamesTextExamples = ["witcher", "spider", "spoder", "FromSoftware"];
-  const gamesKeywordExamples = ["done", "sony", "xbox", "2020"];
-  const gamesCombinedExamples = ["spider done"];
+  const peopleTextExamples = ['alice', 'aloce', 'acme', 'los angeles'];
+  const peopleKeywordExamples = ['subscribed'];
+  const peopleCombinedExamples = ['alice subscribed'];
+  const gamesTextExamples = ['witcher', 'spider', 'spoder', 'FromSoftware'];
+  const gamesKeywordExamples = ['done', 'sony', 'xbox', '2020'];
+  const gamesCombinedExamples = ['spider done'];
 
   const textExamples =
-    dataset === "people" ? peopleTextExamples : gamesTextExamples;
+    dataset === 'people' ? peopleTextExamples : gamesTextExamples;
   const keywordExamples =
-    dataset === "people" ? peopleKeywordExamples : gamesKeywordExamples;
+    dataset === 'people' ? peopleKeywordExamples : gamesKeywordExamples;
   const combinedExamples =
-    dataset === "people" ? peopleCombinedExamples : gamesCombinedExamples;
+    dataset === 'people' ? peopleCombinedExamples : gamesCombinedExamples;
   return (
     <div className="w-full max-w-6xl mx-auto">
       {/* Search row: bar + toggle */}
@@ -326,7 +326,7 @@ export default function LandingSearchDemo({ people, games }: Props) {
           />
           {query && (
             <button
-              onClick={() => setQuery("")}
+              onClick={() => setQuery('')}
               className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-neutral-700 rounded transition-colors cursor-pointer"
               aria-label="Clear search"
             >
@@ -338,21 +338,21 @@ export default function LandingSearchDemo({ people, games }: Props) {
         {/* Toggle */}
         <div className="flex gap-2 shrink-0">
           <button
-            onClick={() => setDataset("people")}
+            onClick={() => setDataset('people')}
             className={`cursor-pointer px-4 py-2 rounded-lg font-medium transition-colors ${
-              dataset === "people"
-                ? "bg-cyan-600 text-white"
-                : "bg-neutral-800 text-neutral-400 hover:bg-neutral-700"
+              dataset === 'people'
+                ? 'bg-cyan-600 text-white'
+                : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
             }`}
           >
             People
           </button>
           <button
-            onClick={() => setDataset("games")}
+            onClick={() => setDataset('games')}
             className={`cursor-pointer px-4 py-2 rounded-lg font-medium transition-colors ${
-              dataset === "games"
-                ? "bg-cyan-600 text-white"
-                : "bg-neutral-800 text-neutral-400 hover:bg-neutral-700"
+              dataset === 'games'
+                ? 'bg-cyan-600 text-white'
+                : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
             }`}
           >
             Games
@@ -411,7 +411,7 @@ export default function LandingSearchDemo({ people, games }: Props) {
         <table className="w-full">
           <thead className="bg-neutral-800">
             <tr>
-              {dataset === "people" ? (
+              {dataset === 'people' ? (
                 <>
                   <th className={TH_CELL}>Score</th>
                   <th className={TH_CELL}>First Name</th>
@@ -437,7 +437,7 @@ export default function LandingSearchDemo({ people, games }: Props) {
             {result.results.length === 0 ? (
               <tr>
                 <td
-                  colSpan={dataset === "people" ? 7 : 6}
+                  colSpan={dataset === 'people' ? 7 : 6}
                   className="px-4 py-8 text-center text-neutral-400"
                 >
                   No results found
@@ -451,42 +451,42 @@ export default function LandingSearchDemo({ people, games }: Props) {
                     className="bg-neutral-900 hover:bg-neutral-800 transition-colors"
                   >
                     <td className={TD_CELL}>
-                      {r.score != null ? r.score.toFixed(2) : "-"}
+                      {r.score != null ? r.score.toFixed(2) : '-'}
                     </td>
-                    {dataset === "people" ? (
+                    {dataset === 'people' ? (
                       <>
                         <td className={TD_CELL}>
                           {highlightMatches(
                             (r.item as Person).firstName,
-                            result.tokens,
+                            result.tokens
                           )}
                         </td>
                         <td className={TD_CELL}>
                           {highlightMatches(
                             (r.item as Person).lastName,
-                            result.tokens,
+                            result.tokens
                           )}
                         </td>
                         <td className={TD_CELL}>
                           {highlightMatches(
                             (r.item as Person).email,
-                            result.tokens,
+                            result.tokens
                           )}
                         </td>
                         <td className={TD_CELL}>
                           {highlightMatches(
                             (r.item as Person).address.city,
-                            result.tokens,
+                            result.tokens
                           )}
                         </td>
                         <td className={TD_CELL}>
                           {highlightMatches(
                             (r.item as Person).company.name,
-                            result.tokens,
+                            result.tokens
                           )}
                         </td>
                         <td className={TD_CELL}>
-                          {(r.item as Person).subscribed ? "✅" : "❌"}
+                          {(r.item as Person).subscribed ? '✅' : '❌'}
                         </td>
                       </>
                     ) : (
@@ -494,34 +494,34 @@ export default function LandingSearchDemo({ people, games }: Props) {
                         <td className={TD_CELL}>
                           {highlightMatches(
                             (r.item as Game).title,
-                            result.tokens,
+                            result.tokens
                           )}
                         </td>
                         <td className={TD_CELL}>
                           {highlightMatches(
                             (r.item as Game).metadata.developer,
-                            result.tokens,
+                            result.tokens
                           )}
                         </td>
                         <td className={TD_CELL}>
                           {highlightMatches(
                             (r.item as Game).releaseYear,
-                            result.tokens,
+                            result.tokens
                           )}
                         </td>
                         <td className={TD_CELL}>
                           {highlightMatches(
-                            (r.item as Game).platforms.join(", "),
-                            result.tokens,
+                            (r.item as Game).platforms.join(', '),
+                            result.tokens
                           )}
                         </td>
                         <td className={TD_CELL}>
-                          {(r.item as Game).completed ? "✅" : "❌"}
+                          {(r.item as Game).completed ? '✅' : '❌'}
                         </td>
                       </>
                     )}
                   </tr>
-                ),
+                )
               )
             )}
           </tbody>

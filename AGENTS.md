@@ -18,6 +18,7 @@ This document provides comprehensive guidelines for AI agents working on the Spo
 ### Framework Integrations
 
 The library provides framework-specific integrations for:
+
 - React (hooks: `useSpotr`)
 - Vue (composables: `useSpotr`)
 - Svelte (`useSpotr` store)
@@ -60,6 +61,7 @@ This repository uses **Bun workspaces** to manage the monorepo structure:
 - **site** (`/site`) is a workspace member that depends on `spotr` via `"spotr": "workspace:*"`
 
 **Important:** Always run `bun install` from the **repository root**. Bun will automatically:
+
 - Install dependencies for all workspaces
 - Link the local `spotr` package into `site/node_modules/spotr` (as a symlink)
 - Manage a single `bun.lock` file at the root
@@ -67,6 +69,7 @@ This repository uses **Bun workspaces** to manage the monorepo structure:
 The `site` package depends on `spotr` using the workspace protocol (`workspace:*`), which resolves to the local `packages/spotr` package. No manual symlinking scripts or `file:..` dependencies are needed.
 
 **Running workspace commands:**
+
 - `bun run build` - Builds the spotr library (delegates to `packages/spotr`)
 - `bun run --filter spotr <command>` - Run a command in the spotr workspace
 - `bun run --filter site <command>` - Run a command in the site workspace
@@ -80,6 +83,7 @@ The `site` package depends on `spotr` using the workspace protocol (`workspace:*
 - `bun run test:watch` - Run tests in watch mode
 - `bun run typecheck` - Type check main library (`tsc --noEmit`)
 - `bun run lint` - Lint codebase (ESLint)
+- `bun run format` - Format codebase (Prettier, whole repo from root)
 
 ### Example Commands
 
@@ -378,6 +382,7 @@ describe('Spotr', () => {
 
 - Run `bun run typecheck` before committing
 - Run `bun run lint` before committing
+- Run `bun run format` before committing
 - Run `bun run test` before committing (or rely on CI)
 
 **Note:** These checks should already pass if you followed the "Before Finishing Your Changes" workflow below. Pre-commit checks serve as a final verification.
@@ -407,7 +412,10 @@ describe('Spotr', () => {
    - Re-run the linter until it passes with zero errors and zero warnings
    - Do not proceed until all lint issues are fixed
 
-**This workflow ensures that all code changes are type-safe and follow project linting standards before the task is considered complete.** See **Pre-Commit Checks** above for final verification steps before committing.
+5. **Run format:**
+   - Run `bun run format` from root to format the codebase with Prettier
+
+**This workflow ensures that all code changes are type-safe, formatted, and follow project linting standards before the task is considered complete.** See **Pre-Commit Checks** above for final verification steps before committing.
 
 ## Git Workflow
 

@@ -1,10 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useSpotr } from 'spotr/react';
 import gamesData from './data/games.json';
-import {
-  getNestedValue,
-  highlightCellValue,
-} from './utils';
+import { getNestedValue, highlightCellValue } from './utils';
 import type { Game } from './types';
 
 const title = 'Keywords - Advanced';
@@ -14,7 +11,9 @@ const examples = ['witcher', 'done', 'ps5', 'nintendo'];
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 const platformHandler = (col: Game[], terms?: string[]) =>
   col.filter((i) =>
-    (terms ?? []).some((t) => i.platforms.some((p) => p.toLowerCase().includes(t)))
+    (terms ?? []).some((t) =>
+      i.platforms.some((p) => p.toLowerCase().includes(t))
+    )
   );
 const recentHandler = (col: Game[]) => col.filter((i) => i.releaseYear >= 2020);
 
@@ -25,8 +24,16 @@ const config = {
   keywords: {
     mode: 'and' as const,
     definitions: [
-      { name: 'completed', triggers: ['done', 'complete', 'finished'], handler: completedHandler },
-      { name: 'platform', triggers: ['ps4', 'ps5', 'xbox', 'pc', 'switch'], handler: platformHandler },
+      {
+        name: 'completed',
+        triggers: ['done', 'complete', 'finished'],
+        handler: completedHandler,
+      },
+      {
+        name: 'platform',
+        triggers: ['ps4', 'ps5', 'xbox', 'pc', 'switch'],
+        handler: platformHandler,
+      },
       { name: 'recent', triggers: ['recent', 'new'], handler: recentHandler },
     ],
   },
@@ -40,7 +47,9 @@ function App() {
   const result = useMemo(() => {
     if (!query.trim()) {
       return {
-        results: (gamesData as Game[]).slice(0, config.limit).map((item) => ({ item, score: null as number | null })),
+        results: (gamesData as Game[])
+          .slice(0, config.limit)
+          .map((item) => ({ item, score: null as number | null })),
         matchedKeywords: [] as { name: string; terms: string[] }[],
         tokens: [] as string[],
         warnings: [] as string[],
@@ -82,7 +91,9 @@ function App() {
         <tbody>
           {result.results.map((r, i) => (
             <tr key={i} className="tr">
-              <td className="td">{r.score != null ? r.score.toFixed(2) : '-'}</td>
+              <td className="td">
+                {r.score != null ? r.score.toFixed(2) : '-'}
+              </td>
               {columns.map((col) => (
                 <td key={col} className="td">
                   <span

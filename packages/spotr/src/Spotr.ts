@@ -36,7 +36,9 @@ export class Spotr<T extends object> {
 
     this._fields = normalizeFieldConfig(options.fields, this._threshold);
 
-    this._keywords = options.keywords ? validateKeywords(options.keywords) : null;
+    this._keywords = options.keywords
+      ? validateKeywords(options.keywords)
+      : null;
     this._keywordTriggerMap = this._buildKeywordTriggerMap();
   }
 
@@ -45,7 +47,9 @@ export class Spotr<T extends object> {
     if (!this._keywords) return map;
 
     for (const def of this._keywords.definitions) {
-      const triggers = Array.isArray(def.triggers) ? def.triggers : [def.triggers];
+      const triggers = Array.isArray(def.triggers)
+        ? def.triggers
+        : [def.triggers];
       for (const trigger of triggers) {
         map.set(trigger.toLowerCase(), def);
       }
@@ -62,12 +66,13 @@ export class Spotr<T extends object> {
   }
 
   setCollection(collection: T[] | Set<T>): void {
-    this._collection = collection instanceof Set ? Array.from(collection) : collection;
+    this._collection =
+      collection instanceof Set ? Array.from(collection) : collection;
   }
 
   query(search: string): SpotrResult<T> {
     const tokens = tokenize(search);
-    
+
     if (tokens.length === 0) {
       return {
         results: [],
@@ -109,9 +114,10 @@ export class Spotr<T extends object> {
       };
     }
 
-    const validTokens = this._minMatchCharLength > 1
-      ? searchTokens.filter((t) => t.length >= this._minMatchCharLength)
-      : searchTokens;
+    const validTokens =
+      this._minMatchCharLength > 1
+        ? searchTokens.filter((t) => t.length >= this._minMatchCharLength)
+        : searchTokens;
 
     if (validTokens.length === 0) {
       return {
@@ -141,9 +147,10 @@ export class Spotr<T extends object> {
 
     scoredResults.sort((a, b) => b.score - a.score);
 
-    const limitedResults = this._limit < Infinity
-      ? scoredResults.slice(0, this._limit)
-      : scoredResults;
+    const limitedResults =
+      this._limit < Infinity
+        ? scoredResults.slice(0, this._limit)
+        : scoredResults;
 
     return {
       results: limitedResults,
@@ -211,7 +218,10 @@ export class Spotr<T extends object> {
       for (const def of this._keywords.definitions) {
         const terms = keywordNameToTerms.get(def.name);
         if (terms) {
-          const handler = def.handler as (collection: T[], matchedTerms: string[]) => T[];
+          const handler = def.handler as (
+            collection: T[],
+            matchedTerms: string[]
+          ) => T[];
           result = handler(result, terms);
           matchedKeywords.push({ name: def.name, terms });
 
@@ -230,7 +240,10 @@ export class Spotr<T extends object> {
       for (const def of this._keywords.definitions) {
         const terms = keywordNameToTerms.get(def.name);
         if (terms) {
-          const handler = def.handler as (collection: T[], matchedTerms: string[]) => T[];
+          const handler = def.handler as (
+            collection: T[],
+            matchedTerms: string[]
+          ) => T[];
           const keywordResults = handler(this._collection, terms);
           matchedKeywords.push({ name: def.name, terms });
 

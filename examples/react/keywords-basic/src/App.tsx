@@ -1,10 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useSpotr } from 'spotr/react';
 import gamesData from './data/games.json';
-import {
-  getNestedValue,
-  highlightCellValue,
-} from './utils';
+import { getNestedValue, highlightCellValue } from './utils';
 import type { Game } from './types';
 
 const title = 'Keywords - Basic';
@@ -18,7 +15,11 @@ const config = {
   threshold: 0.3,
   fields: [{ name: 'title', weight: 1 }],
   keywords: [
-    { name: 'completed', triggers: ['done', 'complete', 'finished'], handler: completedHandler },
+    {
+      name: 'completed',
+      triggers: ['done', 'complete', 'finished'],
+      handler: completedHandler,
+    },
   ],
   limit: 20,
 };
@@ -30,7 +31,9 @@ function App() {
   const result = useMemo(() => {
     if (!query.trim()) {
       return {
-        results: (gamesData as Game[]).slice(0, config.limit).map((item) => ({ item, score: null as number | null })),
+        results: (gamesData as Game[])
+          .slice(0, config.limit)
+          .map((item) => ({ item, score: null as number | null })),
         matchedKeywords: [] as { name: string; terms: string[] }[],
         tokens: [] as string[],
         warnings: [] as string[],
@@ -72,7 +75,9 @@ function App() {
         <tbody>
           {result.results.map((r, i) => (
             <tr key={i} className="tr">
-              <td className="td">{r.score != null ? r.score.toFixed(2) : '-'}</td>
+              <td className="td">
+                {r.score != null ? r.score.toFixed(2) : '-'}
+              </td>
               {columns.map((col) => (
                 <td key={col} className="td">
                   <span
