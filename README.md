@@ -19,6 +19,14 @@ A powerful and minimal client-side fuzzy search library with zero dependencies.
 npm install spotr
 ```
 
+## CDN
+
+You can use Spotr via a CDN:
+
+- **unpkg**: `https://unpkg.com/spotr`
+- **jsDelivr**: `https://cdn.jsdelivr.net/npm/spotr`
+- **esm.sh**: `https://esm.sh/spotr`
+
 ## Basic Usage
 
 ```typescript
