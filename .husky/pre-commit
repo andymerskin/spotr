@@ -1,1 +1,2 @@
+bun run format
 bun run examples:sync
