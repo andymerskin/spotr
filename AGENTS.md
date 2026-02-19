@@ -481,7 +481,101 @@ describe('Spotr', () => {
    - Remove obsolete or duplicate tests if functionality was removed or refactored
    - Re-run `bun run test:coverage` until coverage thresholds are met
 
-**This workflow ensures that all code changes are type-safe, formatted, follow project linting standards, and maintain test coverage before the task is considered complete.** See **Pre-Commit Checks** above for final verification steps before committing.
+7. **Update README documentation (if library API or functionality changed):**
+   - If you modified the library API, added new functions, changed functionality, or removed features, update `README.md` at the repository root
+   - Review and update the following sections as needed:
+     - **Features** - Add new features or remove deprecated ones
+     - **Basic Usage** - Update code examples to reflect API changes
+     - **Options** - Update option descriptions, add new options, or remove deprecated ones
+     - **Framework Integrations** - Update framework-specific usage examples if hooks/composables changed
+     - **API Reference** - Update function signatures, return types, or method descriptions
+   - Ensure all code examples in the README are accurate and reflect current API usage
+   - Verify that any removed functionality is clearly marked as deprecated or removed
+
+8. **Update website landing page example (if library functionality changed):**
+   - Review `site/src/pages/index.astro` and `site/src/components/LandingSearchDemo.*` (or similar demo components)
+   - Verify that the interactive demo on the landing page:
+     - Uses the current API correctly
+     - Demonstrates functionality that still exists in the library
+     - Reflects any API changes or new features
+     - Works correctly with the current library version
+   - Check that any code examples displayed on the landing page (e.g., in `HeaderCodeExample` component) match the current API
+   - Update demo configurations if they use deprecated or changed options
+   - Test the landing page demo to ensure it functions correctly
+
+9. **Review and update framework examples (if library functionality changed):**
+   - Review all examples in `examples/{react|vue|svelte|solid|preact}/` directories
+   - For each framework, check all example types:
+     - `fields-basic` - Basic field matching examples
+     - `fields-nested` - Nested field examples
+     - `keywords-basic` - Basic keyword examples
+     - `keywords-advanced` - Advanced keyword examples
+     - `advanced-combined` - Combined features examples
+   - Verify that each example:
+     - Uses the current API correctly
+     - Demonstrates functionality that still exists
+     - Reflects any API changes or new features
+     - Works correctly with the current library version
+   - Update example code if it uses deprecated APIs or needs to showcase new functionality
+   - Run example typechecks: `bun run examples:typecheck` to ensure all examples still compile
+   - Test examples manually or verify they build successfully if automated testing is available
+
+**This workflow ensures that all code changes are type-safe, formatted, follow project linting standards, maintain test coverage, and keep documentation and examples up-to-date before the task is considered complete.** See **Pre-Commit Checks** above for final verification steps before committing.
+
+### Delegating to Subagents
+
+Agents can delegate the "Before Finishing Your Changes" workflow tasks to subagents for parallel execution or when handling complex multi-step verification. When instructing subagents to handle these tasks:
+
+1. **Provide complete context:**
+   - List all files that were modified during the task
+   - Describe what changes were made (API changes, bug fixes, new features, etc.)
+   - Specify which parts of the workflow are relevant (e.g., if only library code changed, documentation updates may not be needed)
+   - Reference this AGENTS.md file and the "Before Finishing Your Changes" section
+
+2. **Structure the task clearly:**
+   - Break down the workflow into specific, actionable steps
+   - Specify which commands to run and in which directories
+   - Provide clear success criteria (e.g., "zero TypeScript errors", "zero lint warnings", "coverage above 85%")
+
+3. **Example subagent instruction:**
+
+   ```
+   You are tasked with completing the "Before Finishing Your Changes" workflow
+   for the Spotr library. The following files were modified:
+   - packages/spotr/src/Spotr.ts (added new method: searchWithOptions)
+   - packages/spotr/src/types.ts (added new type: SearchOptions)
+
+   Please follow the workflow in AGENTS.md section "Before Finishing Your Changes":
+   1. Run TypeScript check on changed files and fix any errors
+   2. Run linter on changed files and fix any errors/warnings
+   3. Run format to ensure code is formatted
+   4. Check test coverage (library code was modified) - ensure 85% threshold is met
+   5. Update README.md if API changed (new method was added)
+   6. Update website landing page if needed
+   7. Review framework examples to ensure they still work
+
+   Report back with the results of each step and any issues that need to be addressed.
+   ```
+
+4. **Use appropriate subagent types:**
+   - `generalPurpose` - For comprehensive verification tasks that require reading files, running commands, and making fixes
+   - `shell` - For running verification commands in sequence (typecheck, lint, format, test coverage)
+   - `explore` - For reviewing examples and documentation to ensure they're up-to-date
+
+5. **Parallel execution:**
+   - Some tasks can run in parallel (e.g., typecheck and lint can run simultaneously)
+   - Documentation review can happen in parallel with test coverage checks
+   - Be mindful of dependencies (e.g., formatting should happen before final verification)
+
+6. **Reporting:**
+   - Subagents should report back with:
+     - Which steps completed successfully
+     - Any errors or warnings found and how they were fixed
+     - Test coverage results
+     - Documentation updates made
+     - Any issues that require attention
+
+**Note:** The parent agent is still responsible for ensuring all workflow steps are completed before considering the task complete. Subagents help execute the steps but don't replace the parent agent's oversight.
 
 ## Git Workflow
 
