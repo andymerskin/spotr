@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useSpotr } from 'spotr/react';
 
 function highlightMatches(
@@ -167,6 +167,11 @@ const ClearIcon = () => (
 export default function LandingSearchDemo({ people, games }: Props) {
   const [query, setQuery] = useState('');
   const [dataset, setDataset] = useState<'people' | 'games'>('people');
+
+  // Clear search query when switching datasets
+  useEffect(() => {
+    setQuery('');
+  }, [dataset]);
 
   // Extract unique platforms and years from games collection
   const gamePlatforms = useMemo(() => {
