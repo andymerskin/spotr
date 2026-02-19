@@ -363,6 +363,8 @@ export function useSpotr<T extends object>(
 
 - `bun run test` - Run all tests once
 - `bun run test:watch` - Run tests in watch mode
+- `bun run test:coverage` - Run tests with coverage report
+- `bun run test:coverage:watch` - Run tests with coverage in watch mode
 - `vitest run path/to/file.test.ts` - Run specific test file
 
 ### Test Structure
@@ -377,6 +379,59 @@ describe('Spotr', () => {
   });
 });
 ```
+
+### Code Coverage
+
+- **Minimum Coverage Target**: **85%** for all metrics (lines, functions, branches, statements)
+- Coverage thresholds are enforced in `vitest.default.config.ts` using Vitest's coverage thresholds
+- Coverage configuration includes:
+  - Global thresholds: 85% minimum for all source files
+  - Per-file thresholds: Higher thresholds for critical code paths (e.g., fuzzy matching algorithms at 100%)
+  - Exclusions: Type-only files, re-export index files, and test files are excluded from coverage
+- Run `bun run test:coverage` to generate coverage reports
+- Coverage reports are generated in multiple formats: text, JSON, HTML, and LCOV
+- Coverage thresholds are enforced during test runs and will cause tests to fail if thresholds are not met
+
+### Maintaining Test Coverage When Making Changes
+
+**When modifying the `packages/spotr` library, agents MUST ensure test coverage is maintained:**
+
+1. **For new features or functionality:**
+   - Add comprehensive test cases covering the new functionality
+   - Test both happy paths and edge cases
+   - Ensure new code paths are covered by tests
+   - Run `bun run test:coverage` to verify coverage meets the 85% threshold
+
+2. **For changes to existing functionality:**
+   - Update existing test cases if behavior has changed
+   - Add new test cases if new code paths or edge cases are introduced
+   - Ensure modified code paths are still covered by tests
+   - Verify that updated tests accurately reflect the new behavior
+
+3. **For bug fixes:**
+   - Add test cases that reproduce the bug (regression tests)
+   - Verify the fix resolves the issue
+   - Ensure the fix doesn't break existing functionality
+
+4. **For refactoring:**
+   - Ensure existing tests still pass after refactoring
+   - Update tests if the public API or behavior changes
+   - Maintain or improve test coverage
+
+5. **Removing obsolete or duplicate tests:**
+   - Review test files when removing functionality or refactoring
+   - Remove tests that are no longer relevant (e.g., testing removed features)
+   - Identify and remove duplicate tests that test the same functionality
+   - Consolidate similar tests into more comprehensive test cases when appropriate
+   - Ensure removal doesn't reduce coverage below the 85% threshold
+
+6. **Test coverage verification:**
+   - Always run `bun run test:coverage` after making changes to the library
+   - Review the coverage report to identify uncovered code paths
+   - Add tests for any uncovered code paths introduced by your changes
+   - Ensure coverage thresholds are met before considering changes complete
+
+**Important:** Test coverage is a critical quality metric. Changes that reduce coverage below the 85% threshold will cause tests to fail and must be addressed before the changes can be considered complete.
 
 ### Pre-Commit Checks
 
@@ -415,7 +470,18 @@ describe('Spotr', () => {
 5. **Run format:**
    - Run `bun run format` from root to format the codebase with Prettier
 
-**This workflow ensures that all code changes are type-safe, formatted, and follow project linting standards before the task is considered complete.** See **Pre-Commit Checks** above for final verification steps before committing.
+6. **Check test coverage (if changes were made to `packages/spotr`):**
+   - If you modified any files in `packages/spotr/src/`, run `bun run test:coverage` from root
+   - Review the coverage report to ensure:
+     - Coverage meets the 85% threshold for all metrics
+     - New functionality is covered by tests
+     - Modified functionality has updated tests
+     - No coverage regressions were introduced
+   - Add or update tests as needed to maintain coverage
+   - Remove obsolete or duplicate tests if functionality was removed or refactored
+   - Re-run `bun run test:coverage` until coverage thresholds are met
+
+**This workflow ensures that all code changes are type-safe, formatted, follow project linting standards, and maintain test coverage before the task is considered complete.** See **Pre-Commit Checks** above for final verification steps before committing.
 
 ## Git Workflow
 
@@ -491,6 +557,16 @@ Husky is configured (`prepare` script) to run pre-commit hooks. Ensure all check
 - Run `bun run typecheck` after making type changes
 - Run `bun run examples:typecheck` to verify examples still type-check
 - Framework integrations may have different type requirements
+
+### Test Coverage
+
+- ❌ **Don't skip test coverage checks** when modifying `packages/spotr/src/`
+- ❌ **Don't remove tests** without ensuring coverage remains above 85%
+- ❌ **Don't add new features** without corresponding test cases
+- ✅ Always run `bun run test:coverage` after making library changes
+- ✅ Update tests when modifying existing functionality
+- ✅ Remove obsolete tests when removing functionality
+- ✅ Consolidate duplicate tests to improve maintainability
 
 ### Icons
 
