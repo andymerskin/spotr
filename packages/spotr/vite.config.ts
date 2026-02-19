@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
+import { bundleSize } from './rollup-plugin-bundle-size';
 
 export default defineConfig({
   build: {
@@ -40,5 +41,5 @@ export default defineConfig({
     },
     sourcemap: true,
   },
-  plugins: [dts({ rollupTypes: true })],
+  plugins: [dts({ rollupTypes: true }), bundleSize()],
 });

@@ -7,6 +7,9 @@ import peopleData from "../data/people.json";
 import gamesData from "../data/games.json";
 import { Icon } from "astro-icon/components";
 import spotrPkg from "../../../packages/spotr/package.json";
+import { getBundleSize } from "../utils/bundleSize";
+
+const bundleSize = getBundleSize(import.meta.url);
 ---
 
 <Layout title="Spotr">
@@ -115,9 +118,12 @@ import spotrPkg from "../../../packages/spotr/package.json";
               href="https://www.npmjs.com/package/spotr"
               target="_blank"
               rel="noopener noreferrer"
-              class="hover:text-cyan-400 transition-colors"
+              class="hover:text-cyan-400 transition-colors flex items-center gap-2"
             >
               v{spotrPkg.version}
+              <span class="px-1.5 py-0.5 text-xs font-medium bg-neutral-800 text-neutral-300 rounded border border-neutral-700">
+                {bundleSize} gzipped
+              </span>
             </a>
           </p>
         </div>
@@ -201,9 +207,12 @@ import spotrPkg from "../../../packages/spotr/package.json";
             href="https://www.npmjs.com/package/spotr"
             target="_blank"
             rel="noopener noreferrer"
-            class="hover:text-cyan-400 w-fit"
+            class="hover:text-cyan-400 w-fit flex items-center gap-2"
           >
             v{spotrPkg.version}
+            <span class="px-1.5 py-0.5 text-xs font-medium bg-neutral-800 text-neutral-300 rounded border border-neutral-700">
+              {bundleSize} gzipped
+            </span>
           </a>
           <a
             href="https://github.com/andymerskin/spotr/blob/master/LICENSE"
