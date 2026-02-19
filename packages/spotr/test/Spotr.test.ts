@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { Spotr } from '../src/Spotr';
 import { SpotrError } from '../src/errors';
 
@@ -670,44 +670,102 @@ describe('Spotr', () => {
       expect(result.results[0].item.title).toBe('The Witcher 3');
     });
 
-    it('throws when keyword handler returns non-array (and mode)', () => {
-      expect(() => {
-        const spotr = new Spotr<Game>({
-          collection: games,
-          fields: ['title'],
-          keywords: {
-            mode: 'and',
-            definitions: [
-              {
-                name: 'bad',
-                triggers: ['done'],
-                handler: () => 'invalid' as unknown as Game[],
-              },
-            ],
-          },
-        });
-        spotr.query('done');
-      }).toThrow(SpotrError);
+    it('logs error and recovers when keyword handler returns non-array (and mode)', () => {
+      const consoleErrorSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+
+      const spotr = new Spotr<Game>({
+        collection: games,
+        fields: ['title'],
+        keywords: {
+          mode: 'and',
+          definitions: [
+            {
+              name: 'bad',
+              triggers: ['done'],
+              handler: () => 'invalid' as unknown as Game[],
+            },
+          ],
+        },
+      });
+
+      // Should not throw - should log error and recover
+      const result = spotr.query('done');
+
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          '[Spotr] Keyword handler "bad" must return an array'
+        )
+      );
+      // Should return results (keyword filter skipped)
+      expect(result.results).toBeDefined();
+
+      consoleErrorSpy.mockRestore();
     });
 
-    it('throws when keyword handler returns non-array (or mode)', () => {
-      expect(() => {
-        const spotr = new Spotr<Game>({
-          collection: games,
-          fields: ['title'],
-          keywords: {
-            mode: 'or',
-            definitions: [
-              {
-                name: 'bad',
-                triggers: ['done'],
-                handler: () => 'invalid' as unknown as Game[],
-              },
-            ],
-          },
-        });
-        spotr.query('done');
-      }).toThrow(SpotrError);
+    it('logs error and recovers when keyword handler returns non-array (or mode)', () => {
+      const consoleErrorSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+
+      const spotr = new Spotr<Game>({
+        collection: games,
+        fields: ['title'],
+        keywords: {
+          mode: 'or',
+          definitions: [
+            {
+              name: 'bad',
+              triggers: ['done'],
+              handler: () => 'invalid' as unknown as Game[],
+            },
+          ],
+        },
+      });
+
+      // Should not throw - should log error and recover
+      const result = spotr.query('done');
+
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          '[Spotr] Keyword handler "bad" must return an array'
+        )
+      );
+      // Should return results (keyword filter skipped)
+      expect(result.results).toBeDefined();
+
+      consoleErrorSpy.mockRestore();
+    });
+
+    it('logs error and skips keyword when handler returns null (and mode)', () => {
+      const consoleErrorSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
+
+      const spotr = new Spotr<Game>({
+        collection: games,
+        fields: ['title'],
+        keywords: {
+          mode: 'and',
+          definitions: [
+            {
+              name: 'bad',
+              triggers: ['done'],
+              handler: () => null as unknown as Game[],
+            },
+          ],
+        },
+      });
+
+      const result = spotr.query('done');
+
+      expect(consoleErrorSpy).toHaveBeenCalled();
+      expect(result.results).toBeDefined();
+      // Collection should remain unchanged (keyword skipped)
+      expect(result.results.length).toBeGreaterThan(0);
+
+      consoleErrorSpy.mockRestore();
     });
   });
 
@@ -952,6 +1010,43 @@ describe('Spotr', () => {
       spotr.setCollection(games);
       const result2 = spotr.query('witcher');
       expect(result2.results).toHaveLength(1);
+    });
+
+    it('throws SpotrError when setCollection receives invalid input', () => {
+      const spotr = new Spotr<Game>({
+        collection: games,
+        fields: ['title'],
+      });
+
+      expect(() => {
+        spotr.setCollection('not-an-array' as unknown as Game[]);
+      }).toThrow(SpotrError);
+
+      expect(() => {
+        spotr.setCollection(null as unknown as Game[]);
+      }).toThrow(SpotrError);
+
+      expect(() => {
+        spotr.setCollection(123 as unknown as Game[]);
+      }).toThrow(SpotrError);
+    });
+
+    it('setCollection validates same as constructor', () => {
+      const spotr = new Spotr<Game>({
+        collection: games,
+        fields: ['title'],
+      });
+
+      // Should throw same error as constructor
+      try {
+        spotr.setCollection('invalid' as unknown as Game[]);
+        expect.fail('Expected SpotrError');
+      } catch (e) {
+        expect(e).toBeInstanceOf(SpotrError);
+        expect((e as SpotrError).message).toContain(
+          'collection must be an Array or Set'
+        );
+      }
     });
   });
 

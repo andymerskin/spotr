@@ -1,6 +1,10 @@
-import { SpotrError, ErrorCodes } from './errors';
 import { normalizeFieldConfig, scoreItem } from './fuzzy';
-import { tokenize, validateOptions, validateKeywords } from './utils';
+import {
+  tokenize,
+  validateOptions,
+  validateKeywords,
+  validateCollection,
+} from './utils';
 import type {
   SpotrOptions,
   SpotrResult,
@@ -68,8 +72,7 @@ export class Spotr<T extends object> {
   }
 
   setCollection(collection: T[] | Set<T>): void {
-    this._collection =
-      collection instanceof Set ? Array.from(collection) : collection;
+    this._collection = validateCollection(collection as unknown) as T[];
   }
 
   query(search: string): SpotrResult<T> {
@@ -226,15 +229,18 @@ export class Spotr<T extends object> {
             collection: T[],
             matchedTerms: string[]
           ) => T[];
-          result = handler(result, terms);
-          matchedKeywords.push({ name: def.name, terms });
+          const handlerResult = handler(result, terms);
 
-          if (!Array.isArray(result)) {
-            throw new SpotrError(
-              `Keyword handler "${def.name}" must return an array`,
-              ErrorCodes.INVALID_HANDLER_RETURN
+          if (!Array.isArray(handlerResult)) {
+            console.error(
+              `[Spotr] Keyword handler "${def.name}" must return an array, received ${typeof handlerResult}. Skipping this filter.`
             );
+            // Skip this keyword - keep current collection for this step
+            continue;
           }
+
+          result = handlerResult;
+          matchedKeywords.push({ name: def.name, terms });
         }
       }
     } else {
@@ -249,14 +255,16 @@ export class Spotr<T extends object> {
             matchedTerms: string[]
           ) => T[];
           const keywordResults = handler(this._collection, terms);
-          matchedKeywords.push({ name: def.name, terms });
 
           if (!Array.isArray(keywordResults)) {
-            throw new SpotrError(
-              `Keyword handler "${def.name}" must return an array`,
-              ErrorCodes.INVALID_HANDLER_RETURN
+            console.error(
+              `[Spotr] Keyword handler "${def.name}" must return an array, received ${typeof keywordResults}. Skipping this filter.`
             );
+            // Skip this keyword - don't add its results
+            continue;
           }
+
+          matchedKeywords.push({ name: def.name, terms });
 
           for (const item of keywordResults) {
             if (!processedItems.has(item)) {
