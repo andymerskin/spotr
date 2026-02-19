@@ -346,6 +346,87 @@ export function useSpotr<T extends object>(
 - Provide descriptive error messages
 - Validate inputs early and throw errors immediately
 
+#### Error Severity Model
+
+The library follows a severity-based error handling approach to prevent consumer pages from crashing:
+
+**1. Programmer Errors (Configuration/Setup) - THROW**
+
+- **When**: Errors that occur during library initialization or configuration
+- **Examples**: Invalid collection type, invalid field config, invalid options
+- **Action**: Throw `SpotrError` synchronously - fail fast so developers can fix configuration issues immediately
+- **Location**: Constructor, `setCollection`, validation functions
+- **Rationale**: These are setup-time errors that indicate incorrect usage. Failing fast prevents silent bugs.
+
+**2. Runtime Programmer Errors (User-Provided Code) - LOG & RECOVER**
+
+- **When**: Errors caused by user-provided code (e.g., keyword handlers) that execute during normal operation
+- **Examples**: Keyword handler returns non-array, handler throws exception
+- **Action**: Use `console.error` to log the issue, then recover gracefully (skip the problematic operation, return safe fallback)
+- **Location**: `query()`, `_applyKeywords()`, and other runtime methods
+- **Rationale**: These errors occur during user interaction (e.g., typing a search query). Throwing would crash the page. Logging allows developers to fix bugs while keeping the app functional.
+
+**3. Recoverable/Non-Fatal Issues - WARNINGS**
+
+- **When**: Issues that don't prevent functionality but indicate suboptimal conditions
+- **Examples**: String truncation due to `maxStringLength`, performance warnings
+- **Action**: Add messages to `result.warnings[]` array or use `console.warn` for developer feedback
+- **Location**: Fuzzy matching, scoring functions
+- **Rationale**: These are informational - the library continues to work, but developers should be aware of the condition.
+
+#### Error Handling Rules
+
+- **DO throw** for configuration/setup errors (constructor, `setCollection`) - these are programmer errors that should fail fast
+- **DO NOT throw** for runtime errors caused by user-provided code (e.g., keyword handlers) - use `console.error` and safe fallback instead
+- **DO use** `result.warnings[]` or `console.warn` for non-fatal, recoverable issues - never throw for these
+- **DO validate** all public API methods (`setCollection`, etc.) consistently with constructor validation
+- **DO provide** clear, actionable error messages that help developers identify and fix issues
+
+#### Examples
+
+**Configuration Error (Throw):**
+
+```typescript
+// ❌ Invalid collection - throw immediately
+new Spotr({ collection: 'not-an-array', fields: ['name'] });
+// Throws: SpotrError: collection must be an Array or Set, received string
+```
+
+**Runtime Error (Log & Recover):**
+
+```typescript
+// ✅ Keyword handler returns wrong type - log error, skip filter, continue
+const spotr = new Spotr({
+  collection: items,
+  fields: ['name'],
+  keywords: [
+    {
+      name: 'filter',
+      triggers: ['filter'],
+      handler: () => null, // Returns non-array
+    },
+  ],
+});
+spotr.query('filter test'); // Logs error, returns results without filter applied
+```
+
+**Non-Fatal Issue (Warning):**
+
+```typescript
+// ✅ Long string truncated - add to warnings, continue
+const result = spotr.query('very long query...');
+// result.warnings: ['Query string truncated from 2000 to 1000 characters...']
+```
+
+#### Testing Error Handling
+
+When adding or modifying error handling:
+
+- Test that configuration errors throw `SpotrError` with correct error codes
+- Test that runtime errors (e.g., bad keyword handlers) log `console.error` and recover gracefully
+- Test that warnings are added to `result.warnings` for non-fatal issues
+- Use `vi.spyOn(console, 'error')` or `vi.spyOn(console, 'warn')` to verify logging in tests
+
 ## Testing Guidelines
 
 ### Framework
