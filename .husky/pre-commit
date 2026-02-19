@@ -1,2 +1,4 @@
 bun run format
+git add -u
 bun run examples:sync
+git add .
