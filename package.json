@@ -18,6 +18,7 @@
     "examples:sync": "bun run scripts/sync-examples.ts",
     "examples:install": "bun run scripts/install-examples.ts",
     "examples:update": "bun run scripts/update-examples.ts",
+    "release": "bun run scripts/release.ts",
     "format": "prettier --write .",
     "prepare": "husky"
   },

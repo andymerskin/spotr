@@ -47,6 +47,27 @@ This section covers the process for releasing a new version of Spotr to npm.
 
 **Release Approach:** Spotr uses **manual releases** with `npm version` and `npm publish`. This provides full control over the release process while automating version bumping, git commits, and tagging. For automated release workflows (e.g., semantic-release, Changesets), see the discussion in the project's agent transcripts.
 
+**Quick Start:** The easiest way to release is using the release script:
+
+```sh
+bun run release
+```
+
+This script automates the entire release process: validation checks, version bumping, commit amending, and publishing. You can also pass a version bump type directly:
+
+```sh
+bun run release patch    # for patch releases
+bun run release minor    # for minor releases
+bun run release major    # for major releases
+bun run release prerelease    # increment existing pre-release
+bun run release premajor    # start major pre-release (defaults to alpha)
+bun run release premajor --preid beta    # start major pre-release with beta tag
+bun run release preminor --preid=rc    # start minor pre-release with rc tag
+bun run release 1.0.0-alpha.1  # for specific versions
+```
+
+The script will guide you through the process interactively. For manual release steps (if needed), see the detailed process below.
+
 ### Prerequisites
 
 - Ensure you have npm publish permissions for the `spotr` package

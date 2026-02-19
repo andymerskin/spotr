@@ -263,6 +263,27 @@ bun install
 
 - `bun run prepare` - Setup Husky git hooks (runs automatically on install)
 
+## Releasing
+
+To release a new version to npm, use the release script:
+
+```sh
+bun run release
+```
+
+The script automates validation checks, version bumping, commit amending, and publishing. You can also pass a version bump type directly:
+
+```sh
+bun run release patch    # for patch releases
+bun run release minor    # for minor releases
+bun run release major    # for major releases
+bun run release prerelease    # increment existing pre-release
+bun run release premajor --preid beta    # start major pre-release with beta tag
+bun run release preminor --preid=rc    # start minor pre-release with rc tag
+```
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the complete release process and manual release steps.
+
 ## License
 
 MIT
