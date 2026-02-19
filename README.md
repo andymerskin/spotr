@@ -123,6 +123,15 @@ Enable case-sensitive matching. Default: `false`
 
 Minimum query length to trigger matching. Default: `1`
 
+### `maxStringLength` (optional)
+
+Maximum string length limit for both search query tokens and collection field values before truncation. Default: `1000`
+
+- Search query tokens (search terms) exceeding this limit are truncated
+- Collection field values exceeding this limit are truncated
+- Warnings are added to `result.warnings` when truncation occurs
+- Used for performance optimization to prevent slowdowns with very long strings in fuzzy matching
+
 ## Result Type
 
 ```typescript

@@ -14,6 +14,7 @@ export const ErrorCodes = {
   INVALID_FIELD_WEIGHT: 'INVALID_FIELD_WEIGHT',
   INVALID_KEYWORD: 'INVALID_KEYWORD',
   INVALID_HANDLER_RETURN: 'INVALID_HANDLER_RETURN',
+  INVALID_MAX_STRING_LENGTH: 'INVALID_MAX_STRING_LENGTH',
 } as const;
 
 export type ErrorCode = (typeof ErrorCodes)[keyof typeof ErrorCodes];

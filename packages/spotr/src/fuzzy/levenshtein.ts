@@ -1,3 +1,5 @@
+import { MAX_STRING_LENGTH } from '../types';
+
 export function levenshteinDistance(a: string, b: string): number {
   const matrix: number[][] = [];
 
@@ -25,25 +27,59 @@ export function levenshteinDistance(a: string, b: string): number {
   return matrix[b.length][a.length];
 }
 
+export interface FuzzyScoreResult {
+  score: number;
+  warnings: string[];
+}
+
 export function fuzzyScore(
   query: string,
   target: string,
   threshold: number = 0.3,
-  caseSensitive: boolean = false
-): number {
-  const q = caseSensitive ? query : query.toLowerCase();
-  const t = caseSensitive ? target : target.toLowerCase();
+  caseSensitive: boolean = false,
+  maxStringLength: number = MAX_STRING_LENGTH
+): FuzzyScoreResult {
+  const warnings: string[] = [];
+  let q = query;
+  let t = target;
 
-  if (q === t) return 1;
-  if (q.length === 0 || t.length === 0) return 0;
-
-  if (t.includes(q)) {
-    return 0.9 + (0.1 * q.length) / t.length;
+  if (q.length > maxStringLength) {
+    warnings.push(
+      `Query string truncated from ${q.length} to ${maxStringLength} characters for performance`
+    );
+    q = q.slice(0, maxStringLength);
   }
 
-  const distance = levenshteinDistance(q, t);
-  const maxLen = Math.max(q.length, t.length);
+  if (t.length > maxStringLength) {
+    warnings.push(
+      `Target string truncated from ${t.length} to ${maxStringLength} characters for performance`
+    );
+    t = t.slice(0, maxStringLength);
+  }
+
+  const normalizedQ = caseSensitive ? q : q.toLowerCase();
+  const normalizedT = caseSensitive ? t : t.toLowerCase();
+
+  if (normalizedQ === normalizedT) {
+    return { score: 1, warnings };
+  }
+  if (normalizedQ.length === 0 || normalizedT.length === 0) {
+    return { score: 0, warnings };
+  }
+
+  if (normalizedT.includes(normalizedQ)) {
+    return {
+      score: 0.9 + (0.1 * normalizedQ.length) / normalizedT.length,
+      warnings,
+    };
+  }
+
+  const distance = levenshteinDistance(normalizedQ, normalizedT);
+  const maxLen = Math.max(normalizedQ.length, normalizedT.length);
   const score = 1 - distance / maxLen;
 
-  return score >= threshold ? score : 0;
+  return {
+    score: score >= threshold ? score : 0,
+    warnings,
+  };
 }

@@ -1,3 +1,5 @@
+export const MAX_STRING_LENGTH = 1000;
+
 export type FieldConfig =
   | string
   | {
@@ -9,6 +11,17 @@ export type FieldConfig =
 export type KeywordDefinition<T> = {
   name: string;
   triggers: string | string[];
+  /**
+   * Custom filter function for keyword-based collection filtering.
+   *
+   * @param collection - The current collection to filter
+   * @param matchedTerms - The trigger terms that matched this keyword
+   * @returns Filtered collection array
+   *
+   * @security Handler functions execute with full access to the collection
+   * and any data it contains. Only use trusted handler implementations.
+   * Avoid executing untrusted code or exposing sensitive data through handlers.
+   */
   handler: (collection: T[], matchedTerms: string[]) => T[];
 };
 
@@ -28,6 +41,7 @@ export interface SpotrOptions<T extends object> {
   debounce?: number;
   caseSensitive?: boolean;
   minMatchCharLength?: number;
+  maxStringLength?: number;
 }
 
 export interface ScoredResult<T> {

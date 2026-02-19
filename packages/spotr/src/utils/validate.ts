@@ -1,4 +1,5 @@
 import { SpotrError, ErrorCodes } from '../errors';
+import { MAX_STRING_LENGTH } from '../types';
 import type {
   SpotrOptions,
   FieldConfig,
@@ -121,6 +122,7 @@ export function validateOptions<T extends object>(
   debounce: number;
   caseSensitive: boolean;
   minMatchCharLength: number;
+  maxStringLength: number;
 } {
   const collection = validateCollection<T>(options.collection);
   validateFields(options.fields);
@@ -158,6 +160,19 @@ export function validateOptions<T extends object>(
     );
   }
 
+  if (options.maxStringLength !== undefined) {
+    if (
+      typeof options.maxStringLength !== 'number' ||
+      options.maxStringLength < 1 ||
+      !Number.isInteger(options.maxStringLength)
+    ) {
+      throw new SpotrError(
+        `maxStringLength must be a positive integer, received ${options.maxStringLength}`,
+        ErrorCodes.INVALID_MAX_STRING_LENGTH
+      );
+    }
+  }
+
   return {
     collection: collection as T[],
     threshold: options.threshold ?? 0.3,
@@ -165,5 +180,6 @@ export function validateOptions<T extends object>(
     debounce: options.debounce ?? 0,
     caseSensitive: options.caseSensitive ?? false,
     minMatchCharLength: options.minMatchCharLength ?? 1,
+    maxStringLength: options.maxStringLength ?? MAX_STRING_LENGTH,
   };
 }

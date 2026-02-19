@@ -6,6 +6,7 @@ import {
   validateOptions,
 } from '../src/utils/validate';
 import { SpotrError, ErrorCodes } from '../src/errors';
+import { MAX_STRING_LENGTH } from '../src/types';
 
 const items = [{ id: 1 }, { id: 2 }];
 const validFields = ['name'];
@@ -269,6 +270,7 @@ describe('validateOptions', () => {
     expect(result.debounce).toBe(0);
     expect(result.caseSensitive).toBe(false);
     expect(result.minMatchCharLength).toBe(1);
+    expect(result.maxStringLength).toBe(MAX_STRING_LENGTH);
     expect(result.collection).toEqual(items);
   });
 
@@ -281,11 +283,80 @@ describe('validateOptions', () => {
       debounce: 100,
       caseSensitive: true,
       minMatchCharLength: 2,
+      maxStringLength: 500,
     });
     expect(result.threshold).toBe(0.5);
     expect(result.limit).toBe(10);
     expect(result.debounce).toBe(100);
     expect(result.caseSensitive).toBe(true);
     expect(result.minMatchCharLength).toBe(2);
+    expect(result.maxStringLength).toBe(500);
+  });
+
+  describe('maxStringLength', () => {
+    it('throws for maxStringLength of 0', () => {
+      try {
+        validateOptions({
+          ...baseOptions,
+          maxStringLength: 0,
+        });
+        expect.fail('Expected SpotrError');
+      } catch (e) {
+        expect(e).toBeInstanceOf(SpotrError);
+        expect((e as SpotrError).code).toBe(
+          ErrorCodes.INVALID_MAX_STRING_LENGTH
+        );
+      }
+    });
+
+    it('throws for negative maxStringLength', () => {
+      try {
+        validateOptions({
+          ...baseOptions,
+          maxStringLength: -100,
+        });
+        expect.fail('Expected SpotrError');
+      } catch (e) {
+        expect(e).toBeInstanceOf(SpotrError);
+        expect((e as SpotrError).code).toBe(
+          ErrorCodes.INVALID_MAX_STRING_LENGTH
+        );
+      }
+    });
+
+    it('throws for non-integer maxStringLength', () => {
+      try {
+        validateOptions({
+          ...baseOptions,
+          maxStringLength: 100.5,
+        });
+        expect.fail('Expected SpotrError');
+      } catch (e) {
+        expect(e).toBeInstanceOf(SpotrError);
+        expect((e as SpotrError).code).toBe(
+          ErrorCodes.INVALID_MAX_STRING_LENGTH
+        );
+      }
+    });
+
+    it('throws for non-number maxStringLength', () => {
+      expect(() =>
+        validateOptions({
+          ...baseOptions,
+          maxStringLength: '100' as unknown as number,
+        })
+      ).toThrow(SpotrError);
+    });
+
+    it('accepts valid positive integer maxStringLength', () => {
+      const values = [1, 100, 1000, 5000, 10000];
+      for (const val of values) {
+        const result = validateOptions({
+          ...baseOptions,
+          maxStringLength: val,
+        });
+        expect(result.maxStringLength).toBe(val);
+      }
+    });
   });
 });

@@ -21,6 +21,7 @@ export class Spotr<T extends object> {
   private _debounce: number;
   private _caseSensitive: boolean;
   private _minMatchCharLength: number;
+  private _maxStringLength: number;
   private _debounceTimer: ReturnType<typeof setTimeout> | null = null;
   private _optionsSnapshot: SpotrOptions<T>;
 
@@ -33,6 +34,7 @@ export class Spotr<T extends object> {
     this._debounce = validated.debounce;
     this._caseSensitive = validated.caseSensitive;
     this._minMatchCharLength = validated.minMatchCharLength;
+    this._maxStringLength = validated.maxStringLength;
 
     this._fields = normalizeFieldConfig(options.fields, this._threshold);
 
@@ -100,7 +102,8 @@ export class Spotr<T extends object> {
           item,
           [],
           this._fields,
-          this._caseSensitive
+          this._caseSensitive,
+          this._maxStringLength
         );
         allWarnings.push(...warnings);
         return { item, score };
@@ -136,7 +139,8 @@ export class Spotr<T extends object> {
         item,
         validTokens,
         this._fields,
-        this._caseSensitive
+        this._caseSensitive,
+        this._maxStringLength
       );
       allWarnings.push(...warnings);
 

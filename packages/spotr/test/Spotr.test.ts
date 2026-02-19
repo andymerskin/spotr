@@ -954,4 +954,73 @@ describe('Spotr', () => {
       expect(result2.results).toHaveLength(1);
     });
   });
+
+  describe('maxStringLength', () => {
+    it('uses default maxStringLength when not specified', () => {
+      const spotr = new Spotr<Game>({
+        collection: games,
+        fields: ['title'],
+      });
+      const shortQuery = 'a'.repeat(500);
+      const result = spotr.query(shortQuery);
+      expect(result.warnings).toEqual([]);
+    });
+
+    it('truncates long strings and returns warnings', () => {
+      const longTitle = 'Witcher' + 'x'.repeat(2000);
+      const collectionWithLongTitle: Game[] = [
+        {
+          title: longTitle,
+          genres: ['rpg'],
+          releaseYear: 2015,
+          completed: true,
+        },
+      ];
+      const spotr = new Spotr<Game>({
+        collection: collectionWithLongTitle,
+        fields: ['title'],
+        maxStringLength: 500,
+      });
+      const result = spotr.query('witcher');
+      expect(result.warnings.length).toBeGreaterThan(0);
+      expect(result.warnings[0]).toContain('Target string truncated');
+    });
+
+    it('respects custom maxStringLength option', () => {
+      const collectionWithLongField: { title: string }[] = [
+        { title: 'a'.repeat(200) },
+        { title: 'b'.repeat(200) },
+      ];
+      const spotr = new Spotr({
+        collection: collectionWithLongField,
+        fields: ['title'],
+        maxStringLength: 50,
+      });
+      const result = spotr.query('a'.repeat(200));
+      expect(result.warnings.length).toBeGreaterThan(0);
+      expect(
+        result.warnings.some((w) => w.includes('Query string truncated'))
+      ).toBe(true);
+    });
+
+    it('still returns results after truncation', () => {
+      const longTitle = 'TheWitcherGame' + 'x'.repeat(1500);
+      const collectionWithLongTitle: Game[] = [
+        {
+          title: longTitle,
+          genres: ['rpg'],
+          releaseYear: 2015,
+          completed: true,
+        },
+      ];
+      const spotr = new Spotr<Game>({
+        collection: collectionWithLongTitle,
+        fields: ['title'],
+        maxStringLength: 100,
+      });
+      const result = spotr.query('witcher');
+      expect(result.results.length).toBeGreaterThan(0);
+      expect(result.warnings.length).toBeGreaterThan(0);
+    });
+  });
 });

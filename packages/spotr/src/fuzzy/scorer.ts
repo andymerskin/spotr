@@ -1,5 +1,6 @@
 import { fuzzyScore } from './levenshtein';
 import { getNestedValue } from '../utils/nested';
+import { MAX_STRING_LENGTH } from '../types';
 import type { FieldConfig, NormalizedFieldConfig } from '../types';
 
 export function normalizeFieldConfig(
@@ -22,7 +23,8 @@ export function scoreItem<T>(
   item: T,
   tokens: string[],
   fields: NormalizedFieldConfig[],
-  caseSensitive: boolean
+  caseSensitive: boolean,
+  maxStringLength: number = MAX_STRING_LENGTH
 ): { score: number; warnings: string[] } {
   let totalScore = 0;
   let totalWeight = 0;
@@ -42,13 +44,15 @@ export function scoreItem<T>(
 
     let bestTokenScore = 0;
     for (const token of tokens) {
-      const score = fuzzyScore(
+      const result = fuzzyScore(
         token,
         stringValue,
         field.threshold,
-        caseSensitive
+        caseSensitive,
+        maxStringLength
       );
-      bestTokenScore = Math.max(bestTokenScore, score);
+      warnings.push(...result.warnings);
+      bestTokenScore = Math.max(bestTokenScore, result.score);
     }
 
     totalScore += bestTokenScore * field.weight;
