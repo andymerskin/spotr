@@ -1,41 +1,16 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Sidebar from '../../components/Sidebar.astro';
-import FrameworkTabs from '../../components/FrameworkTabs.astro';
-import StackBlitzEmbed from '../../components/StackBlitzEmbed.astro';
-import { examples, frameworks } from '../../data/examples';
-import { marked } from 'marked';
+import { examples } from '../../data/examples';
 
 export function getStaticPaths() {
   return examples.map((ex) => ({ params: { example: ex.slug } }));
 }
 
 const { example } = Astro.params;
-// Read framework from query parameter, defaulting to 'react' if not present or invalid
-const frameworkParam = Astro.url.searchParams.get('framework');
-const validFrameworkIds: string[] = frameworks.map((f) => f.id);
-const framework: 'react' | 'vue' | 'svelte' | 'solid' | 'preact' = 
-  (frameworkParam && validFrameworkIds.includes(frameworkParam))
-    ? (frameworkParam as 'react' | 'vue' | 'svelte' | 'solid' | 'preact')
-    : 'react';
-
 const validExample = examples.find((e) => e.slug === example) ?? examples[0];
 const exampleSlug = example ?? validExample.slug;
-const exampleTitle = validExample.title;
-const exampleDescription = validExample.description;
-const descriptionHtml = exampleDescription ? marked.parse(exampleDescription) : '';
+const redirectUrl = `${import.meta.env.BASE_URL}examples/${exampleSlug}/react`;
 ---
 
-<Layout title={exampleTitle}>
-  <div class="flex min-h-screen bg-neutral-900">
-    <Sidebar currentExample={exampleSlug} />
-    <main class="ml-60 flex-1 p-8">
-      <h1 class="text-2xl font-bold mb-4 text-neutral-100">{exampleTitle}</h1>
-      {descriptionHtml && (
-        <div class="description-prose text-neutral-400 mb-4" set:html={descriptionHtml} />
-      )}
-      <FrameworkTabs currentFramework={framework} example={`examples/${exampleSlug}`} />
-      <StackBlitzEmbed framework={framework} example={exampleSlug} />
-    </main>
-  </div>
-</Layout>
+<meta http-equiv="refresh" content={`0;url=${redirectUrl}`} />
+<script is:inline set:html={`window.location.href = ${JSON.stringify(redirectUrl)};`} />
+

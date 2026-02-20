@@ -18,7 +18,7 @@ const { currentExample } = Astro.props;
     {examples.map((ex) => (
       <li>
         <a
-          href={`${import.meta.env.BASE_URL}examples/${ex.slug}`}
+          href={`${import.meta.env.BASE_URL}examples/${ex.slug}/react`}
           class:list={[
             'block text-left py-1 px-3 rounded text-sm text-neutral-400 hover:text-neutral-100 hover:bg-cyan-900/50',
             currentExample === ex.slug && 'font-bold bg-cyan-900 text-cyan-200!',

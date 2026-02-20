@@ -8,80 +8,35 @@ const { framework, example } = Astro.props;
 
 // Map frameworks to their App file paths where spotr configuration lives
 const frameworkAppFiles: Record<string, string> = {
-  react: "src/App.tsx",
-  vue: "src/App.vue",
-  svelte: "src/App.svelte",
-  solid: "src/App.tsx",
-  preact: "src/App.tsx",
+  react: 'src/App.tsx',
+  vue: 'src/App.vue',
+  svelte: 'src/App.svelte',
+  solid: 'src/App.tsx',
+  preact: 'src/App.tsx',
 };
 
-const branch = "master";
-// Use ctl=1 (click-to-load) to avoid timing/race condition issues with StackBlitz initialization
-// This defers loading until user interaction, which can prevent WebSocket connection failures
-// and the "Mounting environment" stuck state
-const embedParams = "embed=1&theme=dark&preset=node&ctl=1";
+const branch = 'master';
+const embedParamsObj = {
+  embed: '1',
+  theme: 'dark',
+  preset: 'node',
+  terminalHeight: '0',
+  file: frameworkAppFiles[framework] ?? frameworkAppFiles.react,
+};
+const embedParams = new URLSearchParams(embedParamsObj).toString();
 
-function buildStackBlitzSrc(fw: string, ex: string): string {
-  const file = frameworkAppFiles[fw] ?? frameworkAppFiles.react;
-  return `https://stackblitz.com/github/andymerskin/spotr/tree/${branch}/examples/${fw}/${ex}?${embedParams}&file=${file}`;
-}
-
-const src = buildStackBlitzSrc(framework, example);
+const src = `https://stackblitz.com/github/andymerskin/spotr/tree/${branch}/examples/${framework}/${example}?${embedParams}`;
 ---
 
 <div
   class="w-full border border-neutral-600 rounded-lg overflow-hidden"
   id="stackblitz-embed-container"
-  data-branch={branch}
-  data-example={example}
-  data-framework-files={JSON.stringify(frameworkAppFiles)}
-  data-embed-params={embedParams}
 >
   <iframe
     id="stackblitz-embed"
-    data-framework={framework}
-    data-example={example}
     src={src}
     title={`Spotr ${example} - ${framework} example`}
     class="w-full h-full min-h-[80dvh] overflow-hidden bg-black"
     sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation allow-modals"
   ></iframe>
 </div>
-<script is:inline>
-  (function initStackBlitzEmbed() {
-    const VALID_FRAMEWORKS = ['react', 'vue', 'svelte', 'solid', 'preact'];
-
-    function getFrameworkFromUrl() {
-      const params = new URLSearchParams(window.location.search);
-      const fw = params.get('framework');
-      return fw && VALID_FRAMEWORKS.includes(fw) ? fw : 'react';
-    }
-
-    function buildSrc(fw, ex, branch, frameworkFiles, embedParams) {
-      const file = frameworkFiles[fw] ?? frameworkFiles.react;
-      return `https://stackblitz.com/github/andymerskin/spotr/tree/${branch}/examples/${fw}/${ex}?${embedParams}&file=${file}`;
-    }
-
-    function sync() {
-      const container = document.getElementById('stackblitz-embed-container');
-      const iframe = document.getElementById('stackblitz-embed');
-      if (!container || !iframe) return;
-
-      const framework = getFrameworkFromUrl();
-      const example = container.dataset.example;
-      const branch = container.dataset.branch ?? 'master';
-      const frameworkFiles = JSON.parse(container.dataset.frameworkFiles ?? '{}');
-      // Use embedParams from dataset to ensure ctl=1 is included
-      const embedParams = container.dataset.embedParams ?? 'embed=1&theme=dark&preset=node&ctl=1';
-
-      iframe.src = buildSrc(framework, example, branch, frameworkFiles, embedParams);
-      iframe.dataset.framework = framework;
-      iframe.title = `Spotr ${example} - ${framework} example`;
-    }
-
-    // Only sync on popstate (back/forward navigation) - never on initial load
-    // The server already renders the correct iframe src, so we don't want to overwrite it
-    // and potentially interrupt StackBlitz's loading sequence
-    window.addEventListener('popstate', sync);
-  })();
-</script>

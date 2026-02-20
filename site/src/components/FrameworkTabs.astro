@@ -8,114 +8,31 @@ interface Props {
 }
 
 const { currentFramework, example } = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 
-<div class="flex gap-2 mb-4 flex-wrap" id="framework-tabs" data-initial-framework={currentFramework}>
+<div class="flex gap-2 mb-4 flex-wrap" id="framework-tabs">
   {frameworks.map((f) => {
-    const href = `${import.meta.env.BASE_URL}${example}?framework=${f.id}`;
+    const href = `${base}examples/${example}/${f.id}`;
+    const isActive = f.id === currentFramework;
     return (
       <a
         href={href}
         data-framework={f.id}
         class:list={[
-          'px-4 py-2 rounded-lg transition-colors',
-          currentFramework === f.id
+          'px-4 py-2 rounded-lg transition-colors cursor-pointer',
+          isActive
             ? 'bg-neutral-700 text-white'
-            : 'text-neutral-400 hover:text-neutral-200',
+            : 'bg-neutral-800 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-700',
         ]}
       >
-        <Icon name={f.logo} class="mr-2 inline-block" size={20} />
+        <Icon
+          name={f.logo}
+          class="mr-2 inline-block"
+          size={20}
+        />
         {f.name}
       </a>
     );
   })}
 </div>
-<script is:inline>
-  (function syncTabsToUrl() {
-    const VALID_FRAMEWORKS = ['react', 'vue', 'svelte', 'solid', 'preact'];
-    let initialSyncDone = false;
-
-    function getFrameworkFromUrl() {
-      const params = new URLSearchParams(window.location.search);
-      const fw = params.get('framework');
-      return fw && VALID_FRAMEWORKS.includes(fw) ? fw : 'react';
-    }
-
-    function sync(skipInitialCheck) {
-      const framework = getFrameworkFromUrl();
-      const tabsEl = document.getElementById('framework-tabs');
-      if (!tabsEl) return;
-
-      // On initial load, check server-rendered state first
-      if (!initialSyncDone && !skipInitialCheck) {
-        const initialFramework = tabsEl.getAttribute('data-initial-framework');
-        if (initialFramework === framework) {
-          // Server state matches URL - don't touch DOM at all
-          initialSyncDone = true;
-          return;
-        }
-        initialSyncDone = true;
-      }
-
-      // Check what's actually rendered - if it matches URL, do nothing
-      const currentActive = (() => {
-        for (const a of tabsEl.querySelectorAll('a[data-framework]')) {
-          if (a.classList.contains('bg-neutral-700') && a.classList.contains('text-white')) {
-            return a.getAttribute('data-framework');
-          }
-        }
-        return null;
-      })();
-      
-      if (currentActive === framework) {
-        return;
-      }
-
-      // Update tabs to match URL - use explicit add/remove instead of toggle
-      for (const a of tabsEl.querySelectorAll('a[data-framework]')) {
-        const isActive = a.getAttribute('data-framework') === framework;
-        
-        if (isActive) {
-          a.classList.add('bg-neutral-700', 'text-white');
-          a.classList.remove('text-neutral-400');
-        } else {
-          a.classList.remove('bg-neutral-700', 'text-white');
-          a.classList.add('text-neutral-400');
-        }
-      }
-    }
-
-    // For initial load, check server state BEFORE any DOM queries
-    function initialSync() {
-      const tabsEl = document.getElementById('framework-tabs');
-      if (!tabsEl) {
-        // DOM not ready, try again later
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initialSync);
-        } else {
-          setTimeout(initialSync, 10);
-        }
-        return;
-      }
-
-      const initialFramework = tabsEl.getAttribute('data-initial-framework');
-      const urlFramework = getFrameworkFromUrl();
-      
-      if (initialFramework === urlFramework) {
-        // Perfect match - don't sync at all
-        initialSyncDone = true;
-        return;
-      }
-      
-      // Mismatch - sync (shouldn't happen normally)
-      sync(true);
-      initialSyncDone = true;
-    }
-
-    // Start initial sync check
-    initialSync();
-
-    // Sync on browser back/forward navigation (skip initial check)
-    window.addEventListener('popstate', () => sync(true));
-  })();
-</script>
