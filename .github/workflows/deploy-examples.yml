@@ -29,15 +29,15 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build spotr library
+        run: bun run --filter spotr build
+
       - name: Typecheck examples
         run: bun run examples:typecheck
 
       - name: Typecheck site
         working-directory: site
         run: bun run typecheck
-
-      - name: Build spotr library
-        run: bun run --filter spotr build
 
       - name: Build Astro site
         working-directory: site
