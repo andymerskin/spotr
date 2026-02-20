@@ -16,7 +16,10 @@ const frameworkAppFiles: Record<string, string> = {
 };
 
 const branch = "master";
-const embedParams = "embed=1&theme=dark&preset=node";
+// Use ctl=1 (click-to-load) to avoid timing/race condition issues with StackBlitz initialization
+// This defers loading until user interaction, which can prevent WebSocket connection failures
+// and the "Mounting environment" stuck state
+const embedParams = "embed=1&theme=dark&preset=node&ctl=1";
 
 function buildStackBlitzSrc(fw: string, ex: string): string {
   const file = frameworkAppFiles[fw] ?? frameworkAppFiles.react;
@@ -68,21 +71,17 @@ const src = buildStackBlitzSrc(framework, example);
       const example = container.dataset.example;
       const branch = container.dataset.branch ?? 'master';
       const frameworkFiles = JSON.parse(container.dataset.frameworkFiles ?? '{}');
-      const embedParams = container.dataset.embedParams ?? 'embed=1&theme=dark&preset=node';
+      // Use embedParams from dataset to ensure ctl=1 is included
+      const embedParams = container.dataset.embedParams ?? 'embed=1&theme=dark&preset=node&ctl=1';
 
       iframe.src = buildSrc(framework, example, branch, frameworkFiles, embedParams);
       iframe.dataset.framework = framework;
       iframe.title = `Spotr ${example} - ${framework} example`;
     }
 
-    function run() {
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', run);
-        return;
-      }
-      sync();
-    }
-    run();
+    // Only sync on popstate (back/forward navigation) - never on initial load
+    // The server already renders the correct iframe src, so we don't want to overwrite it
+    // and potentially interrupt StackBlitz's loading sequence
     window.addEventListener('popstate', sync);
   })();
 </script>
