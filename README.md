@@ -4,6 +4,8 @@
 
 A powerful and minimal client-side fuzzy search library with zero dependencies.
 
+[![bundle size](https://img.shields.io/badge/bundle%20size-3.4%20kB%20gzipped-brightgreen)](https://bundlephobia.com/package/spotr)
+
 ## Features
 
 - **Zero Dependencies** - Custom Levenshtein implementation, no external deps
