@@ -18,6 +18,7 @@
     "@replit/codemirror-lang-svelte": "^6.0.0",
     "@iconify-json/logos": "^1.2.10",
     "@iconify/react": "^6.0.2",
+    "@stackblitz/sdk": "^1.9.0",
     "@tailwindcss/vite": "^4.1.18",
     "@uiw/react-codemirror": "^4.23.0",
     "astro": "^5.17.1",

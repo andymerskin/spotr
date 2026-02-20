@@ -16,27 +16,30 @@ const frameworkAppFiles: Record<string, string> = {
 };
 
 const branch = 'master';
-const embedParamsObj = {
-  embed: '1',
-  theme: 'dark',
-  preset: 'node',
-  terminalHeight: '0',
-  file: frameworkAppFiles[framework] ?? frameworkAppFiles.react,
-};
-const embedParams = new URLSearchParams(embedParamsObj).toString();
-
-const src = `https://stackblitz.com/github/andymerskin/spotr/tree/${branch}/examples/${framework}/${example}?${embedParams}`;
+const repoPath = `andymerskin/spotr/tree/${branch}/examples/${framework}/${example}`;
+const openFile = frameworkAppFiles[framework] ?? frameworkAppFiles.react;
 ---
 
 <div
-  class="w-full border border-neutral-600 rounded-lg overflow-hidden"
-  id="stackblitz-embed-container"
+  class="w-full border border-neutral-600 rounded-lg overflow-hidden min-h-[80dvh]"
+  id="stackblitz-embed"
+  data-repo-path={repoPath}
+  data-open-file={openFile}
 >
-  <iframe
-    id="stackblitz-embed"
-    src={src}
-    title={`Spotr ${example} - ${framework} example`}
-    class="w-full h-full min-h-[80dvh] overflow-hidden bg-black"
-    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation allow-modals"
-  ></iframe>
 </div>
+
+<script>
+  import sdk from '@stackblitz/sdk';
+
+  const container = document.getElementById('stackblitz-embed');
+  if (container) {
+    const repoPath = container.dataset.repoPath ?? '';
+    const openFile = container.dataset.openFile ?? 'src/App.tsx';
+
+    sdk.embedGithubProject('stackblitz-embed', repoPath, {
+      theme: 'dark',
+      terminalHeight: 0,
+      openFile,
+    });
+  }
+</script>

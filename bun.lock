@@ -17,7 +17,7 @@
     },
     "packages/spotr": {
       "name": "spotr",
-      "version": "1.0.0-alpha.2",
+      "version": "1.0.0-alpha.3",
       "devDependencies": {
         "@eslint/js": "^10.0.1",
         "@preact/preset-vite": "^2.10.0",
@@ -70,6 +70,7 @@
         "@iconify-json/logos": "^1.2.10",
         "@iconify/react": "^6.0.2",
         "@replit/codemirror-lang-svelte": "^6.0.0",
+        "@stackblitz/sdk": "^1.9.0",
         "@tailwindcss/vite": "^4.1.18",
         "@uiw/react-codemirror": "^4.23.0",
         "astro": "^5.17.1",
@@ -491,6 +492,8 @@
     "@shikijs/types": ["@shikijs/types@3.22.0", "", { "dependencies": { "@shikijs/vscode-textmate": "^10.0.2", "@types/hast": "^3.0.4" } }, "sha512-491iAekgKDBFE67z70Ok5a8KBMsQ2IJwOWw3us/7ffQkIBCyOQfm/aNwVMBUriP02QshIfgHCBSIYAl3u2eWjg=="],
 
     "@shikijs/vscode-textmate": ["@shikijs/vscode-textmate@10.0.2", "", {}, "sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg=="],
+
+    "@stackblitz/sdk": ["@stackblitz/sdk@1.11.0", "", {}, "sha512-DFQGANNkEZRzFk1/rDP6TcFdM82ycHE+zfl9C/M/jXlH68jiqHWHFMQURLELoD8koxvu/eW5uhg94NSAZlYrUQ=="],
 
     "@sveltejs/acorn-typescript": ["@sveltejs/acorn-typescript@1.0.9", "", { "peerDependencies": { "acorn": "^8.9.0" } }, "sha512-lVJX6qEgs/4DOcRTpo56tmKzVPtoWAaVbL4hfO7t7NVwl9AAXzQR6cihesW1BmNMPl+bK6dreu2sOKBP2Q9CIA=="],
 
