@@ -732,6 +732,8 @@ Husky is configured (`prepare` script) to run pre-commit hooks. Ensure all check
 
 The release script (`bun run release`) runs `validate` (format:check, lint, typecheck, test:coverage, examples:typecheck, build) and bundle size check before proceeding with version bumping and publishing. **Do not run `bun run release` without approval** (see Boundaries & Permissions section). The script automates the release process and includes safety checks via `prepack` and `prepublishOnly` lifecycle hooks in `packages/spotr/package.json`.
 
+**npm Workspace Bug Workaround:** Due to a known npm bug with workspaces (npm/cli#4017, npm/cli#6337), `npm version` may not automatically commit and tag changes when the package.json is in a subdirectory (`packages/spotr/`). The release script (`scripts/release.ts`) automatically detects this by checking for uncommitted package.json changes and missing git tags after running `npm version`. If npm version failed to create a commit or tag, the script will create them manually before proceeding with the release process.
+
 ### Commit Guidelines
 
 - Commit shared file changes and synced files together when modifying `examples/shared/`
