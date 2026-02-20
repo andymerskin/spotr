@@ -23,6 +23,8 @@
     "examples:dev": "bun run scripts/dev-examples.ts",
     "release": "bun run scripts/release.ts",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "validate": "bun run format:check && bun run lint && bun run typecheck && bun run test:coverage && bun run examples:typecheck && bun run build",
     "prepare": "husky"
   },
   "devDependencies": {
