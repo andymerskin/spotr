@@ -9,7 +9,7 @@ This document provides comprehensive guidelines for AI agents working on the Spo
 ### Core Technologies
 
 - **Language**: TypeScript (strict mode enabled)
-- **Package Manager**: Bun (v1.1.38)
+- **Package Manager**: Bun (v1.3.9)
 - **Build Tool**: Vite (v6.4.1) with `preserveModules` for tree-shaking
 - **Testing**: Vitest (v3.2.4) with globals enabled
 - **Linting**: ESLint with TypeScript ESLint
@@ -36,7 +36,7 @@ The library provides framework-specific integrations for:
 
 ### Prerequisites
 
-- Bun v1.1.38 (specified in `packageManager` field)
+- Bun v1.3.9 (specified in `packageManager` field)
 - Node.js (for running examples with npm)
 
 ### Initial Setup
