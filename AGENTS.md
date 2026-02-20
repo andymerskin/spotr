@@ -4,7 +4,7 @@ This document provides comprehensive guidelines for AI agents working on the Spo
 
 ## Project Overview & Tech Stack
 
-**Spotr** is a powerful and minimal client-side fuzzy search library with zero dependencies.
+**Spotr** is a powerful fuzzy search library for client-side collections in TypeScript.
 
 ### Core Technologies
 

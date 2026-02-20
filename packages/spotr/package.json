@@ -1,7 +1,7 @@
 {
   "name": "spotr",
   "version": "1.0.0-alpha.3",
-  "description": "A powerful and minimal client-side fuzzy search library",
+  "description": "A powerful fuzzy search library for client-side collections in TypeScript",
   "author": "Andy Merskin <andymerskin@gmail.com>",
   "license": "MIT",
   "repository": "https://github.com/andymerskin/spotr",
