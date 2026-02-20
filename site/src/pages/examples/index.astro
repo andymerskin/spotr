@@ -1,3 +1,17 @@
 ---
-return Astro.redirect(import.meta.env.BASE_URL + 'examples/fields-basic');
+const redirectUrl = import.meta.env.BASE_URL + 'examples/fields-basic';
+const refreshContent = `0;url=${redirectUrl}`;
 ---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="refresh" content={refreshContent} />
+    <link rel="canonical" href={new URL(redirectUrl, Astro.url.origin).href} />
+    <script is:inline define:vars={{ redirectUrl }}>location.replace(redirectUrl)</script>
+  </head>
+  <body style="margin:0;background:#0a0a0a;color:#a3a3a3;font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh">
+    <a href={redirectUrl} style="color:#22d3ee;text-decoration:none">Go to examples</a>
+  </body>
+</html>
