@@ -1,17 +1,37 @@
 ---
-const redirectUrl = import.meta.env.BASE_URL + 'examples/fields-basic';
-const refreshContent = `0;url=${redirectUrl}`;
+import Layout from '../../layouts/Layout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import FrameworkTabs from '../../components/FrameworkTabs.astro';
+import StackBlitzEmbed from '../../components/StackBlitzEmbed.astro';
+import { examples, frameworks } from '../../data/examples';
+import { marked } from 'marked';
+
+// Use the first example as the default, making it easy to change later
+const defaultExample = examples[0];
+const exampleSlug = defaultExample.slug;
+const exampleTitle = defaultExample.title;
+const exampleDescription = defaultExample.description;
+const descriptionHtml = exampleDescription ? marked.parse(exampleDescription) : '';
+
+// Keep the framework query parameter logic
+const frameworkParam = Astro.url.searchParams.get('framework');
+const validFrameworkIds: string[] = frameworks.map((f) => f.id);
+const framework: 'react' | 'vue' | 'svelte' | 'solid' | 'preact' = 
+  (frameworkParam && validFrameworkIds.includes(frameworkParam))
+    ? (frameworkParam as 'react' | 'vue' | 'svelte' | 'solid' | 'preact')
+    : 'react';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta http-equiv="refresh" content={refreshContent} />
-    <link rel="canonical" href={new URL(redirectUrl, Astro.url.origin).href} />
-    <script is:inline define:vars={{ redirectUrl }}>location.replace(redirectUrl)</script>
-  </head>
-  <body style="margin:0;background:#0a0a0a;color:#a3a3a3;font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh">
-    <a href={redirectUrl} style="color:#22d3ee;text-decoration:none">Go to examples</a>
-  </body>
-</html>
+
+<Layout title={exampleTitle}>
+  <div class="flex min-h-screen bg-neutral-900">
+    <Sidebar currentExample={exampleSlug} />
+    <main class="ml-60 flex-1 p-8">
+      <h1 class="text-2xl font-bold mb-4 text-neutral-100">{exampleTitle}</h1>
+      {descriptionHtml && (
+        <div class="description-prose text-neutral-400 mb-4" set:html={descriptionHtml} />
+      )}
+      <FrameworkTabs currentFramework={framework} example={`examples/${exampleSlug}`} />
+      <StackBlitzEmbed framework={framework} example={exampleSlug} />
+    </main>
+  </div>
+</Layout>
