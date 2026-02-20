@@ -26,7 +26,9 @@ const { example, framework } = Astro.params;
 // Validate framework param, fallback to 'react' if invalid
 const validFrameworkIds: string[] = frameworks.map((f) => f.id);
 const validFramework: 'react' | 'vue' | 'svelte' | 'solid' | 'preact' =
-  framework && typeof framework === 'string' && validFrameworkIds.includes(framework)
+  framework &&
+  typeof framework === 'string' &&
+  validFrameworkIds.includes(framework)
     ? (framework as 'react' | 'vue' | 'svelte' | 'solid' | 'preact')
     : 'react';
 
@@ -34,7 +36,9 @@ const validExample = examples.find((e) => e.slug === example) ?? examples[0];
 const exampleSlug = example ?? validExample.slug;
 const exampleTitle = validExample.title;
 const exampleDescription = validExample.description;
-const descriptionHtml = exampleDescription ? marked.parse(exampleDescription) : '';
+const descriptionHtml = exampleDescription
+  ? marked.parse(exampleDescription)
+  : '';
 ---
 
 <Layout title={exampleTitle}>
@@ -42,9 +46,14 @@ const descriptionHtml = exampleDescription ? marked.parse(exampleDescription) : 
     <Sidebar currentExample={exampleSlug} />
     <main class="ml-60 flex-1 p-8">
       <h1 class="text-2xl font-bold mb-4 text-neutral-100">{exampleTitle}</h1>
-      {descriptionHtml && (
-        <div class="description-prose text-neutral-400 mb-4" set:html={descriptionHtml} />
-      )}
+      {
+        descriptionHtml && (
+          <div
+            class="description-prose text-neutral-400 mb-4"
+            set:html={descriptionHtml}
+          />
+        )
+      }
       <FrameworkTabs currentFramework={validFramework} example={exampleSlug} />
       <StackBlitzEmbed framework={validFramework} example={exampleSlug} />
     </main>

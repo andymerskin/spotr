@@ -12,27 +12,25 @@ const base = import.meta.env.BASE_URL;
 ---
 
 <div class="flex gap-2 mb-4 flex-wrap" id="framework-tabs">
-  {frameworks.map((f) => {
-    const href = `${base}examples/${example}/${f.id}`;
-    const isActive = f.id === currentFramework;
-    return (
-      <a
-        href={href}
-        data-framework={f.id}
-        class:list={[
-          'px-4 py-2 rounded-lg transition-colors cursor-pointer',
-          isActive
-            ? 'bg-neutral-700 text-white'
-            : 'bg-neutral-800 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-700',
-        ]}
-      >
-        <Icon
-          name={f.logo}
-          class="mr-2 inline-block"
-          size={20}
-        />
-        {f.name}
-      </a>
-    );
-  })}
+  {
+    frameworks.map((f) => {
+      const href = `${base}examples/${example}/${f.id}`;
+      const isActive = f.id === currentFramework;
+      return (
+        <a
+          href={href}
+          data-framework={f.id}
+          class:list={[
+            'px-4 py-2 rounded-lg transition-colors cursor-pointer',
+            isActive
+              ? 'bg-neutral-700 text-white'
+              : 'bg-neutral-800 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-700',
+          ]}
+        >
+          <Icon name={f.logo} class="mr-2 inline-block" size={20} />
+          {f.name}
+        </a>
+      );
+    })
+  }
 </div>

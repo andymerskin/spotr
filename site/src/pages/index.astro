@@ -1,14 +1,14 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import LandingSearchDemo from "../components/LandingSearchDemo";
-import HeaderCodeExample from "../components/HeaderCodeExample";
-import InstallCommand from "../components/InstallCommand";
-import peopleJson from "../data/people.json";
-import gamesJson from "../data/games.json";
-import type { Person, Game } from "../types";
-import { Icon } from "astro-icon/components";
-import spotrPkg from "../../../packages/spotr/package.json";
-import { getBundleSize } from "../utils/bundleSize";
+import Layout from '../layouts/Layout.astro';
+import LandingSearchDemo from '../components/LandingSearchDemo';
+import HeaderCodeExample from '../components/HeaderCodeExample';
+import InstallCommand from '../components/InstallCommand';
+import peopleJson from '../data/people.json';
+import gamesJson from '../data/games.json';
+import type { Person, Game } from '../types';
+import { Icon } from 'astro-icon/components';
+import spotrPkg from '../../../packages/spotr/package.json';
+import { getBundleSize } from '../utils/bundleSize';
 
 const bundleSize = getBundleSize(import.meta.url);
 const peopleData = peopleJson as Person[];
@@ -124,7 +124,9 @@ const gamesData = gamesJson as Game[];
               class="hover:text-cyan-400 transition-colors flex items-center gap-2"
             >
               v{spotrPkg.version}
-              <span class="px-1.5 py-0.5 text-xs font-medium bg-neutral-800 text-neutral-300 rounded border border-neutral-700">
+              <span
+                class="px-1.5 py-0.5 text-xs font-medium bg-neutral-800 text-neutral-300 rounded border border-neutral-700"
+              >
                 {bundleSize} gzipped
               </span>
             </a>
@@ -145,8 +147,8 @@ const gamesData = gamesJson as Game[];
         <p class="mt-4 text-neutral-400 lg:max-w-2/3">
           This example demonstrates a few different configuration options used,
           with fields setup for fuzzy matching, keywords for exact subsets, and
-          combining keywords with fuzzy search terms. Notice the results are scored
-          based on the fuzzy field matches.
+          combining keywords with fuzzy search terms. Notice the results are
+          scored based on the fuzzy field matches.
         </p>
 
         {/* Interactive Demo */}
@@ -213,7 +215,9 @@ const gamesData = gamesJson as Game[];
             class="hover:text-cyan-400 w-fit flex items-center gap-2"
           >
             v{spotrPkg.version}
-            <span class="px-1.5 py-0.5 text-xs font-medium bg-neutral-800 text-neutral-300 rounded border border-neutral-700">
+            <span
+              class="px-1.5 py-0.5 text-xs font-medium bg-neutral-800 text-neutral-300 rounded border border-neutral-700"
+            >
               {bundleSize} gzipped
             </span>
           </a>

@@ -7,5 +7,7 @@ const redirectUrl = `${import.meta.env.BASE_URL}examples/${defaultExample.slug}/
 ---
 
 <meta http-equiv="refresh" content={`0;url=${redirectUrl}`} />
-<script is:inline set:html={`window.location.href = ${JSON.stringify(redirectUrl)};`} />
-
+<script
+  is:inline
+  set:html={`window.location.href = ${JSON.stringify(redirectUrl)};`}
+/>
