@@ -6,7 +6,7 @@ export const { getStaticPaths, GET } = await OGImageRoute({
     spotr: {
       title: 'Spotr',
       description:
-        'A powerful fuzzy search library for client-side collections.',
+        'A powerful fuzzy search library for client-side collections in TypeScript',
     },
   },
   getImageOptions: (_path, page) => ({
@@ -26,7 +26,7 @@ export const { getStaticPaths, GET } = await OGImageRoute({
     ],
     border: {
       color: [34, 211, 238], // cyan-400 (#22d3ee)
-      width: 8,
+      width: 12,
       side: 'inline-start', // left side
     },
     font: {
