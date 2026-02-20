@@ -7,6 +7,7 @@ on:
     paths:
       - 'site/**'
       - 'examples/**'
+      - 'packages/spotr/package.json'
       - '.github/workflows/deploy-examples.yml'
   workflow_dispatch:
 
