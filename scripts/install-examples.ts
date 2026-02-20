@@ -17,10 +17,12 @@ for (const framework of frameworks) {
     console.log(`📦 Installing dependencies for ${framework}/${example}...`);
 
     try {
-      execSync('npm install', {
-        cwd: exampleDir,
-        stdio: 'inherit',
-      });
+      if (!process.env.CI) {
+        execSync('npm install', {
+          cwd: exampleDir,
+          stdio: 'inherit',
+        });
+      }
       execSync('bun install', {
         cwd: exampleDir,
         stdio: 'inherit',

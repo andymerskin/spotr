@@ -26,13 +26,31 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
 
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
       - name: Install dependencies
         run: bun install
 
       - name: Build spotr library
         run: bun run --filter spotr build
 
+      - name: Cache example dependencies
+        id: cache-examples
+        uses: actions/cache@v4
+        with:
+          path: examples/*/*/node_modules
+          key: ${{ runner.os }}-examples-deps-${{ hashFiles('examples/**/package.json', 'examples/**/package-lock.json', 'examples/**/bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-examples-deps-
+
       - name: Install example dependencies
+        if: steps.cache-examples.outputs.cache-hit != 'true'
         run: bun run examples:install
 
       - name: Typecheck examples
