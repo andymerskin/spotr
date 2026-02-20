@@ -27,6 +27,7 @@
     "validate": "bun run format:check && bun run lint && bun run typecheck && bun run test:coverage && bun run examples:typecheck && bun run build",
     "size:check": "bun run build && bun run scripts/check-bundle-size.ts",
     "bench": "bun run --filter spotr bench",
+    "clean": "bun x rimraf packages/spotr/dist packages/spotr/coverage",
     "prepare": "husky"
   },
   "devDependencies": {
