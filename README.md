@@ -4,7 +4,7 @@
 
 A powerful and minimal client-side fuzzy search library with zero dependencies.
 
-[![bundle size](https://img.shields.io/badge/bundle%20size-3.4%20kB%20gzipped-brightgreen)](https://bundlephobia.com/package/spotr)
+[![bundle size](https://img.shields.io/badge/bundle%20size-3.4%20kB%20gzipped-brightgreen)](https://bundlephobia.com/package/spotr) [![CI/CD](https://github.com/andymerskin/spotr/actions/workflows/ci.yml/badge.svg)](https://github.com/andymerskin/spotr/actions/workflows/ci.yml)
 
 ## Features
 
