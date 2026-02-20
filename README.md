@@ -290,7 +290,11 @@ To release a new version to npm, use the release script:
 bun run release
 ```
 
-The script automates the release process: it runs `validate` (format check, lint, typecheck, test coverage, examples typecheck, and build) and a bundle size check (enforcing a 5KB gzipped limit) before proceeding with version bumping, commit amending, and publishing. You can also pass a version bump type directly:
+The script automates the release process: it runs `validate` (format check, lint, typecheck, test coverage, examples typecheck, and build) and a bundle size check (enforcing a 5KB gzipped limit) before proceeding with version bumping, commit amending, and publishing.
+
+**Note:** Due to a known npm bug with workspaces, `npm version` may not automatically commit and tag changes when the package.json is in a subdirectory. The release script automatically detects this and creates the commit and tag manually if needed.
+
+You can also pass a version bump type directly:
 
 ```sh
 bun run release patch    # for patch releases

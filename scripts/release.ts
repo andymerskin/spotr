@@ -213,6 +213,41 @@ async function phase2Release() {
   console.log(`\n✓ New version: ${newVersion}`);
   console.log(`✓ Git tag: ${tag}`);
 
+  // Check if npm version created a commit and tag (known npm workspace bug)
+  const gitStatusAfterVersion = execWithOutput('git status --porcelain');
+  const packageJsonModified = gitStatusAfterVersion.includes(
+    'packages/spotr/package.json'
+  );
+
+  // Check if tag exists
+  let tagExists = false;
+  try {
+    execSync(`git rev-parse ${tag}`, {
+      cwd: repoRoot,
+      stdio: 'pipe',
+    });
+    tagExists = true;
+  } catch {
+    // Tag doesn't exist, tagExists remains false
+  }
+
+  // Create commit if npm version didn't (workspace bug workaround)
+  if (packageJsonModified) {
+    console.log(
+      '\n⚠️  npm version did not create a commit (workspace bug). Creating commit manually...'
+    );
+    exec('git add packages/spotr/package.json');
+    exec(`git commit -m "${newVersion}"`);
+  }
+
+  // Create tag if npm version didn't
+  if (!tagExists) {
+    console.log(
+      '\n⚠️  npm version did not create a tag (workspace bug). Creating tag manually...'
+    );
+    exec(`git tag -a ${tag} -m "${newVersion}"`);
+  }
+
   // Amend commit with CHANGELOG and dist
   console.log('\n✓ Amending commit with CHANGELOG.md and dist/...');
   exec('git add CHANGELOG.md packages/spotr/dist/');
