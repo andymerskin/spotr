@@ -1,7 +1,10 @@
 <script lang="ts">
   import { derived } from 'svelte/store';
   import { createSpotr } from 'spotr/svelte';
-  import peopleData from './data/people.json';
+  import peopleJson from './data/people.json';
+  import type { Person } from './types';
+
+  const peopleData: Person[] = peopleJson as Person[];
   import { getNestedValue, highlightCellValue } from './utils';
 
   

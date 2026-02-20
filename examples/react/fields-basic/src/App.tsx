@@ -1,7 +1,10 @@
 import { useState, useMemo } from 'react';
 import { useSpotr } from 'spotr/react';
-import peopleData from './data/people.json';
+import peopleJson from './data/people.json';
+import type { Person } from './types';
 import { getNestedValue, highlightCellValue } from './utils';
+
+const peopleData: Person[] = peopleJson as Person[];
 
 const title = 'Fields - Basic';
 const columns = ['firstName', 'lastName', 'email'];

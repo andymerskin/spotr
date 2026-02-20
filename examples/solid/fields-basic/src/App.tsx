@@ -1,8 +1,11 @@
 import { createMemo } from 'solid-js';
 import { createSpotr } from 'spotr/solid';
-import peopleData from './data/people.json';
+import peopleJson from './data/people.json';
+import type { Person } from './types';
 import { getNestedValue, highlightCellValue } from './utils';
 import './styles.css';
+
+const peopleData: Person[] = peopleJson as Person[];
 
 const title = 'Fields - Basic';
 const columns = ['firstName', 'lastName', 'email'];

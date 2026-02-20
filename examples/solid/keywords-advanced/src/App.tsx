@@ -1,9 +1,11 @@
 import { createMemo } from 'solid-js';
 import { createSpotr } from 'spotr/solid';
-import gamesData from './data/games.json';
+import gamesJson from './data/games.json';
 import { getNestedValue, highlightCellValue } from './utils';
 import type { Game } from './types';
 import './styles.css';
+
+const gamesData: Game[] = gamesJson as Game[];
 
 const title = 'Keywords - Advanced';
 const columns = [

@@ -1,6 +1,9 @@
 import { useState, useMemo } from 'preact/hooks';
 import { useSpotr } from 'spotr/preact';
-import peopleData from './data/people.json';
+import peopleJson from './data/people.json';
+import type { Person } from './types';
+
+const peopleData: Person[] = peopleJson as Person[];
 import { getNestedValue, highlightCellValue } from './utils';
 
 const title = 'Fields - Nested';

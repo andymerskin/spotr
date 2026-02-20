@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useSpotr } from 'spotr/react';
+import type { Person, Game } from '../types';
 
 function highlightMatches(
   text: string | number,
@@ -101,25 +102,6 @@ function highlightMatches(
       )}
     </>
   );
-}
-
-interface Person {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  address: { city: string; country: string };
-  company: { name: string; location?: { city: string } };
-  subscribed: boolean;
-}
-
-interface Game {
-  id: number;
-  title: string;
-  platforms: string[];
-  releaseYear: number;
-  completed: boolean;
-  metadata: { developer: string; publisher: string };
 }
 
 interface Props {
@@ -275,17 +257,11 @@ export default function LandingSearchDemo({ people, games }: Props) {
 
   const result = useMemo(() => {
     const activeSpotr = dataset === 'people' ? peopleSpotr : gamesSpotr;
-    const activeCollection = dataset === 'people' ? people : games;
-
     if (!query.trim()) {
       const sorted =
         dataset === 'people'
-          ? [...activeCollection].sort((a, b) =>
-              a.firstName.localeCompare(b.firstName)
-            )
-          : [...activeCollection].sort((a, b) =>
-              a.title.localeCompare(b.title)
-            );
+          ? [...people].sort((a, b) => a.firstName.localeCompare(b.firstName))
+          : [...games].sort((a, b) => a.title.localeCompare(b.title));
       return {
         results: sorted.slice(0, LIMIT).map((item) => ({
           item,

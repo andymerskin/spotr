@@ -1,9 +1,11 @@
 <script lang="ts">
   import { derived } from 'svelte/store';
   import { createSpotr } from 'spotr/svelte';
-  import gamesData from './data/games.json';
+  import gamesJson from './data/games.json';
   import { getNestedValue, highlightCellValue } from './utils';
   import type { Game } from './types';
+
+  const gamesData: Game[] = gamesJson as Game[];
 
   const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 

@@ -3,13 +3,16 @@ import Layout from "../layouts/Layout.astro";
 import LandingSearchDemo from "../components/LandingSearchDemo";
 import HeaderCodeExample from "../components/HeaderCodeExample";
 import InstallCommand from "../components/InstallCommand";
-import peopleData from "../data/people.json";
-import gamesData from "../data/games.json";
+import peopleJson from "../data/people.json";
+import gamesJson from "../data/games.json";
+import type { Person, Game } from "../types";
 import { Icon } from "astro-icon/components";
 import spotrPkg from "../../../packages/spotr/package.json";
 import { getBundleSize } from "../utils/bundleSize";
 
 const bundleSize = getBundleSize(import.meta.url);
+const peopleData = peopleJson as Person[];
+const gamesData = gamesJson as Game[];
 ---
 
 <Layout title="Spotr">

@@ -1,8 +1,10 @@
 import { useState, useMemo } from 'preact/hooks';
 import { useSpotr } from 'spotr/preact';
-import gamesData from './data/games.json';
+import gamesJson from './data/games.json';
 import { getNestedValue, highlightCellValue } from './utils';
 import type { Game } from './types';
+
+const gamesData: Game[] = gamesJson as Game[];
 
 const title = 'Keywords - Basic';
 const columns = [

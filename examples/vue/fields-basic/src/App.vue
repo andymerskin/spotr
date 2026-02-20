@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useSpotr } from 'spotr/vue';
-import peopleData from './data/people.json';
+import peopleJson from './data/people.json';
+import type { Person } from './types';
 import { getNestedValue, highlightCellValue } from './utils';
+
+const peopleData: Person[] = peopleJson as Person[];
 
 const title = 'Fields - Basic';
 const columns = ['firstName', 'lastName', 'email'];

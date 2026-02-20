@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useSpotr } from 'spotr/vue';
-import gamesData from './data/games.json';
+import gamesJson from './data/games.json';
 import { getNestedValue, highlightCellValue } from './utils';
 import type { Game } from './types';
+
+const gamesData: Game[] = gamesJson as Game[];
 
 const title = 'Keywords - Advanced';
 const columns = [

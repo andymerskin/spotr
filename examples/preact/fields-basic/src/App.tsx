@@ -1,7 +1,10 @@
 import { useState, useMemo } from 'preact/hooks';
 import { useSpotr } from 'spotr/preact';
-import peopleData from './data/people.json';
+import peopleJson from './data/people.json';
+import type { Person } from './types';
 import { getNestedValue, highlightCellValue } from './utils';
+
+const peopleData: Person[] = peopleJson as Person[];
 
 const title = 'Fields - Basic';
 const columns = ['firstName', 'lastName', 'email'];

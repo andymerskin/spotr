@@ -1,6 +1,9 @@
 import { useState, useMemo } from 'react';
 import { useSpotr } from 'spotr/react';
-import peopleData from './data/people.json';
+import peopleJson from './data/people.json';
+import type { Person } from './types';
+
+const peopleData: Person[] = peopleJson as Person[];
 import { getNestedValue, highlightCellValue } from './utils';
 
 const title = 'Fields - Nested';
