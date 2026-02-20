@@ -138,13 +138,17 @@ The release script (`bun run release`) runs `validate` and bundle size check aut
 
 4. **Bump the version using `npm version`:**
 
+   **Important:** When running `npm version` manually, you **must** include the `--no-workspaces-update` flag. This is because npm detects the workspace root and tries to process all workspace packages, including `site/package.json` which uses Bun's `workspace:*` protocol that npm doesn't understand. The `--no-workspaces-update` flag prevents npm from processing workspace packages, avoiding the `EUNSUPPORTEDPROTOCOL` error.
+
+   **Note:** The release script (`bun run release`) automatically includes this flag, so you don't need to add it when using the script.
+
    For stable releases:
 
    ```sh
    cd packages/spotr
-   npm version patch    # for patch releases (1.0.0 -> 1.0.1)
-   npm version minor    # for minor releases (1.0.0 -> 1.1.0)
-   npm version major    # for major releases (1.0.0 -> 2.0.0)
+   npm version patch --no-workspaces-update    # for patch releases (1.0.0 -> 1.0.1)
+   npm version minor --no-workspaces-update    # for minor releases (1.0.0 -> 1.1.0)
+   npm version major --no-workspaces-update    # for major releases (1.0.0 -> 2.0.0)
    ```
 
    For pre-release versions, you can use automatic incrementing:
@@ -152,23 +156,23 @@ The release script (`bun run release`) runs `validate` and bundle size check aut
    **Starting a pre-release cycle:**
 
    ```sh
-   npm version premajor --preid=alpha    # 1.0.0 -> 2.0.0-alpha.0
-   npm version preminor --preid=beta     # 1.0.0 -> 1.1.0-beta.0
-   npm version prepatch --preid=rc        # 1.0.0 -> 1.0.1-rc.0
+   npm version premajor --preid=alpha --no-workspaces-update    # 1.0.0 -> 2.0.0-alpha.0
+   npm version preminor --preid=beta --no-workspaces-update     # 1.0.0 -> 1.1.0-beta.0
+   npm version prepatch --preid=rc --no-workspaces-update        # 1.0.0 -> 1.0.1-rc.0
    ```
 
    **Incrementing an existing pre-release:**
 
    ```sh
-   npm version prerelease    # automatically increments: alpha.0 -> alpha.1, beta.1 -> beta.2, etc.
+   npm version prerelease --no-workspaces-update    # automatically increments: alpha.0 -> alpha.1, beta.1 -> beta.2, etc.
    ```
 
    **Alternative: Specify pre-release version manually:**
 
    ```sh
-   npm version 1.0.0-alpha.1    # for specific alpha versions
-   npm version 1.0.0-beta.1     # for specific beta versions
-   npm version 1.0.0-rc.1       # for specific release candidates
+   npm version 1.0.0-alpha.1 --no-workspaces-update    # for specific alpha versions
+   npm version 1.0.0-beta.1 --no-workspaces-update     # for specific beta versions
+   npm version 1.0.0-rc.1 --no-workspaces-update       # for specific release candidates
    ```
 
    **Note:** `npm version` automatically:
@@ -180,9 +184,9 @@ The release script (`bun run release`) runs `validate` and bundle size check aut
    When ready to release a stable version from a pre-release (e.g., `1.0.0-rc.2` → `1.0.0`), use:
 
    ```sh
-   npm version patch    # removes pre-release suffix and increments patch
-   npm version minor    # removes pre-release suffix and increments minor
-   npm version major    # removes pre-release suffix and increments major
+   npm version patch --no-workspaces-update    # removes pre-release suffix and increments patch
+   npm version minor --no-workspaces-update    # removes pre-release suffix and increments minor
+   npm version major --no-workspaces-update    # removes pre-release suffix and increments major
    ```
 
 5. **Amend the commit to include CHANGELOG.md and dist/:**
