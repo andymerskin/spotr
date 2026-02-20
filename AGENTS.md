@@ -298,6 +298,56 @@ examples/
   - Constants: UPPER_SNAKE_CASE (`ErrorCodes`)
   - Private properties: Prefix with underscore (`_collection`, `_fields`)
 
+- **Type Definitions & External Dependencies**:
+  - **Prefer external type packages**: Always use official or community-maintained type definition packages (e.g., `@types/bun`, `@types/node`) instead of writing custom `.d.ts` files for external libraries
+  - **Installation**: Add type packages as `devDependencies` in `package.json`:
+    ```json
+    {
+      "devDependencies": {
+        "@types/bun": "^1.3.9",
+        "@types/node": "^25.3.0"
+      }
+    }
+    ```
+  - **Configuration**: Reference types in `tsconfig.json` via the `types` array:
+    ```json
+    {
+      "compilerOptions": {
+        "types": ["node", "bun"]
+      }
+    }
+    ```
+  - **Example**: The project previously had a custom `scripts/bun.d.ts` file, which was replaced with the official `@types/bun` package. This approach is preferred because:
+    - Type definitions stay up-to-date through package updates
+    - Reduces maintenance burden of custom type files
+    - Follows TypeScript ecosystem best practices
+    - Ensures consistency with official API definitions
+  - **When custom types are acceptable**: Only create custom `.d.ts` files when:
+    - No official or community type definitions exist for a library (e.g., `@types/*` packages don't exist)
+    - Types need to be project-specific extensions or augmentations (e.g., module augmentation)
+    - Types are for internal project code, not external libraries
+  - **Discouraged approach**:
+    ```typescript
+    // ❌ Don't create custom types for libraries with existing type packages
+    // scripts/bun.d.ts
+    declare module 'bun' {
+      export function spawn(...): Bun.Subprocess;
+    }
+    ```
+  - **Preferred approach**:
+    ```bash
+    # ✅ Install official type package
+    bun add -d @types/bun
+    ```
+    ```json
+    // ✅ Reference in tsconfig.json
+    {
+      "compilerOptions": {
+        "types": ["bun"]
+      }
+    }
+    ```
+
 ### File Organization
 
 - One main export per file (except index files)
