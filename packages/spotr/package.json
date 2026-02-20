@@ -1,6 +1,6 @@
 {
   "name": "spotr",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "A powerful and minimal client-side fuzzy search library",
   "author": "Andy Merskin <andymerskin@gmail.com>",
   "license": "MIT",
