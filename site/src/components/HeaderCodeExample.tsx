@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Icon } from '@iconify/react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
+import { vue } from '@codemirror/lang-vue';
+import { svelte } from '@replit/codemirror-lang-svelte';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { frameworks } from '../data/examples';
 import type { FrameworkId } from '../data/examples';
@@ -96,6 +98,26 @@ export default function HeaderCodeExample() {
     setMounted(true);
   }, []);
 
+  // Get the appropriate language extension based on the selected framework
+  const languageExtension = useMemo(() => {
+    switch (selectedFramework) {
+      case 'vue':
+        return vue();
+      case 'svelte':
+        return svelte();
+      case 'react':
+      case 'preact':
+      case 'solid':
+      default:
+        return javascript({ jsx: true, typescript: false });
+    }
+  }, [selectedFramework]);
+
+  const extensions = useMemo(
+    () => [languageExtension, oneDark],
+    [languageExtension]
+  );
+
   return (
     <div className="w-[500px] max-w-full">
       {/* Framework tabs */}
@@ -134,7 +156,7 @@ export default function HeaderCodeExample() {
           <CodeMirror
             value={snippets[selectedFramework]}
             height="480px"
-            extensions={[javascript({ jsx: true, typescript: false }), oneDark]}
+            extensions={extensions}
             editable={false}
             readOnly={true}
             basicSetup={{
