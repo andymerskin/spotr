@@ -41,7 +41,7 @@ function App() {
       <input
         type="search"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => setQuery(e.currentTarget.value)}
         placeholder="Search..."
         className="input"
       />

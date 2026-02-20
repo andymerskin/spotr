@@ -18,7 +18,7 @@
   const keywordExamples = ['done', 'ps5', 'xbox', 'recent'];
   const LIMIT = 20;
 
-  const { spotr, query, results: spotrResults } = createSpotr({
+  const { spotr: _spotr, query, results: spotrResults } = createSpotr({
     collection: gamesData,
     threshold: 0.3,
     fields: [
@@ -81,7 +81,7 @@
       </tr>
     </thead>
     <tbody>
-      {#each $results.results as r, i}
+      {#each $results.results as r}
         <tr class="tr">
           <td class="td">{r.score != null ? r.score.toFixed(2) : '-'}</td>
           {#each columns as col}

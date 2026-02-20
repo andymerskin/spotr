@@ -63,7 +63,7 @@ export function highlightCellValue(
     const joined = value
       .map((p: string) => {
         const str = String(p);
-        const matchesTerm = terms.some((t) =>
+        const matchesTerm = terms.some((t: string) =>
           str.toLowerCase().includes(t.toLowerCase())
         );
         return matchesTerm
