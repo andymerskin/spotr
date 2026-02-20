@@ -5,35 +5,43 @@ import { getNestedValue, highlightCellValue } from './utils';
 import type { Game } from './types';
 
 const title = 'Keywords - Basic';
-const columns = ['title', 'releaseYear', 'completed'];
+const columns = [
+  'title',
+  'metadata.developer',
+  'releaseYear',
+  'platforms',
+  'completed',
+];
 const textExamples = ['witcher', 'spider', 'zelda', 'souls'];
 const keywordExamples = ['done', 'finished'];
+const LIMIT = 20;
 
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 
-const config = {
-  collection: gamesData as Game[],
-  threshold: 0.3,
-  fields: [{ name: 'title', weight: 1 }],
-  keywords: [
-    {
-      name: 'completed',
-      triggers: ['done', 'complete', 'finished'],
-      handler: completedHandler,
-    },
-  ],
-  limit: 20,
-};
-
 function App() {
   const [query, setQuery] = useState('');
-  const spotr = useSpotr<Game>(config);
+  const spotr = useSpotr({
+    collection: gamesData,
+    threshold: 0.3,
+    fields: [
+      { name: 'title', weight: 1 },
+      { name: 'metadata.developer', weight: 0.9 },
+    ],
+    keywords: [
+      {
+        name: 'completed',
+        triggers: ['done', 'complete', 'finished'],
+        handler: completedHandler,
+      },
+    ],
+    limit: LIMIT,
+  });
 
   const result = useMemo(() => {
     if (!query.trim()) {
       return {
-        results: (gamesData as Game[])
-          .slice(0, config.limit)
+        results: gamesData
+          .slice(0, LIMIT)
           .map((item) => ({ item, score: null as number | null })),
         matchedKeywords: [] as { name: string; terms: string[] }[],
         tokens: [] as string[],

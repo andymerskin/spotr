@@ -6,9 +6,16 @@ import type { Game } from './types';
 import './styles.css';
 
 const title = 'Keywords - Advanced';
-const columns = ['title', 'platforms', 'releaseYear', 'completed'];
+const columns = [
+  'title',
+  'metadata.developer',
+  'releaseYear',
+  'platforms',
+  'completed',
+];
 const textExamples = ['witcher', 'spider', 'zelda'];
 const keywordExamples = ['done', 'ps5', 'xbox', 'recent'];
+const LIMIT = 20;
 
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 const platformHandler = (col: Game[], terms?: string[]) =>
@@ -19,38 +26,43 @@ const platformHandler = (col: Game[], terms?: string[]) =>
   );
 const recentHandler = (col: Game[]) => col.filter((i) => i.releaseYear >= 2020);
 
-const config = {
-  collection: gamesData as Game[],
-  threshold: 0.3,
-  fields: [{ name: 'title', weight: 1 }],
-  keywords: {
-    mode: 'and' as const,
-    definitions: [
-      {
-        name: 'completed',
-        triggers: ['done', 'complete', 'finished'],
-        handler: completedHandler,
-      },
-      {
-        name: 'platform',
-        triggers: ['ps4', 'ps5', 'xbox', 'pc', 'switch'],
-        handler: platformHandler,
-      },
-      { name: 'recent', triggers: ['recent', 'new'], handler: recentHandler },
-    ],
-  },
-  limit: 20,
-};
-
 export default function App() {
-  const { query, setQuery, results: spotrResults } = createSpotr(config);
+  const {
+    query,
+    setQuery,
+    results: spotrResults,
+  } = createSpotr({
+    collection: gamesData,
+    threshold: 0.3,
+    fields: [
+      { name: 'title', weight: 1 },
+      { name: 'metadata.developer', weight: 0.9 },
+    ],
+    keywords: {
+      mode: 'and',
+      definitions: [
+        {
+          name: 'completed',
+          triggers: ['done', 'complete', 'finished'],
+          handler: completedHandler,
+        },
+        {
+          name: 'platform',
+          triggers: ['ps4', 'ps5', 'xbox', 'pc', 'switch'],
+          handler: platformHandler,
+        },
+        { name: 'recent', triggers: ['recent', 'new'], handler: recentHandler },
+      ],
+    },
+    limit: LIMIT,
+  });
 
   const results = createMemo(() => {
     const q = query();
     if (!q.trim()) {
       return {
-        results: (gamesData as Game[])
-          .slice(0, config.limit)
+        results: gamesData
+          .slice(0, LIMIT)
           .map((item) => ({ item, score: null as number | null })),
         matchedKeywords: [] as { name: string; terms: string[] }[],
         tokens: [] as string[],

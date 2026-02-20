@@ -3,33 +3,29 @@ import { ref, computed } from 'vue';
 import { useSpotr } from 'spotr/vue';
 import peopleData from './data/people.json';
 import { getNestedValue, highlightCellValue } from './utils';
-import type { Person } from './types';
 
 const title = 'Fields - Basic';
 const columns = ['firstName', 'lastName', 'email'];
 const examples = ['alice', 'aloce', 'wayne', 'acme.com'];
+const LIMIT = 20;
 
-const config = {
-  collection: peopleData as Person[],
+const query = ref('');
+const spotrRef = useSpotr({
+  collection: peopleData,
   threshold: 0.3,
   fields: [
     { name: 'firstName', weight: 1 },
     { name: 'lastName', weight: 1 },
-    { name: 'email', weight: 0.7 },
+    { name: 'email', weight: 0.8 },
   ],
-  limit: 20,
-};
-
-const query = ref('');
-const spotrRef = useSpotr(
-  config as import('vue').MaybeRefOrGetter<import('spotr').SpotrOptions<Person>>
-);
+  limit: LIMIT,
+});
 
 const result = computed(() => {
   if (!query.value.trim()) {
     return {
-      results: (peopleData as Person[])
-        .slice(0, config.limit)
+      results: peopleData
+        .slice(0, LIMIT)
         .map((item) => ({ item, score: null as number | null })),
       matchedKeywords: [] as { name: string; terms: string[] }[],
       tokens: [] as string[],

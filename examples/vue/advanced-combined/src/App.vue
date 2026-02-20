@@ -9,12 +9,14 @@ const title = 'Advanced - Combined';
 const columns = [
   'title',
   'metadata.developer',
-  'metadata.publisher',
+  'releaseYear',
+  'platforms',
   'completed',
 ];
 const textExamples = ['FromSoftware', 'FromSoftwere', 'nintendo', 'spider'];
 const keywordExamples = ['done', 'sony', 'microsoft'];
 const combinedExamples = ['FromSoftware done', 'spider sony'];
+const LIMIT = 20;
 
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 const platformAdvancedHandler = (col: Game[], terms?: string[]) => {
@@ -29,13 +31,13 @@ const platformAdvancedHandler = (col: Game[], terms?: string[]) => {
   );
 };
 
-const config = {
-  collection: gamesData as Game[],
+const query = ref('');
+const spotrRef = useSpotr({
+  collection: gamesData,
   threshold: 0.3,
   fields: [
     { name: 'title', weight: 1 },
-    { name: 'metadata.developer', weight: 0.8 },
-    { name: 'metadata.publisher', weight: 0.6 },
+    { name: 'metadata.developer', weight: 0.9 },
   ],
   keywords: {
     mode: 'and',
@@ -61,19 +63,14 @@ const config = {
       },
     ],
   },
-  limit: 20,
-};
-
-const query = ref('');
-const spotrRef = useSpotr(
-  config as import('vue').MaybeRefOrGetter<import('spotr').SpotrOptions<Game>>
-);
+  limit: LIMIT,
+});
 
 const result = computed(() => {
   if (!query.value.trim()) {
     return {
-      results: (gamesData as Game[])
-        .slice(0, config.limit)
+      results: gamesData
+        .slice(0, LIMIT)
         .map((item) => ({ item, score: null as number | null })),
       matchedKeywords: [] as { name: string; terms: string[] }[],
       tokens: [] as string[],

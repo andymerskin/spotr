@@ -9,12 +9,14 @@ const title = 'Advanced - Combined';
 const columns = [
   'title',
   'metadata.developer',
-  'metadata.publisher',
+  'releaseYear',
+  'platforms',
   'completed',
 ];
 const textExamples = ['FromSoftware', 'FromSoftwere', 'nintendo', 'spider'];
 const keywordExamples = ['done', 'sony', 'microsoft'];
 const combinedExamples = ['FromSoftware done', 'spider sony'];
+const LIMIT = 20;
 
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 const platformAdvancedHandler = (col: Game[], terms?: string[]) => {
@@ -29,50 +31,51 @@ const platformAdvancedHandler = (col: Game[], terms?: string[]) => {
   );
 };
 
-const config = {
-  collection: gamesData as Game[],
-  threshold: 0.3,
-  fields: [
-    { name: 'title', weight: 1 },
-    { name: 'metadata.developer', weight: 0.8 },
-    { name: 'metadata.publisher', weight: 0.6 },
-  ],
-  keywords: {
-    mode: 'and' as const,
-    definitions: [
-      {
-        name: 'completed',
-        triggers: ['done', 'complete', 'finished'],
-        handler: completedHandler,
-      },
-      {
-        name: 'platform',
-        triggers: [
-          'ps4',
-          'ps5',
-          'xbox',
-          'pc',
-          'switch',
-          'sony',
-          'nintendo',
-          'microsoft',
-        ],
-        handler: platformAdvancedHandler,
-      },
-    ],
-  },
-  limit: 20,
-};
-
 export default function App() {
-  const { query, setQuery, results: spotrResults } = createSpotr(config);
+  const {
+    query,
+    setQuery,
+    results: spotrResults,
+  } = createSpotr({
+    collection: gamesData,
+    threshold: 0.3,
+    fields: [
+      { name: 'title', weight: 1 },
+      { name: 'metadata.developer', weight: 0.9 },
+    ],
+    keywords: {
+      mode: 'and',
+      definitions: [
+        {
+          name: 'completed',
+          triggers: ['done', 'complete', 'finished'],
+          handler: completedHandler,
+        },
+        {
+          name: 'platform',
+          triggers: [
+            'ps4',
+            'ps5',
+            'xbox',
+            'pc',
+            'switch',
+            'sony',
+            'nintendo',
+            'microsoft',
+          ],
+          handler: platformAdvancedHandler,
+        },
+      ],
+    },
+    limit: LIMIT,
+  });
 
   const results = createMemo(() => {
     const q = query();
     if (!q.trim()) {
       return {
-        results: (gamesData as Game[])
-          .slice(0, config.limit)
+        results: gamesData
+          .slice(0, LIMIT)
           .map((item) => ({ item, score: null as number | null })),
         matchedKeywords: [] as { name: string; terms: string[] }[],
         tokens: [] as string[],

@@ -13,14 +13,18 @@
   const recentHandler = (col: Game[]) => col.filter((i) => i.releaseYear >= 2020);
 
   const title = 'Keywords - Advanced';
-  const columns = ["title","platforms","releaseYear","completed"];
+  const columns = ["title","metadata.developer","releaseYear","platforms","completed"];
   const textExamples = ['witcher', 'spider', 'zelda'];
   const keywordExamples = ['done', 'ps5', 'xbox', 'recent'];
+  const LIMIT = 20;
 
-  const config = {
-    collection: gamesData as Game[],
+  const { spotr, query, results: spotrResults } = createSpotr({
+    collection: gamesData,
     threshold: 0.3,
-    fields: [{ name: 'title', weight: 1 }],
+    fields: [
+      { name: 'title', weight: 1 },
+      { name: 'metadata.developer', weight: 0.9 },
+    ],
     keywords: {
       mode: 'and',
       definitions: [
@@ -29,15 +33,13 @@
         { name: 'recent', triggers: ['recent', 'new'], handler: recentHandler },
       ],
     },
-    limit: 20,
-  };
-
-  const { spotr, query, results: spotrResults } = createSpotr(config as import('spotr').SpotrOptions<Game>);
+    limit: LIMIT,
+  });
   
   const results = derived([query, spotrResults], ([$query, $spotrResults]) => {
     if (!$query.trim()) {
       return {
-        results: (gamesData as Game[]).slice(0, config.limit).map((item) => ({ item, score: null as number | null })),
+        results: gamesData.slice(0, LIMIT).map((item) => ({ item, score: null as number | null })),
         matchedKeywords: [] as { name: string; terms: string[] }[],
         tokens: [] as string[],
         warnings: [] as string[],

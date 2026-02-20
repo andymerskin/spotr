@@ -19,18 +19,18 @@
 };
 
   const title = 'Advanced - Combined';
-  const columns = ["title","metadata.developer","metadata.publisher","completed"];
+  const columns = ["title","metadata.developer","releaseYear","platforms","completed"];
   const textExamples = ['FromSoftware', 'FromSoftwere', 'nintendo', 'spider'];
   const keywordExamples = ['done', 'sony', 'microsoft'];
   const combinedExamples = ['FromSoftware done', 'spider sony'];
+  const LIMIT = 20;
 
-  const config = {
-    collection: gamesData as Game[],
+  const { spotr, query, results: spotrResults } = createSpotr({
+    collection: gamesData,
     threshold: 0.3,
     fields: [
       { name: 'title', weight: 1 },
-      { name: 'metadata.developer', weight: 0.8 },
-      { name: 'metadata.publisher', weight: 0.6 },
+      { name: 'metadata.developer', weight: 0.9 },
     ],
     keywords: {
       mode: 'and',
@@ -43,15 +43,13 @@
         },
       ],
     },
-    limit: 20,
-  };
-
-  const { spotr, query, results: spotrResults } = createSpotr(config as import('spotr').SpotrOptions<Game>);
+    limit: LIMIT,
+  });
   
   const results = derived([query, spotrResults], ([$query, $spotrResults]) => {
     if (!$query.trim()) {
       return {
-        results: (gamesData as Game[]).slice(0, config.limit).map((item) => ({ item, score: null as number | null })),
+        results: gamesData.slice(0, LIMIT).map((item) => ({ item, score: null as number | null })),
         matchedKeywords: [] as { name: string; terms: string[] }[],
         tokens: [] as string[],
         warnings: [] as string[],

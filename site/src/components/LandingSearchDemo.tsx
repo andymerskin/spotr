@@ -146,6 +146,7 @@ const SearchIcon = () => (
 
 const TH_CELL = 'px-4 py-3 text-left text-sm font-semibold text-neutral-200';
 const TD_CELL = 'px-4 py-3 text-sm text-neutral-300';
+const LIMIT = 50;
 
 const ClearIcon = () => (
   <svg
@@ -213,7 +214,7 @@ export default function LandingSearchDemo({ people, games }: Props) {
             collection.filter((item) => item.subscribed),
         },
       ],
-      limit: 50,
+      limit: LIMIT,
     }),
     [people]
   );
@@ -264,13 +265,13 @@ export default function LandingSearchDemo({ people, games }: Props) {
             ),
         },
       ],
-      limit: 50,
+      limit: LIMIT,
     }),
     [games, gamePlatforms, gameYears]
   );
 
-  const peopleSpotr = useSpotr<Person>(peopleConfig);
-  const gamesSpotr = useSpotr<Game>(gamesConfig);
+  const peopleSpotr = useSpotr(peopleConfig);
+  const gamesSpotr = useSpotr(gamesConfig);
 
   const result = useMemo(() => {
     const activeSpotr = dataset === 'people' ? peopleSpotr : gamesSpotr;
@@ -279,14 +280,14 @@ export default function LandingSearchDemo({ people, games }: Props) {
     if (!query.trim()) {
       const sorted =
         dataset === 'people'
-          ? [...(activeCollection as Person[])].sort((a, b) =>
+          ? [...activeCollection].sort((a, b) =>
               a.firstName.localeCompare(b.firstName)
             )
-          : [...(activeCollection as Game[])].sort((a, b) =>
+          : [...activeCollection].sort((a, b) =>
               a.title.localeCompare(b.title)
             );
       return {
-        results: sorted.slice(0, 50).map((item) => ({
+        results: sorted.slice(0, LIMIT).map((item) => ({
           item,
           score: null as number | null,
         })),

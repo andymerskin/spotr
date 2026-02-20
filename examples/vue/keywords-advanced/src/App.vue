@@ -6,9 +6,16 @@ import { getNestedValue, highlightCellValue } from './utils';
 import type { Game } from './types';
 
 const title = 'Keywords - Advanced';
-const columns = ['title', 'platforms', 'releaseYear', 'completed'];
+const columns = [
+  'title',
+  'metadata.developer',
+  'releaseYear',
+  'platforms',
+  'completed',
+];
 const textExamples = ['witcher', 'spider', 'zelda'];
 const keywordExamples = ['done', 'ps5', 'xbox', 'recent'];
+const LIMIT = 20;
 
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 const platformHandler = (col: Game[], terms?: string[]) =>
@@ -19,10 +26,14 @@ const platformHandler = (col: Game[], terms?: string[]) =>
   );
 const recentHandler = (col: Game[]) => col.filter((i) => i.releaseYear >= 2020);
 
-const config = {
-  collection: gamesData as Game[],
+const query = ref('');
+const spotrRef = useSpotr({
+  collection: gamesData,
   threshold: 0.3,
-  fields: [{ name: 'title', weight: 1 }],
+  fields: [
+    { name: 'title', weight: 1 },
+    { name: 'metadata.developer', weight: 0.9 },
+  ],
   keywords: {
     mode: 'and',
     definitions: [
@@ -39,19 +50,14 @@ const config = {
       { name: 'recent', triggers: ['recent', 'new'], handler: recentHandler },
     ],
   },
-  limit: 20,
-};
-
-const query = ref('');
-const spotrRef = useSpotr(
-  config as import('vue').MaybeRefOrGetter<import('spotr').SpotrOptions<Game>>
-);
+  limit: LIMIT,
+});
 
 const result = computed(() => {
   if (!query.value.trim()) {
     return {
-      results: (gamesData as Game[])
-        .slice(0, config.limit)
+      results: gamesData
+        .slice(0, LIMIT)
         .map((item) => ({ item, score: null as number | null })),
       matchedKeywords: [] as { name: string; terms: string[] }[],
       tokens: [] as string[],

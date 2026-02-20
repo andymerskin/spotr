@@ -2,33 +2,35 @@ import { createMemo } from 'solid-js';
 import { createSpotr } from 'spotr/solid';
 import peopleData from './data/people.json';
 import { getNestedValue, highlightCellValue } from './utils';
-import type { Person } from './types';
 import './styles.css';
 
 const title = 'Fields - Basic';
 const columns = ['firstName', 'lastName', 'email'];
 const examples = ['alice', 'aloce', 'wayne', 'acme.com'];
-
-const config = {
-  collection: peopleData as Person[],
-  threshold: 0.3,
-  fields: [
-    { name: 'firstName', weight: 1 },
-    { name: 'lastName', weight: 1 },
-    { name: 'email', weight: 0.7 },
-  ],
-  limit: 20,
-};
+const LIMIT = 20;
 
 export default function App() {
-  const { query, setQuery, results: spotrResults } = createSpotr(config);
+  const {
+    query,
+    setQuery,
+    results: spotrResults,
+  } = createSpotr({
+    collection: peopleData,
+    threshold: 0.3,
+    fields: [
+      { name: 'firstName', weight: 1 },
+      { name: 'lastName', weight: 1 },
+      { name: 'email', weight: 0.8 },
+    ],
+    limit: LIMIT,
+  });
 
   const results = createMemo(() => {
     const q = query();
     if (!q.trim()) {
       return {
-        results: (peopleData as Person[])
-          .slice(0, config.limit)
+        results: peopleData
+          .slice(0, LIMIT)
           .map((item) => ({ item, score: null as number | null })),
         matchedKeywords: [] as { name: string; terms: string[] }[],
         tokens: [] as string[],

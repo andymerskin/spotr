@@ -2,35 +2,40 @@ import { useState, useMemo } from 'react';
 import { useSpotr } from 'spotr/react';
 import peopleData from './data/people.json';
 import { getNestedValue, highlightCellValue } from './utils';
-import type { Person } from './types';
 
 const title = 'Fields - Nested';
-const columns = ['firstName', 'lastName', 'address.city', 'company.name'];
+const columns = [
+  'firstName',
+  'lastName',
+  'email',
+  'address.city',
+  'company.name',
+];
 const examples = ['los angeles', 'los angelas', 'acme', 'dunder'];
-
-const config = {
-  collection: peopleData as Person[],
-  threshold: 0.3,
-  fields: [
-    { name: 'firstName', weight: 1 },
-    { name: 'lastName', weight: 1 },
-    { name: 'address.city', weight: 0.8 },
-    { name: 'address.country', weight: 0.6 },
-    { name: 'company.name', weight: 0.7 },
-    { name: 'company.location.city', weight: 0.5 },
-  ],
-  limit: 20,
-};
+const LIMIT = 20;
 
 function App() {
   const [query, setQuery] = useState('');
-  const spotr = useSpotr<Person>(config);
+  const spotr = useSpotr({
+    collection: peopleData,
+    threshold: 0.3,
+    fields: [
+      { name: 'firstName', weight: 1 },
+      { name: 'lastName', weight: 1 },
+      { name: 'email', weight: 0.8 },
+      { name: 'address.city', weight: 0.8 },
+      { name: 'address.country', weight: 0.6 },
+      { name: 'company.name', weight: 0.7 },
+      { name: 'company.location.city', weight: 0.5 },
+    ],
+    limit: LIMIT,
+  });
 
   const result = useMemo(() => {
     if (!query.trim()) {
       return {
-        results: (peopleData as Person[])
-          .slice(0, config.limit)
+        results: peopleData
+          .slice(0, LIMIT)
           .map((item) => ({ item, score: null as number | null })),
         matchedKeywords: [] as { name: string; terms: string[] }[],
         tokens: [] as string[],
