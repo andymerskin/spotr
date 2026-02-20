@@ -17,9 +17,14 @@ From the repository root:
 - `bun run build` - Build the library (outputs to `dist/`)
 - `bun run test` - Run tests
 - `bun run test:watch` - Run tests in watch mode
+- `bun run test:coverage` - Run tests with coverage report
 - `bun run typecheck` - Type check the library
 - `bun run lint` - Lint the codebase
 - `bun run format` - Format the codebase with Prettier
+- `bun run format:check` - Check code format without modifying (Prettier)
+- `bun run validate` - Full validation: format:check, lint, typecheck, test:coverage, examples:typecheck, build
+- `bun run size:check` - Build and verify bundle size is under 15KB gzipped
+- `bun run clean` - Remove `dist/` and `coverage/` directories
 
 For examples:
 
@@ -77,41 +82,25 @@ The script will guide you through the process interactively. For manual release 
 
 ### Pre-Release Checklist
 
-Before creating a release, ensure:
+The release script (`bun run release`) runs `validate` and bundle size check automatically. You can run these manually to verify before releasing:
 
-1. **All tests pass:**
-
-   ```sh
-   bun run test
-   bun run test:coverage
-   ```
-
-2. **Type checking passes:**
+1. **Run full validation:**
 
    ```sh
-   bun run typecheck
-   bun run examples:typecheck
+   bun run validate
    ```
 
-3. **Linting passes:**
+   This runs `format:check`, `lint`, `typecheck`, `test:coverage`, `examples:typecheck`, and `build` in sequence.
+
+2. **Verify bundle size:**
 
    ```sh
-   bun run lint
+   bun run size:check
    ```
 
-4. **Code is formatted:**
+   This builds the package and verifies the gzipped bundle size is under **15KB**. The release script will fail if this limit is exceeded.
 
-   ```sh
-   bun run format
-   ```
-
-5. **Build succeeds:**
-
-   ```sh
-   bun run build
-   ```
-
-6. **CHANGELOG.md is updated:**
+3. **CHANGELOG.md is updated:**
    - Move items from `[Unreleased]` to a new version section
    - Follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format
    - Use semantic versioning (e.g., `## [1.0.0] - 2025-02-19`)
@@ -140,7 +129,12 @@ Before creating a release, ensure:
 
    # Verify bundle-size.json exists
    cat packages/spotr/dist/bundle-size.json
+
+   # Verify bundle size is under 15KB (enforced by size:check)
+   bun run size:check
    ```
+
+   **Note:** The `prepack` and `prepublishOnly` lifecycle hooks in `packages/spotr/package.json` automatically run validation checks when you run `npm pack` or `npm publish`, providing an additional safety net for manual releases.
 
 4. **Bump the version using `npm version`:**
 

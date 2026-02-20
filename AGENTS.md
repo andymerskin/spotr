@@ -87,6 +87,10 @@ The `site` package depends on `spotr` using the workspace protocol (`workspace:*
 - `bun run audit` - Audit the Spotr package for vulnerabilities and apply fixes (`scripts/audit-spotr.ts`)
 - `bun run lint` - Lint codebase (ESLint)
 - `bun run format` - Format codebase (Prettier, whole repo from root)
+- `bun run format:check` - Check formatting (Prettier, no write)
+- `bun run validate` - Full validation before release (format:check, lint, typecheck, test:coverage, examples:typecheck, build)
+- `bun run size:check` - Build and enforce 15KB bundle size limit
+- `bun run clean` - Remove dist and coverage directories
 
 ### Example Commands
 
@@ -609,6 +613,7 @@ describe('Spotr', () => {
 
 5. **Run format:**
    - Run `bun run format` from root to format the codebase with Prettier
+   - Note: `bun run format:check` can be used to verify formatting without modifying files (useful for CI-style checks)
 
 6. **Check test coverage (if changes were made to `packages/spotr`):**
    - If you modified any files in `packages/spotr/src/`, run `bun run test:coverage` from root
@@ -723,6 +728,10 @@ Agents can delegate the "Before Finishing Your Changes" workflow tasks to subage
 
 Husky is configured (`prepare` script) to run pre-commit hooks. Ensure all checks pass before committing.
 
+### Release Process
+
+The release script (`bun run release`) runs `validate` (format:check, lint, typecheck, test:coverage, examples:typecheck, build) and bundle size check before proceeding with version bumping and publishing. **Do not run `bun run release` without approval** (see Boundaries & Permissions section). The script automates the release process and includes safety checks via `prepack` and `prepublishOnly` lifecycle hooks in `packages/spotr/package.json`.
+
 ### Commit Guidelines
 
 - Commit shared file changes and synced files together when modifying `examples/shared/`
@@ -757,6 +766,7 @@ Husky is configured (`prepare` script) to run pre-commit hooks. Ensure all check
 - Updating dependencies (`bun update`)
 - Modifying `package.json` dependencies
 - Running production builds for release
+- Running the release script (`bun run release`)
 - Git operations (commits, pushes, branch creation)
 - Modifying CI/CD configuration
 - Changing build configuration significantly
