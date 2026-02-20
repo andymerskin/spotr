@@ -1,11 +1,11 @@
 body {
   margin: 0;
+  background-color: #1a1a1a;
 }
 
 .container {
   font-family: sans-serif;
   padding: 16px;
-  background-color: #1a1a1a;
   color: #e5e5e5;
   min-height: 100vh;
   max-width: 960px;
