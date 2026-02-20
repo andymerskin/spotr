@@ -1,5 +1,18 @@
 export const MAX_STRING_LENGTH = 1000;
 
+/**
+ * Extracts the element type from a collection type.
+ * @internal
+ */
+export type ExtractItemType<C> =
+  C extends Set<infer T>
+    ? T
+    : C extends readonly (infer T)[]
+      ? T
+      : C extends (infer T)[]
+        ? T
+        : never;
+
 export type FieldConfig =
   | string
   | {
@@ -7,6 +20,8 @@ export type FieldConfig =
       weight?: number;
       threshold?: number;
     };
+
+export type KeywordMode = 'and' | 'or';
 
 export type KeywordDefinition<T> = {
   name: string;
@@ -28,12 +43,12 @@ export type KeywordDefinition<T> = {
 export type KeywordsConfig<T> =
   | KeywordDefinition<T>[]
   | {
-      mode?: 'and' | 'or';
+      mode?: KeywordMode;
       definitions: KeywordDefinition<T>[];
     };
 
 export interface SpotrOptions<T extends object> {
-  collection: T[] | Set<T>;
+  collection: readonly T[] | T[] | Set<T>;
   fields: FieldConfig[];
   keywords?: KeywordsConfig<T>;
   threshold?: number;
@@ -68,6 +83,6 @@ export interface NormalizedFieldConfig {
 }
 
 export interface NormalizedKeywordsConfig {
-  mode: 'and' | 'or';
+  mode: KeywordMode;
   definitions: KeywordDefinition<unknown>[];
 }

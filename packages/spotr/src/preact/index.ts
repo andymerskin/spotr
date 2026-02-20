@@ -1,6 +1,6 @@
 import { useRef } from 'preact/hooks';
 import { Spotr } from '../Spotr';
-import type { SpotrOptions } from '../types';
+import type { SpotrOptions, ExtractItemType } from '../types';
 
 function shallowEqual(a: unknown, b: unknown): boolean {
   if (a === b) return true;
@@ -30,6 +30,14 @@ function shallowEqual(a: unknown, b: unknown): boolean {
   return true;
 }
 
+// Overload: infer T from collection
+export function useSpotr<C extends readonly object[] | object[] | Set<object>>(
+  options: Omit<SpotrOptions<ExtractItemType<C>>, 'collection'> & {
+    collection: C;
+  }
+): Spotr<ExtractItemType<C> & object>;
+// Overload: explicit generic
+export function useSpotr<T extends object>(options: SpotrOptions<T>): Spotr<T>;
 export function useSpotr<T extends object>(options: SpotrOptions<T>): Spotr<T> {
   const optionsRef = useRef(options);
 

@@ -9,6 +9,7 @@ export type {
   FieldConfig,
   KeywordsConfig,
   KeywordDefinition,
+  KeywordMode,
   NormalizedFieldConfig,
   NormalizedKeywordsConfig,
 } from './types';
