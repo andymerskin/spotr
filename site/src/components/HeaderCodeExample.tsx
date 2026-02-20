@@ -25,13 +25,21 @@ function SearchComponent() {
   const result = spotr.query(query);
   
   return (
-    <input
-      value={query}
-      onChange={(e) => setQuery(e.target.value)}
-    />
+    <>
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <ul>
+        {result.results.map((r) => (
+          <li key={r.item.title}>{r.item.title}</li>
+        ))}
+      </ul>
+    </>
   );
 }`,
-  vue: `import { ref, computed } from 'vue';
+  vue: `<script setup>
+import { ref, computed } from 'vue';
 import { useSpotr } from 'spotr/vue';
 
 const query = ref('');
@@ -45,8 +53,19 @@ const spotrRef = useSpotr({
 
 const result = computed(() => {
   return spotrRef.value?.query(query.value);
-});`,
-  svelte: `import { createSpotr } from 'spotr/svelte';
+});
+</script>
+
+<template>
+  <input v-model="query" />
+  <ul>
+    <li v-for="r in result.results" :key="r.item.title">
+      {{ r.item.title }}
+    </li>
+  </ul>
+</template>`,
+  svelte: `<script>
+import { createSpotr } from 'spotr/svelte';
 
 const { query, results } = createSpotr({
   collection: items,
@@ -54,16 +73,40 @@ const { query, results } = createSpotr({
     { name: 'title', weight: 1 },
     { name: 'description', weight: 0.7 },
   ],
-});`,
+});
+</script>
+
+<input bind:value={$query} />
+<ul>
+  {#each $results.results as r}
+    <li>{r.item.title}</li>
+  {/each}
+</ul>`,
   solid: `import { createSpotr } from 'spotr/solid';
 
-const { query, setQuery, results } = createSpotr({
-  collection: items,
-  fields: [
-    { name: 'title', weight: 1 },
-    { name: 'description', weight: 0.7 },
-  ],
-});`,
+function SearchComponent() {
+  const { query, setQuery, results } = createSpotr({
+    collection: items,
+    fields: [
+      { name: 'title', weight: 1 },
+      { name: 'description', weight: 0.7 },
+    ],
+  });
+  
+  return (
+    <>
+      <input
+        value={query()}
+        onInput={(e) => setQuery(e.target.value)}
+      />
+      <ul>
+        {results().results.map((r) => (
+          <li>{r.item.title}</li>
+        ))}
+      </ul>
+    </>
+  );
+}`,
   preact: `import { useState } from 'preact/hooks';
 import { useSpotr } from 'spotr/preact';
 
@@ -80,10 +123,17 @@ function SearchComponent() {
   const result = spotr.query(query);
   
   return (
-    <input
-      value={query}
-      onInput={(e) => setQuery(e.target.value)}
-    />
+    <>
+      <input
+        value={query}
+        onInput={(e) => setQuery(e.target.value)}
+      />
+      <ul>
+        {result.results.map((r) => (
+          <li key={r.item.title}>{r.item.title}</li>
+        ))}
+      </ul>
+    </>
   );
 }`,
 };
@@ -155,7 +205,7 @@ export default function HeaderCodeExample() {
         {mounted ? (
           <CodeMirror
             value={snippets[selectedFramework]}
-            height="480px"
+            height="640px"
             extensions={extensions}
             editable={false}
             readOnly={true}
@@ -181,7 +231,7 @@ export default function HeaderCodeExample() {
           <div
             className="p-4 text-sm font-mono text-neutral-300 whitespace-pre overflow-auto"
             style={{
-              height: '480px',
+              height: '640px',
               width: '500px',
               maxWidth: '100%',
               fontSize: '14px',
