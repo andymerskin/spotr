@@ -18,6 +18,7 @@
     "examples:sync": "bun run scripts/sync-examples.ts",
     "examples:install": "bun run scripts/install-examples.ts",
     "examples:update": "bun run scripts/update-examples.ts",
+    "examples:audit": "bun run scripts/audit-examples.ts",
     "examples:dev": "bun run scripts/dev-examples.ts",
     "release": "bun run scripts/release.ts",
     "format": "prettier --write .",

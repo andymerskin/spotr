@@ -91,6 +91,7 @@ The `site` package depends on `spotr` using the workspace protocol (`workspace:*
 - `bun run examples:sync` - Sync shared files to examples (`scripts/sync-examples.ts`)
 - `bun run examples:install` - Install example dependencies (`scripts/install-examples.ts`)
 - `bun run examples:update` - Update example dependencies (`scripts/update-examples.ts`)
+- `bun run examples:audit` - Audit all example packages for vulnerabilities and apply fixes (`scripts/audit-examples.ts`)
 - `bun run examples:dev` - Launch interactive dev servers for a selected framework (`scripts/dev-examples.ts`)
   - Prompts to select a framework (react, vue, svelte, solid, preact)
   - Launches all 5 examples for the selected framework concurrently
