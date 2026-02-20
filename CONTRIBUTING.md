@@ -23,7 +23,7 @@ From the repository root:
 - `bun run format` - Format the codebase with Prettier
 - `bun run format:check` - Check code format without modifying (Prettier)
 - `bun run validate` - Full validation: format:check, lint, typecheck, test:coverage, examples:typecheck, build
-- `bun run size:check` - Build and verify bundle size is under 15KB gzipped
+- `bun run size:check` - Build and verify bundle size is under 5KB gzipped
 - `bun run clean` - Remove `dist/` and `coverage/` directories
 
 For examples:
@@ -98,7 +98,7 @@ The release script (`bun run release`) runs `validate` and bundle size check aut
    bun run size:check
    ```
 
-   This builds the package and verifies the gzipped bundle size is under **15KB**. The release script will fail if this limit is exceeded.
+   This builds the package and verifies the gzipped bundle size is under **5KB**. The release script will fail if this limit is exceeded.
 
 3. **CHANGELOG.md is updated:**
    - Move items from `[Unreleased]` to a new version section
@@ -130,7 +130,7 @@ The release script (`bun run release`) runs `validate` and bundle size check aut
    # Verify bundle-size.json exists
    cat packages/spotr/dist/bundle-size.json
 
-   # Verify bundle size is under 15KB (enforced by size:check)
+   # Verify bundle size is under 5KB (enforced by size:check)
    bun run size:check
    ```
 

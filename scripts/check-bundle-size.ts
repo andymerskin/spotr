@@ -1,7 +1,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
-const MAX_GZIP_BYTES = 15 * 1024; // 15 KB
+const MAX_GZIP_BYTES = 5 * 1024; // 5 KB
 const repoRoot = join(import.meta.dirname, '..');
 const bundleSizePath = join(
   repoRoot,

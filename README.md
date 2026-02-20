@@ -266,7 +266,7 @@ bun install
 - `bun run format` - Format the codebase (Prettier, whole repo from root)
 - `bun run format:check` - Check formatting without modifying
 - `bun run validate` - Full validation (format, lint, typecheck, coverage, examples, build)
-- `bun run size:check` - Verify bundle size under 15KB
+- `bun run size:check` - Verify bundle size under 5KB
 - `bun run clean` - Remove dist and coverage directories
 
 ### Example Scripts
@@ -290,7 +290,7 @@ To release a new version to npm, use the release script:
 bun run release
 ```
 
-The script automates the release process: it runs `validate` (format check, lint, typecheck, test coverage, examples typecheck, and build) and a bundle size check (enforcing a 15KB gzipped limit) before proceeding with version bumping, commit amending, and publishing. You can also pass a version bump type directly:
+The script automates the release process: it runs `validate` (format check, lint, typecheck, test coverage, examples typecheck, and build) and a bundle size check (enforcing a 5KB gzipped limit) before proceeding with version bumping, commit amending, and publishing. You can also pass a version bump type directly:
 
 ```sh
 bun run release patch    # for patch releases

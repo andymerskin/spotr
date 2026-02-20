@@ -89,7 +89,7 @@ The `site` package depends on `spotr` using the workspace protocol (`workspace:*
 - `bun run format` - Format codebase (Prettier, whole repo from root)
 - `bun run format:check` - Check formatting (Prettier, no write)
 - `bun run validate` - Full validation before release (format:check, lint, typecheck, test:coverage, examples:typecheck, build)
-- `bun run size:check` - Build and enforce 15KB bundle size limit
+- `bun run size:check` - Build and enforce 5KB bundle size limit
 - `bun run clean` - Remove dist and coverage directories
 
 ### Example Commands
