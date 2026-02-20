@@ -1,13 +1,23 @@
 # Capture originally staged files (including deletions)
 STAGED_FILES=$(git diff --cached --name-only)
 
+# Capture files with unstaged changes BEFORE running any commands
+# This allows us to detect partial staging (files with both staged and unstaged changes)
+UNSTAGED_FILES=$(git diff --name-only)
+
 # Run format (formats all files)
 bun run format
 
 # Stage back only the files that were originally staged
+# Skip files with partial staging (both staged and unstaged changes) to preserve user's selection
 # Handle both regular files and deletions
 if [ -n "$STAGED_FILES" ]; then
   echo "$STAGED_FILES" | while IFS= read -r file; do
+    # Skip files with unstaged changes - they have partial staging that we want to preserve
+    if echo "$UNSTAGED_FILES" | grep -Fxq -- "$file"; then
+      continue
+    fi
+    
     if [ -e "$file" ]; then
       # File exists - stage it normally
       git add "$file" 2>/dev/null || true
@@ -24,8 +34,14 @@ bun run examples:sync
 
 # Stage back only the files that were originally staged (in case sync modified them)
 # Skip files that were deleted (they won't be recreated by sync)
+# Also skip files with partial staging to preserve user's selection
 if [ -n "$STAGED_FILES" ]; then
   echo "$STAGED_FILES" | while IFS= read -r file; do
+    # Skip files with unstaged changes - they have partial staging that we want to preserve
+    if echo "$UNSTAGED_FILES" | grep -Fxq -- "$file"; then
+      continue
+    fi
+    
     if [ -e "$file" ]; then
       # File exists - stage it normally
       git add "$file" 2>/dev/null || true
