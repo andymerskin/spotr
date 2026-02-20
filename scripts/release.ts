@@ -66,7 +66,9 @@ function checkChangelog(): boolean {
 
   const changelog = readFileSync(changelogPath, 'utf-8');
   // Check if there's a version section (not just [Unreleased])
-  const versionSectionRegex = /^## \[[\d.]+\] - \d{4}-\d{2}-\d{2}/m;
+  // Matches both regular versions (e.g., [1.0.0]) and prereleases (e.g., [1.0.0-alpha.1])
+  const versionSectionRegex =
+    /^## \[[\d.]+(?:-[a-zA-Z0-9.]+)?\] - \d{4}-\d{2}-\d{2}/m;
   const hasVersionSection = versionSectionRegex.test(changelog);
 
   if (!hasVersionSection) {
