@@ -7,7 +7,7 @@ import './styles.css';
 
 const title = 'Fields - Nested';
 const columns = ['firstName', 'lastName', 'address.city', 'company.name'];
-const examples = ['alice', 'johnson', 'acme', 'usa'];
+const examples = ['los angeles', 'los angelas', 'acme', 'dunder'];
 
 const config = {
   collection: peopleData as Person[],

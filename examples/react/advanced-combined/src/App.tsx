@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import { useSpotr } from 'spotr/react';
 import gamesData from './data/games.json';
 import { getNestedValue, highlightCellValue } from './utils';
@@ -11,7 +11,9 @@ const columns = [
   'metadata.publisher',
   'completed',
 ];
-const examples = ['witcher', 'done', 'ps5', 'nintendo'];
+const textExamples = ['FromSoftware', 'FromSoftwere', 'nintendo', 'spider'];
+const keywordExamples = ['done', 'sony', 'microsoft'];
+const combinedExamples = ['FromSoftware done', 'spider sony'];
 
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 const platformAdvancedHandler = (col: Game[], terms?: string[]) => {
@@ -79,8 +81,6 @@ function App() {
     return spotr.query(query);
   }, [spotr, query]);
 
-  const setExample = useCallback((ex: string) => setQuery(ex), []);
-
   return (
     <div className="container">
       <h1 className="title">{title}</h1>
@@ -91,12 +91,31 @@ function App() {
         placeholder="Search..."
         className="input"
       />
-      <div className="buttons">
-        {examples.map((ex) => (
-          <button key={ex} onClick={() => setExample(ex)} className="button">
-            {ex}
-          </button>
-        ))}
+      <div className="example-groups">
+        <div className="example-group">
+          <span className="example-label">Try:</span>
+          {textExamples.map((ex) => (
+            <button key={ex} onClick={() => setQuery(ex)} className="button">
+              {ex}
+            </button>
+          ))}
+        </div>
+        <div className="example-group">
+          <span className="example-label">Keywords:</span>
+          {keywordExamples.map((ex) => (
+            <button key={ex} onClick={() => setQuery(ex)} className="button">
+              {ex}
+            </button>
+          ))}
+        </div>
+        <div className="example-group">
+          <span className="example-label">Combined:</span>
+          {combinedExamples.map((ex) => (
+            <button key={ex} onClick={() => setQuery(ex)} className="button">
+              {ex}
+            </button>
+          ))}
+        </div>
       </div>
       <table className="table">
         <thead>

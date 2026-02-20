@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 import { useSpotr } from 'spotr/react';
 import peopleData from './data/people.json';
 import { getNestedValue, highlightCellValue } from './utils';
@@ -6,7 +6,7 @@ import type { Person } from './types';
 
 const title = 'Fields - Nested';
 const columns = ['firstName', 'lastName', 'address.city', 'company.name'];
-const examples = ['alice', 'johnson', 'acme', 'usa'];
+const examples = ['los angeles', 'los angelas', 'acme', 'dunder'];
 
 const config = {
   collection: peopleData as Person[],
@@ -40,8 +40,6 @@ function App() {
     return spotr.query(query);
   }, [spotr, query]);
 
-  const setExample = useCallback((ex: string) => setQuery(ex), []);
-
   return (
     <div className="container">
       <h1 className="title">{title}</h1>
@@ -54,7 +52,7 @@ function App() {
       />
       <div className="buttons">
         {examples.map((ex) => (
-          <button key={ex} onClick={() => setExample(ex)} className="button">
+          <button key={ex} onClick={() => setQuery(ex)} className="button">
             {ex}
           </button>
         ))}

@@ -7,7 +7,8 @@ import type { Game } from './types';
 
 const title = 'Keywords - Basic';
 const columns = ['title', 'releaseYear', 'completed'];
-const examples = ['witcher', 'done', 'ps5', 'nintendo'];
+const textExamples = ['witcher', 'spider', 'zelda', 'souls'];
+const keywordExamples = ['done', 'finished'];
 
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 
@@ -61,15 +62,29 @@ const result = computed(() => {
       placeholder="Search..."
       class="input"
     />
-    <div class="buttons">
-      <button
-        v-for="ex in examples"
-        :key="ex"
-        class="button"
-        @click="query = ex"
-      >
-        {{ ex }}
-      </button>
+    <div class="example-groups">
+      <div class="example-group">
+        <span class="example-label">Try:</span>
+        <button
+          v-for="ex in textExamples"
+          :key="ex"
+          class="button"
+          @click="query = ex"
+        >
+          {{ ex }}
+        </button>
+      </div>
+      <div class="example-group">
+        <span class="example-label">Keywords:</span>
+        <button
+          v-for="ex in keywordExamples"
+          :key="ex"
+          class="button"
+          @click="query = ex"
+        >
+          {{ ex }}
+        </button>
+      </div>
     </div>
     <table class="table">
       <thead>

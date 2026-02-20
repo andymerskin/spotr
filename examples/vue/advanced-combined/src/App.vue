@@ -12,7 +12,9 @@ const columns = [
   'metadata.publisher',
   'completed',
 ];
-const examples = ['witcher', 'done', 'ps5', 'nintendo'];
+const textExamples = ['FromSoftware', 'FromSoftwere', 'nintendo', 'spider'];
+const keywordExamples = ['done', 'sony', 'microsoft'];
+const combinedExamples = ['FromSoftware done', 'spider sony'];
 
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 const platformAdvancedHandler = (col: Game[], terms?: string[]) => {
@@ -98,15 +100,40 @@ const result = computed(() => {
       placeholder="Search..."
       class="input"
     />
-    <div class="buttons">
-      <button
-        v-for="ex in examples"
-        :key="ex"
-        class="button"
-        @click="query = ex"
-      >
-        {{ ex }}
-      </button>
+    <div class="example-groups">
+      <div class="example-group">
+        <span class="example-label">Try:</span>
+        <button
+          v-for="ex in textExamples"
+          :key="ex"
+          class="button"
+          @click="query = ex"
+        >
+          {{ ex }}
+        </button>
+      </div>
+      <div class="example-group">
+        <span class="example-label">Keywords:</span>
+        <button
+          v-for="ex in keywordExamples"
+          :key="ex"
+          class="button"
+          @click="query = ex"
+        >
+          {{ ex }}
+        </button>
+      </div>
+      <div class="example-group">
+        <span class="example-label">Combined:</span>
+        <button
+          v-for="ex in combinedExamples"
+          :key="ex"
+          class="button"
+          @click="query = ex"
+        >
+          {{ ex }}
+        </button>
+      </div>
     </div>
     <table class="table">
       <thead>

@@ -7,7 +7,7 @@
 
   const title = 'Fields - Basic';
   const columns = ['firstName', 'lastName', 'email'];
-  const examples = ['alice', 'johnson', 'acme', 'usa'];
+  const examples = ['alice', 'aloce', 'wayne', 'acme.com'];
 
   const config = {
     collection: peopleData as Person[],

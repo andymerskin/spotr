@@ -35,6 +35,27 @@ body {
   margin-bottom: 16px;
 }
 
+.example-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.example-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.example-label {
+  font-size: 12px;
+  color: #888;
+  margin-right: 4px;
+}
+
 .button {
   padding: 4px 12px;
   background-color: #2a2a2a;

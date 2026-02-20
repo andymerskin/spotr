@@ -20,7 +20,9 @@
 
   const title = 'Advanced - Combined';
   const columns = ["title","metadata.developer","metadata.publisher","completed"];
-  const examples = ["witcher","done","ps5","nintendo"];
+  const textExamples = ['FromSoftware', 'FromSoftwere', 'nintendo', 'spider'];
+  const keywordExamples = ['done', 'sony', 'microsoft'];
+  const combinedExamples = ['FromSoftware done', 'spider sony'];
 
   const config = {
     collection: gamesData as Game[],
@@ -67,10 +69,25 @@
     placeholder="Search..."
     class="input"
   />
-  <div class="buttons">
-    {#each examples as ex}
-      <button class="button" on:click={() => ($query = ex)}>{ex}</button>
-    {/each}
+  <div class="example-groups">
+    <div class="example-group">
+      <span class="example-label">Try:</span>
+      {#each textExamples as ex}
+        <button class="button" on:click={() => ($query = ex)}>{ex}</button>
+      {/each}
+    </div>
+    <div class="example-group">
+      <span class="example-label">Keywords:</span>
+      {#each keywordExamples as ex}
+        <button class="button" on:click={() => ($query = ex)}>{ex}</button>
+      {/each}
+    </div>
+    <div class="example-group">
+      <span class="example-label">Combined:</span>
+      {#each combinedExamples as ex}
+        <button class="button" on:click={() => ($query = ex)}>{ex}</button>
+      {/each}
+    </div>
   </div>
   <table class="table">
     <thead>

@@ -6,7 +6,7 @@ import type { Person } from './types';
 
 const title = 'Fields - Nested';
 const columns = ['firstName', 'lastName', 'address.city', 'company.name'];
-const examples = ['alice', 'johnson', 'acme', 'usa'];
+const examples = ['los angeles', 'los angelas', 'acme', 'dunder'];
 
 const config = {
   collection: peopleData as Person[],
@@ -52,7 +52,7 @@ function App() {
       />
       <div className="buttons">
         {examples.map((ex) => (
-          <button onClick={() => setQuery(ex)} className="button">
+          <button key={ex} onClick={() => setQuery(ex)} className="button">
             {ex}
           </button>
         ))}

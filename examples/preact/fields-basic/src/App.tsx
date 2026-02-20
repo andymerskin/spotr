@@ -6,7 +6,7 @@ import type { Person } from './types';
 
 const title = 'Fields - Basic';
 const columns = ['firstName', 'lastName', 'email'];
-const examples = ['alice', 'johnson', 'acme', 'usa'];
+const examples = ['alice', 'aloce', 'wayne', 'acme.com'];
 
 const config = {
   collection: peopleData as Person[],
@@ -49,7 +49,7 @@ function App() {
       />
       <div className="buttons">
         {examples.map((ex) => (
-          <button onClick={() => setQuery(ex)} className="button">
+          <button key={ex} onClick={() => setQuery(ex)} className="button">
             {ex}
           </button>
         ))}

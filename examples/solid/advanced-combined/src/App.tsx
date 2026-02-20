@@ -12,7 +12,9 @@ const columns = [
   'metadata.publisher',
   'completed',
 ];
-const examples = ['witcher', 'done', 'ps5', 'nintendo'];
+const textExamples = ['FromSoftware', 'FromSoftwere', 'nintendo', 'spider'];
+const keywordExamples = ['done', 'sony', 'microsoft'];
+const combinedExamples = ['FromSoftware done', 'spider sony'];
 
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 const platformAdvancedHandler = (col: Game[], terms?: string[]) => {
@@ -90,12 +92,31 @@ export default function App() {
         placeholder="Search..."
         class="input"
       />
-      <div class="buttons">
-        {examples.map((ex) => (
-          <button onClick={() => setQuery(ex)} class="button">
-            {ex}
-          </button>
-        ))}
+      <div class="example-groups">
+        <div class="example-group">
+          <span class="example-label">Try:</span>
+          {textExamples.map((ex) => (
+            <button onClick={() => setQuery(ex)} class="button">
+              {ex}
+            </button>
+          ))}
+        </div>
+        <div class="example-group">
+          <span class="example-label">Keywords:</span>
+          {keywordExamples.map((ex) => (
+            <button onClick={() => setQuery(ex)} class="button">
+              {ex}
+            </button>
+          ))}
+        </div>
+        <div class="example-group">
+          <span class="example-label">Combined:</span>
+          {combinedExamples.map((ex) => (
+            <button onClick={() => setQuery(ex)} class="button">
+              {ex}
+            </button>
+          ))}
+        </div>
       </div>
       <table class="table">
         <thead>

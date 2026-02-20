@@ -14,7 +14,8 @@
 
   const title = 'Keywords - Advanced';
   const columns = ["title","platforms","releaseYear","completed"];
-  const examples = ["witcher","done","ps5","nintendo"];
+  const textExamples = ['witcher', 'spider', 'zelda'];
+  const keywordExamples = ['done', 'ps5', 'xbox', 'recent'];
 
   const config = {
     collection: gamesData as Game[],
@@ -54,10 +55,19 @@
     placeholder="Search..."
     class="input"
   />
-  <div class="buttons">
-    {#each examples as ex}
-      <button class="button" on:click={() => ($query = ex)}>{ex}</button>
-    {/each}
+  <div class="example-groups">
+    <div class="example-group">
+      <span class="example-label">Try:</span>
+      {#each textExamples as ex}
+        <button class="button" on:click={() => ($query = ex)}>{ex}</button>
+      {/each}
+    </div>
+    <div class="example-group">
+      <span class="example-label">Keywords:</span>
+      {#each keywordExamples as ex}
+        <button class="button" on:click={() => ($query = ex)}>{ex}</button>
+      {/each}
+    </div>
   </div>
   <table class="table">
     <thead>

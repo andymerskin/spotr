@@ -6,7 +6,8 @@ import type { Game } from './types';
 
 const title = 'Keywords - Basic';
 const columns = ['title', 'releaseYear', 'completed'];
-const examples = ['witcher', 'done', 'ps5', 'nintendo'];
+const textExamples = ['witcher', 'spider', 'zelda', 'souls'];
+const keywordExamples = ['done', 'finished'];
 
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 
@@ -52,12 +53,23 @@ function App() {
         placeholder="Search..."
         className="input"
       />
-      <div className="buttons">
-        {examples.map((ex) => (
-          <button onClick={() => setQuery(ex)} className="button">
-            {ex}
-          </button>
-        ))}
+      <div className="example-groups">
+        <div className="example-group">
+          <span className="example-label">Try:</span>
+          {textExamples.map((ex) => (
+            <button key={ex} onClick={() => setQuery(ex)} className="button">
+              {ex}
+            </button>
+          ))}
+        </div>
+        <div className="example-group">
+          <span className="example-label">Keywords:</span>
+          {keywordExamples.map((ex) => (
+            <button key={ex} onClick={() => setQuery(ex)} className="button">
+              {ex}
+            </button>
+          ))}
+        </div>
       </div>
       <table className="table">
         <thead>
