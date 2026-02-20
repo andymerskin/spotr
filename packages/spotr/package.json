@@ -17,7 +17,8 @@
   "type": "module",
   "sideEffects": false,
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "exports": {
     ".": {
@@ -52,7 +53,8 @@
     }
   },
   "scripts": {
-    "prepack": "bun run build",
+    "prepack": "rm -f README.md && cp ../../README.md README.md && bun run build",
+    "postpack": "rm -f README.md && ln -s ../../README.md README.md",
     "prepublishOnly": "cd ../.. && bun run format:check && bun run lint && bun run typecheck && bun run test:coverage && bun run examples:typecheck",
     "build": "vite build",
     "test": "vitest run",
