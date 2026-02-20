@@ -81,7 +81,10 @@ The `site` package depends on `spotr` using the workspace protocol (`workspace:*
 - `bun run build` - Build the library (outputs to `dist/`)
 - `bun run test` - Run all tests once
 - `bun run test:watch` - Run tests in watch mode
+- `bun run test:coverage` - Run tests with coverage report
+- `bun run test:coverage:watch` - Run tests with coverage in watch mode
 - `bun run typecheck` - Type check main library (`tsc --noEmit`)
+- `bun run audit` - Audit the Spotr package for vulnerabilities and apply fixes (`scripts/audit-spotr.ts`)
 - `bun run lint` - Lint codebase (ESLint)
 - `bun run format` - Format codebase (Prettier, whole repo from root)
 

@@ -13,6 +13,7 @@
     "test:coverage": "bun run --filter spotr test:coverage",
     "test:coverage:watch": "bun run --filter spotr test:coverage:watch",
     "typecheck": "bun run --filter spotr typecheck",
+    "audit": "bun run scripts/audit-spotr.ts",
     "lint": "eslint packages/spotr/src packages/spotr/test examples/shared examples/*/*/src",
     "examples:typecheck": "bun run scripts/typecheck-examples.ts",
     "examples:sync": "bun run scripts/sync-examples.ts",

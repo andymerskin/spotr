@@ -260,6 +260,7 @@ bun install
 - `bun run test` - Run all tests once
 - `bun run test:watch` - Run tests in watch mode
 - `bun run typecheck` - Type check the library (`tsc --noEmit`)
+- `bun run audit` - Audit the Spotr package for vulnerabilities and apply fixes (`scripts/audit-spotr.ts`)
 - `bun run lint` - Lint the codebase (ESLint)
 - `bun run format` - Format the codebase (Prettier, whole repo from root)
 
