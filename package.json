@@ -25,6 +25,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "validate": "bun run format:check && bun run lint && bun run typecheck && bun run test:coverage && bun run examples:typecheck && bun run build",
+    "size:check": "bun run build && bun run scripts/check-bundle-size.ts",
     "prepare": "husky"
   },
   "devDependencies": {
