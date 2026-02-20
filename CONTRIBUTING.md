@@ -189,11 +189,11 @@ The release script (`bun run release`) runs `validate` and bundle size check aut
    npm version major --no-workspaces-update    # removes pre-release suffix and increments major
    ```
 
-5. **Amend the commit to include CHANGELOG.md and dist/:**
+5. **Amend the commit to include CHANGELOG.md:**
 
    ```sh
    cd ../..  # return to repo root
-   git add CHANGELOG.md packages/spotr/dist/
+   git add CHANGELOG.md
    git commit --amend --no-edit
    ```
 

@@ -250,9 +250,9 @@ async function phase2Release() {
     exec(`git tag -a ${tag} -m "${newVersion}"`);
   }
 
-  // Amend commit with CHANGELOG and dist
-  console.log('\n✓ Amending commit with CHANGELOG.md and dist/...');
-  exec('git add CHANGELOG.md packages/spotr/dist/');
+  // Amend commit with CHANGELOG
+  console.log('\n✓ Amending commit with CHANGELOG.md...');
+  exec('git add CHANGELOG.md');
   exec('git commit --amend --no-edit');
 
   // Publish confirmation
