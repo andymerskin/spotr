@@ -3,10 +3,27 @@ import '../styles/global.css';
 
 interface Props {
   title: string;
+  description?: string;
   example?: string;
 }
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
+const defaultDescription =
+  'A powerful fuzzy search library for client-side collections.';
+const pageDescription = description ?? defaultDescription;
+
+// Format page title based on page type
+const isLandingPage =
+  Astro.url.pathname === '/' || Astro.url.pathname === import.meta.env.BASE_URL;
+const formattedTitle = isLandingPage
+  ? `Spotr - ${defaultDescription}`
+  : `${title} | Spotr`;
+
+// Construct full URLs for Open Graph
+const siteUrl = 'https://andymerskin.github.io';
+const baseUrl = import.meta.env.BASE_URL;
+const ogImageUrl = `${siteUrl}${baseUrl}open-graph/spotr.png`;
+const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
 ---
 
 <html lang="en">
@@ -21,7 +38,23 @@ const { title } = Astro.props;
     />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title} | Spotr Examples</title>
+    <title>{formattedTitle}</title>
+
+    {/* SEO Meta Tags */}
+    <meta name="description" content={pageDescription} />
+
+    {/* Open Graph Meta Tags */}
+    <meta property="og:title" content={formattedTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content="website" />
+
+    {/* Twitter Card Meta Tags */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={formattedTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
   </head>
   <body>
     <slot />
