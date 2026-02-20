@@ -197,10 +197,10 @@ async function phase2Release() {
     ['premajor', 'preminor', 'prepatch'].includes(versionBump)
   ) {
     const preidToUse = preid || 'alpha'; // Default to alpha if not specified
-    npmVersionCommand = `npm version ${versionBump} --preid=${preidToUse}`;
+    npmVersionCommand = `npm version ${versionBump} --preid=${preidToUse} --no-workspaces-update`;
   } else {
     // For other types (patch, minor, major, prerelease, or exact version), use as-is
-    npmVersionCommand = `npm version ${versionBump}`;
+    npmVersionCommand = `npm version ${versionBump} --no-workspaces-update`;
   }
 
   console.log(`\n✓ Bumping version: ${npmVersionCommand}`);
