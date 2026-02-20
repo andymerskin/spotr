@@ -267,6 +267,7 @@ bun install
 - `bun run examples:sync` - Sync shared files from `examples/shared/` to all examples
 - `bun run examples:install` - Install dependencies for all examples
 - `bun run examples:update` - Update dependencies for all examples
+- `bun run examples:dev` - Launch interactive dev servers for a selected framework (starts all 5 examples on ports 5173-5177)
 
 ### Setup Scripts
 

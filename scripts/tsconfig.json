@@ -6,12 +6,12 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "types": ["node"],
+    "types": ["node", "bun"],
     "lib": ["ES2022"],
     "noEmit": true,
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["**/*.ts", "bun.d.ts"],
+  "include": ["**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -18,12 +18,15 @@
     "examples:sync": "bun run scripts/sync-examples.ts",
     "examples:install": "bun run scripts/install-examples.ts",
     "examples:update": "bun run scripts/update-examples.ts",
+    "examples:dev": "bun run scripts/dev-examples.ts",
     "release": "bun run scripts/release.ts",
     "format": "prettier --write .",
     "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/bun": "^1.3.9",
+    "@types/node": "^25.3.0",
     "eslint": "^10.0.0",
     "husky": "^9.1.7",
     "prettier": "^3.8.1",
