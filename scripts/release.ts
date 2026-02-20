@@ -85,20 +85,13 @@ function checkChangelog(): boolean {
 async function phase1Validation() {
   console.log('\n📋 Phase 1: Running validation checks...\n');
 
-  const checks = [
-    { name: 'Tests', command: 'bun run test' },
-    { name: 'Test coverage', command: 'bun run test:coverage' },
-    { name: 'Type checking', command: 'bun run typecheck' },
-    { name: 'Examples type checking', command: 'bun run examples:typecheck' },
-    { name: 'Linting', command: 'bun run lint' },
-    { name: 'Formatting', command: 'bun run format' },
-    { name: 'Build', command: 'bun run build' },
-  ];
+  console.log(
+    '\n✓ Running validate (format:check, lint, typecheck, test:coverage, examples:typecheck, build)...'
+  );
+  exec('bun run validate');
 
-  for (const check of checks) {
-    console.log(`\n✓ Running: ${check.name}`);
-    exec(check.command);
-  }
+  console.log('\n✓ Checking bundle size...');
+  exec('bun run scripts/check-bundle-size.ts', repoRoot);
 
   console.log('\n✓ Checking CHANGELOG.md...');
   const changelogOk = checkChangelog();
