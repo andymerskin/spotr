@@ -42,6 +42,7 @@ const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
 
     {/* SEO Meta Tags */}
     <meta name="description" content={pageDescription} />
+    <meta name="author" content="Andy Merskin" />
 
     {/* Open Graph Meta Tags */}
     <meta property="og:title" content={formattedTitle} />
@@ -55,6 +56,17 @@ const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
     <meta name="twitter:title" content={formattedTitle} />
     <meta name="twitter:description" content={pageDescription} />
     <meta name="twitter:image" content={ogImageUrl} />
+
+    {/* Structured Data */}
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Andy Merskin',
+      })}
+    />
   </head>
   <body>
     <slot />
