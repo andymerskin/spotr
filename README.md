@@ -2,7 +2,7 @@
 
 # Spotr
 
-A powerful and minimal client-side fuzzy search library with zero dependencies.
+A powerful fuzzy search library for client-side collections.
 
 [![npm version](https://img.shields.io/npm/v/spotr.svg)](https://www.npmjs.com/package/spotr) [![bundle size](https://img.shields.io/badge/bundle%20size-3.4%20kB%20gzipped-brightgreen)](https://bundlephobia.com/package/spotr) [![CI/CD](https://github.com/andymerskin/spotr/actions/workflows/ci.yml/badge.svg)](https://github.com/andymerskin/spotr/actions/workflows/ci.yml)
 
