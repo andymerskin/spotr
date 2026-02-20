@@ -59,6 +59,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:coverage:watch": "vitest --coverage",
+    "bench": "vitest bench --run",
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
