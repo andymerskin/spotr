@@ -242,18 +242,18 @@ async function phase2Release() {
     exec(`git commit -m "${newVersion}"`);
   }
 
-  // Create tag if npm version didn't
+  // Amend commit with CHANGELOG first
+  console.log('\n✓ Amending commit with CHANGELOG.md...');
+  exec('git add CHANGELOG.md');
+  exec('git commit --amend --no-edit');
+
+  // Create tag AFTER amend (so it points to the final commit)
   if (!tagExists) {
     console.log(
       '\n⚠️  npm version did not create a tag (workspace bug). Creating tag manually...'
     );
     exec(`git tag -a ${tag} -m "${newVersion}"`);
   }
-
-  // Amend commit with CHANGELOG
-  console.log('\n✓ Amending commit with CHANGELOG.md...');
-  exec('git add CHANGELOG.md');
-  exec('git commit --amend --no-edit');
 
   // Publish confirmation
   const shouldPublish = process.argv.includes('--no-publish')
@@ -291,7 +291,22 @@ async function phase2Release() {
   } else {
     console.log('\n⚠️  Skipping npm publish.');
     console.log('   Version bumped and commit amended.');
-    console.log('   Run manually:');
+
+    // Push commits and tags even when skipping publish
+    const shouldPush = await question(
+      '\n📤 Push commits and tags to remote? (y/n): '
+    );
+    if (shouldPush && shouldPush.toLowerCase() === 'y') {
+      console.log('\n✓ Pushing commits and tags...');
+      exec('git push origin master');
+      exec(`git push origin ${tag}`);
+    } else {
+      console.log('   Run manually:');
+      console.log(`     git push origin master`);
+      console.log(`     git push origin ${tag}`);
+    }
+
+    console.log('\n   To publish later:');
     console.log(`     cd packages/spotr`);
     const npmTag =
       newVersion.includes('-alpha.') ||
@@ -301,8 +316,6 @@ async function phase2Release() {
         : 'npm publish';
     console.log(`     ${npmTag}`);
     console.log(`     cd ../..`);
-    console.log(`     git push origin master`);
-    console.log(`     git push origin ${tag}`);
   }
 }
 
