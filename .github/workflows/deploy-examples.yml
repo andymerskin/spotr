@@ -32,6 +32,9 @@ jobs:
       - name: Build spotr library
         run: bun run --filter spotr build
 
+      - name: Install example dependencies
+        run: bun run examples:install
+
       - name: Typecheck examples
         run: bun run examples:typecheck
 
