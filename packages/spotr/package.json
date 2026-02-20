@@ -52,6 +52,8 @@
     }
   },
   "scripts": {
+    "prepack": "bun run build",
+    "prepublishOnly": "cd ../.. && bun run format:check && bun run lint && bun run typecheck && bun run test:coverage && bun run examples:typecheck",
     "build": "vite build",
     "test": "vitest run",
     "test:watch": "vitest",
