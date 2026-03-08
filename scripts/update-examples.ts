@@ -11,17 +11,24 @@ const examples = [
 ];
 const repoRoot = join(import.meta.dirname, '..');
 
-// Read the version from root package.json
-const rootPackageJsonPath = join(repoRoot, 'package.json');
-const rootPackageJson = JSON.parse(readFileSync(rootPackageJsonPath, 'utf-8'));
-const spotrVersion = rootPackageJson.version;
+// Read the version from packages/spotr (the published package)
+const spotrPackageJsonPath = join(
+  repoRoot,
+  'packages',
+  'spotr',
+  'package.json'
+);
+const spotrPackageJson = JSON.parse(
+  readFileSync(spotrPackageJsonPath, 'utf-8')
+);
+const spotrVersion = spotrPackageJson.version;
 
 if (!spotrVersion) {
-  console.error('❌ Could not find version in root package.json');
+  console.error('❌ Could not find version in packages/spotr/package.json');
   process.exit(1);
 }
 
-console.log(`📦 Updating examples to use spotr version: ${spotrVersion}\n`);
+console.log(`📦 Updating examples to use spotr@^${spotrVersion}\n`);
 
 // Update each example's package.json
 for (const framework of frameworks) {
@@ -37,9 +44,9 @@ for (const framework of frameworks) {
         packageJson.dependencies = {};
       }
 
-      // Update spotr to use exact version (no ^ or ~ prefix)
-      // Remove any file: or link: prefixes to ensure remote package
-      packageJson.dependencies.spotr = spotrVersion;
+      // Use published npm package with caret for semver flexibility
+      // Examples run in StackBlitz and need the public package (no file: or workspace:)
+      packageJson.dependencies.spotr = `^${spotrVersion}`;
 
       // Write back with proper formatting (2 space indent)
       writeFileSync(
@@ -48,7 +55,7 @@ for (const framework of frameworks) {
         'utf-8'
       );
 
-      console.log(`✅ Updated ${framework}/${example}: spotr@${spotrVersion}`);
+      console.log(`✅ Updated ${framework}/${example}: spotr@^${spotrVersion}`);
     } catch (error) {
       console.error(`❌ Failed to update ${framework}/${example}:`, error);
       process.exit(1);
