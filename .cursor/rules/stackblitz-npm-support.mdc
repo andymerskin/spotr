@@ -1,0 +1,28 @@
+---
+description: Ensure examples support both npm and Bun for StackBlitz compatibility
+globs: examples/**/*
+alwaysApply: false
+---
+
+# StackBlitz npm Support
+
+Examples run in StackBlitz, which has no access to the monorepo (relative paths or workspaces). They must use the **published spotr package from npm** (e.g. `"spotr": "^1.0.0-alpha.3"`), not `file:` or `workspace:*`.
+
+Examples must support both npm and Bun because StackBlitz doesn't support Bun. This requires committing `package-lock.json` files.
+
+## Requirements
+
+1. **package.json**: All examples must have `"packageManager": "npm@latest"`
+2. **Lock files**: Commit both `package-lock.json` and `bun.lock` files (do NOT ignore `examples/**/package-lock.json` in `.gitignore`)
+3. **Install script**: `scripts/install-examples.ts` must generate both lock files:
+
+```typescript
+execSync('bun install', { cwd: exampleDir });
+execSync('npm install --package-lock-only', { cwd: exampleDir });
+```
+
+## When publishing a new spotr version
+
+Run `bun run examples:update` to sync the spotr version in all example package.json files, then `bun run examples:install` to regenerate lock files.
+
+After modifying examples, run `bun run examples:install` and commit both lock files.
