@@ -1,15 +1,6 @@
-import type { MatchedKeyword } from 'spotr';
+import { getNestedValue, type MatchedKeyword } from 'spotr';
 
-// Get nested value using dot notation
-export function getNestedValue(obj: unknown, path: string): unknown {
-  const keys = path.split('.');
-  let current: unknown = obj;
-  for (const key of keys) {
-    if (current == null || typeof current !== 'object') return undefined;
-    current = (current as Record<string, unknown>)[key];
-  }
-  return current;
-}
+export { getNestedValue };
 
 // Format a value for table display
 export function formatCellValue(val: unknown): string {

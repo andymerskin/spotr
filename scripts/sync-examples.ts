@@ -66,17 +66,12 @@ for (const framework of frameworks) {
   }
 }
 
-// Copy utils.ts but update the import to use 'spotr' instead of '../../src/types'
+// Copy utils.ts (imports from 'spotr' - works in all examples via workspace)
 const utilsTs = readFileSync(join(sharedDir, 'utils.ts'), 'utf-8');
-const adaptedUtilsTs = utilsTs.replace(
-  "import type { MatchedKeyword } from '../../src/types';",
-  "import type { MatchedKeyword } from 'spotr';"
-);
-
 for (const framework of frameworks) {
   for (const example of examples) {
     const exampleSrcDir = join(repoRoot, 'examples', framework, example, 'src');
-    writeFileSync(join(exampleSrcDir, 'utils.ts'), adaptedUtilsTs);
+    writeFileSync(join(exampleSrcDir, 'utils.ts'), utilsTs);
   }
 }
 
