@@ -393,7 +393,7 @@
     },
     "packages/spotr": {
       "name": "spotr",
-      "version": "1.0.0-alpha.3",
+      "version": "1.0.0-alpha.4",
       "devDependencies": {
         "@eslint/js": "^10.0.1",
         "@preact/preset-vite": "^2.10.0",
