@@ -1,4 +1,4 @@
-import { createMemo } from 'solid-js';
+import { createSignal, createMemo } from 'solid-js';
 import { createSpotr } from 'spotr/solid';
 import gamesJson from './data/games.json';
 import { getNestedValue, highlightCellValue } from './utils';
@@ -22,11 +22,7 @@ const LIMIT = 20;
 const completedHandler = (col: Game[]) => col.filter((i) => i.completed);
 
 export default function App() {
-  const {
-    query,
-    setQuery,
-    results: spotrResults,
-  } = createSpotr({
+  const getSpotr = createSpotr({
     collection: gamesData,
     threshold: 0.3,
     fields: [
@@ -43,6 +39,7 @@ export default function App() {
     limit: LIMIT,
   });
 
+  const [query, setQuery] = createSignal('');
   const results = createMemo(() => {
     const q = query();
     if (!q.trim()) {
@@ -55,7 +52,7 @@ export default function App() {
         warnings: [] as string[],
       };
     }
-    return spotrResults();
+    return getSpotr().query(q);
   });
 
   return (

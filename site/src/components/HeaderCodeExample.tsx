@@ -82,16 +82,20 @@ const { query, results } = createSpotr({
     <li>{r.item.title}</li>
   {/each}
 </ul>`,
-  solid: `import { createSpotr } from 'spotr/solid';
+  solid: `import { createSignal, createMemo } from 'solid-js';
+import { createSpotr } from 'spotr/solid';
 
 function SearchComponent() {
-  const { query, setQuery, results } = createSpotr({
+  const spotr = createSpotr({
     collection: items,
     fields: [
       { name: 'title', weight: 1 },
       { name: 'description', weight: 0.7 },
     ],
   });
+  
+  const [query, setQuery] = createSignal('');
+  const results = createMemo(() => spotr().query(query()));
   
   return (
     <>

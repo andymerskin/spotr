@@ -1,11 +1,11 @@
-import { createMemo } from 'solid-js';
+import { createSignal, createMemo } from 'solid-js';
 import { createSpotr } from 'spotr/solid';
 import peopleJson from './data/people.json';
 import type { Person } from './types';
-
-const peopleData: Person[] = peopleJson as Person[];
 import { getNestedValue, highlightCellValue } from './utils';
 import './styles.css';
+
+const peopleData: Person[] = peopleJson as Person[];
 
 const title = 'Fields - Nested';
 const columns = [
@@ -19,11 +19,7 @@ const examples = ['los angeles', 'los angelas', 'acme', 'dunder'];
 const LIMIT = 20;
 
 export default function App() {
-  const {
-    query,
-    setQuery,
-    results: spotrResults,
-  } = createSpotr({
+  const getSpotr = createSpotr({
     collection: peopleData,
     threshold: 0.3,
     fields: [
@@ -38,6 +34,7 @@ export default function App() {
     limit: LIMIT,
   });
 
+  const [query, setQuery] = createSignal('');
   const results = createMemo(() => {
     const q = query();
     if (!q.trim()) {
@@ -50,7 +47,7 @@ export default function App() {
         warnings: [] as string[],
       };
     }
-    return spotrResults();
+    return getSpotr().query(q);
   });
 
   return (

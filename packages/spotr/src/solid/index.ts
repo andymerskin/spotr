@@ -1,4 +1,4 @@
-import { createSignal, createMemo } from 'solid-js';
+import { createMemo } from 'solid-js';
 import { Spotr } from '../Spotr';
 import type { SpotrOptions, ExtractItemType } from '../types';
 
@@ -6,27 +6,23 @@ import type { SpotrOptions, ExtractItemType } from '../types';
 export function createSpotr<
   C extends readonly object[] | object[] | Set<object>,
 >(
-  options: Omit<SpotrOptions<ExtractItemType<C>>, 'collection'> & {
-    collection: C;
-  }
-): {
-  query: () => string;
-  setQuery: (query: string) => void;
-  results: () => import('../types').SpotrResult<ExtractItemType<C> & object>;
-};
+  options:
+    | (Omit<SpotrOptions<ExtractItemType<C>>, 'collection'> & { collection: C })
+    | (() => Omit<SpotrOptions<ExtractItemType<C>>, 'collection'> & {
+        collection: C;
+      })
+): () => Spotr<ExtractItemType<C> & object>;
 // Overload: explicit generic
 export function createSpotr<T extends object>(
-  options: SpotrOptions<T>
-): {
-  query: () => string;
-  setQuery: (query: string) => void;
-  results: () => import('../types').SpotrResult<T>;
-};
-export function createSpotr<T extends object>(options: SpotrOptions<T>) {
-  const spotr = new Spotr(options);
-  const [query, setQuery] = createSignal('');
-  const results = createMemo(() => spotr.query(query()));
-  return { query, setQuery, results };
+  options: SpotrOptions<T> | (() => SpotrOptions<T>)
+): () => Spotr<T>;
+export function createSpotr<T extends object>(
+  options: SpotrOptions<T> | (() => SpotrOptions<T>)
+): () => Spotr<T> {
+  return createMemo(() => {
+    const opts = typeof options === 'function' ? options() : options;
+    return new Spotr(opts);
+  }) as () => Spotr<T>;
 }
 
 export { Spotr } from '../Spotr';
