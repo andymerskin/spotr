@@ -59,6 +59,18 @@ export default defineConfig({
           branches: 80,
           statements: 89,
         },
+        'src/svelte/index.ts': {
+          lines: 100,
+          functions: 100,
+          branches: 100,
+          statements: 100,
+        },
+        'src/solid/index.ts': {
+          lines: 100,
+          functions: 100,
+          branches: 100,
+          statements: 100,
+        },
       },
       reportOnFailure: true,
     },
