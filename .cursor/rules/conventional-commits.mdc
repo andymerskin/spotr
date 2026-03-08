@@ -1,0 +1,22 @@
+---
+description: Use Conventional Commits specification for all Git commit messages
+alwaysApply: false
+---
+# Conventional Commits
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format: `<type>[optional scope]: <description>`
+
+**Types:** `feat`, `fix`, `docs`, `refactor`, `chore`, `test`, `style`, `perf`, `ci`, `build`
+
+**Breaking changes:** Use `!` after type/scope or `BREAKING CHANGE:` footer:
+- `feat!: remove deprecated API`
+- `feat(api)!: change response format`
+
+**Casing:** Use lowercase unless referencing codebase entities (`SpotrError`, `useSpotr`), proper nouns (`React`, `TypeScript`), or proper pronouns.
+
+**Examples:**
+- ✅ `feat: add fuzzy matching algorithm`
+- ✅ `fix(Spotr): handle SpotrError in validation`
+- ✅ `feat!: change default threshold`
+- ❌ `feat: Add New Feature` (should be lowercase)
+- ❌ `Fixed bug` (missing type prefix)
