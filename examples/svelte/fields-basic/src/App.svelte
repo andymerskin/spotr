@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { derived } from 'svelte/store';
+  import { writable, derived } from 'svelte/store';
   import { createSpotr } from 'spotr/svelte';
   import peopleJson from './data/people.json';
   import type { Person } from './types';
@@ -12,7 +12,7 @@
   const examples = ['alice', 'aloce', 'wayne', 'acme.com'];
   const LIMIT = 20;
 
-  const { spotr: _spotr, query, results: spotrResults } = createSpotr({
+  const spotrStore = createSpotr({
     collection: peopleData,
     threshold: 0.3,
     fields: [
@@ -22,8 +22,9 @@
     ],
     limit: LIMIT,
   });
-  
-  const results = derived([query, spotrResults], ([$query, $spotrResults]) => {
+
+  const query = writable('');
+  const results = derived([spotrStore, query], ([$spotr, $query]) => {
     if (!$query.trim()) {
       return {
         results: peopleData.slice(0, LIMIT).map((item) => ({ item, score: null as number | null })),
@@ -32,7 +33,7 @@
         warnings: [] as string[],
       };
     }
-    return $spotrResults;
+    return $spotr.query($query);
   });
 </script>
 

@@ -65,15 +65,21 @@ const result = computed(() => {
   </ul>
 </template>`,
   svelte: `<script>
+import { writable, derived } from 'svelte/store';
 import { createSpotr } from 'spotr/svelte';
 
-const { query, results } = createSpotr({
+const spotr = createSpotr({
   collection: items,
   fields: [
     { name: 'title', weight: 1 },
     { name: 'description', weight: 0.7 },
   ],
 });
+
+const query = writable('');
+const results = derived([spotr, query], ([$spotr, $query]) =>
+  $spotr.query($query)
+);
 </script>
 
 <input bind:value={$query} />

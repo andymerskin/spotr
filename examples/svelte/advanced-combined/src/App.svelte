@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { derived } from 'svelte/store';
+  import { writable, derived } from 'svelte/store';
   import { createSpotr } from 'spotr/svelte';
   import gamesJson from './data/games.json';
   import { getNestedValue, highlightCellValue } from './utils';
@@ -27,7 +27,7 @@
   const combinedExamples = ['FromSoftware done', 'spider sony'];
   const LIMIT = 20;
 
-  const { spotr: _spotr, query, results: spotrResults } = createSpotr({
+  const spotrStore = createSpotr({
     collection: gamesData,
     threshold: 0.3,
     fields: [
@@ -47,8 +47,9 @@
     },
     limit: LIMIT,
   });
-  
-  const results = derived([query, spotrResults], ([$query, $spotrResults]) => {
+
+  const query = writable('');
+  const results = derived([spotrStore, query], ([$spotr, $query]) => {
     if (!$query.trim()) {
       return {
         results: gamesData.slice(0, LIMIT).map((item) => ({ item, score: null as number | null })),
@@ -57,7 +58,7 @@
         warnings: [] as string[],
       };
     }
-    return $spotrResults;
+    return $spotr.query($query);
   });
 </script>
 
