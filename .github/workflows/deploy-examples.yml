@@ -96,3 +96,24 @@ jobs:
       - name: Output deployment URL
         run: |
           echo "Deployed to: ${{ steps.deployment.outputs.page_url }}"
+
+  warm:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+
+      - name: Warm StackBlitz cache
+        run: bun run examples:warm
+        env:
+          SITE_URL: https://andymerskin.github.io/spotr

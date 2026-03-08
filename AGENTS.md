@@ -103,6 +103,9 @@ The `site` package depends on `spotr` using the workspace protocol (`workspace:*
   - Launches all 5 examples for the selected framework concurrently
   - Servers run on ports 5173-5177 (Vite's default port range)
   - Displays clickable URLs for easy access to each example
+- `bun run examples:warm` - Warm up StackBlitz cache by visiting all 25 example pages (`scripts/warm-examples.ts`)
+  - Used automatically in CI after GitHub Pages deployment
+  - Visits all example pages in batches to trigger StackBlitz to clone and cache projects
 
 ### Utility Commands
 

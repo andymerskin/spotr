@@ -286,6 +286,7 @@ bun install
 - `bun run examples:update` - Update dependencies for all examples
 - `bun run examples:audit` - Audit all example packages for vulnerabilities and apply fixes (`scripts/audit-examples.ts`)
 - `bun run examples:dev` - Launch interactive dev servers for a selected framework (starts all 5 examples on ports 5173-5177)
+- `bun run examples:warm` - Warm up StackBlitz cache by visiting all 25 example pages (used in CI after deployment)
 
 ### Setup Scripts
 
