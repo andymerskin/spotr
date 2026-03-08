@@ -31,13 +31,10 @@ async function warmExample(
   console.log(`🌐 Visiting ${example}/${framework}...`);
 
   try {
-    await page.goto(url, { waitUntil: 'networkidle' });
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
 
-    // Wait for the StackBlitz iframe to have its src attribute set
-    // This confirms the SDK executed and the request to StackBlitz was dispatched
-    await page.waitForSelector('#stackblitz-embed iframe[src]', {
-      timeout: 30000, // 30 second timeout per page
-    });
+    // Wait for the StackBlitz embed iframe (the element itself, not a container)
+    await page.waitForSelector('#stackblitz-embed', { timeout: 5000 });
 
     console.log(`✅ ${example}/${framework} warmed successfully`);
   } catch (error) {
@@ -70,11 +67,10 @@ async function main() {
   }> = [];
 
   try {
-    // Process URLs in batches to avoid overwhelming the runner and StackBlitz
     for (let i = 0; i < urls.length; i += BATCH_SIZE) {
       const batch = urls.slice(i, i + BATCH_SIZE);
       console.log(
-        `📦 Processing batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(urls.length / BATCH_SIZE)} (${batch.length} pages)...\n`
+        `📦 Batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(urls.length / BATCH_SIZE)} (${batch.length} pages)...\n`
       );
 
       await Promise.all(
@@ -90,7 +86,7 @@ async function main() {
         })
       );
 
-      console.log(''); // Empty line between batches
+      console.log('');
     }
   } finally {
     await browser.close();
