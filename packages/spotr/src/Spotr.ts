@@ -103,7 +103,7 @@ export class Spotr<T extends object> {
       const results: ScoredResult<T>[] = filteredCollection.map((item) => {
         const { score, warnings } = scoreItem(
           item,
-          [],
+          [], // no search tokens to normalize
           this._fields,
           this._caseSensitive,
           this._maxStringLength
@@ -134,13 +134,26 @@ export class Spotr<T extends object> {
       };
     }
 
+    // Pre-normalize tokens once (truncate, case) to avoid redundant work in the hot path
     const allWarnings: string[] = [];
+    const normalizedTokens: string[] = [];
+    for (const token of validTokens) {
+      let t = token;
+      if (t.length > this._maxStringLength) {
+        allWarnings.push(
+          `Query string truncated from ${t.length} to ${this._maxStringLength} characters for performance`
+        );
+        t = t.slice(0, this._maxStringLength);
+      }
+      normalizedTokens.push(this._caseSensitive ? t : t.toLowerCase());
+    }
+
     const scoredResults: ScoredResult<T>[] = [];
 
     for (const item of filteredCollection) {
       const { score, warnings } = scoreItem(
         item,
-        validTokens,
+        normalizedTokens,
         this._fields,
         this._caseSensitive,
         this._maxStringLength

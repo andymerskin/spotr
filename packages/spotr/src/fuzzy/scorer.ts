@@ -21,7 +21,7 @@ export function normalizeFieldConfig(
 
 export function scoreItem<T>(
   item: T,
-  tokens: string[],
+  normalizedTokens: string[],
   fields: NormalizedFieldConfig[],
   caseSensitive: boolean,
   maxStringLength: number = MAX_STRING_LENGTH
@@ -40,19 +40,27 @@ export function scoreItem<T>(
       continue;
     }
 
-    const stringValue = String(value);
+    let stringValue = String(value);
+
+    // Normalize target once per field (truncate, collect warnings)
+    if (stringValue.length > maxStringLength) {
+      warnings.push(
+        `Target string truncated from ${stringValue.length} to ${maxStringLength} characters for performance`
+      );
+      stringValue = stringValue.slice(0, maxStringLength);
+    }
+    const normalizedTarget = caseSensitive
+      ? stringValue
+      : stringValue.toLowerCase();
 
     let bestTokenScore = 0;
-    for (const token of tokens) {
-      const result = fuzzyScore(
-        token,
-        stringValue,
-        field.threshold,
-        caseSensitive,
-        maxStringLength
+    for (const normalizedToken of normalizedTokens) {
+      const score = fuzzyScore(
+        normalizedToken,
+        normalizedTarget,
+        field.threshold
       );
-      warnings.push(...result.warnings);
-      bestTokenScore = Math.max(bestTokenScore, result.score);
+      bestTokenScore = Math.max(bestTokenScore, score);
     }
 
     totalScore += bestTokenScore * field.weight;

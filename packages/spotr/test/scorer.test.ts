@@ -81,7 +81,8 @@ describe('scoreItem', () => {
   it('respects caseSensitive', () => {
     const item = { name: 'hello' };
     const fields = [{ name: 'name', weight: 1, threshold: 0.3 }];
-    const caseInsensitive = scoreItem(item, ['HELLO'], fields, false);
+    // Caller pre-normalizes tokens: lowercase when caseInsensitive, as-is when caseSensitive
+    const caseInsensitive = scoreItem(item, ['hello'], fields, false);
     const caseSensitive = scoreItem(item, ['HELLO'], fields, true);
     expect(caseInsensitive.score).toBe(1);
     expect(caseSensitive.score).toBe(0);

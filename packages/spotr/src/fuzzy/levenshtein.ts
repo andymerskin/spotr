@@ -1,5 +1,3 @@
-import { MAX_STRING_LENGTH } from '../types';
-
 /**
  * Calculates the Levenshtein distance (edit distance) between two strings.
  *
@@ -56,17 +54,8 @@ export function levenshteinDistance(a: string, b: string): number {
 }
 
 /**
- * Result of fuzzy scoring operation.
- */
-export interface FuzzyScoreResult {
-  /** Similarity score between 0 and 1, where 1 is a perfect match */
-  score: number;
-  /** Array of warning messages (e.g., string truncation warnings) */
-  warnings: string[];
-}
-
-/**
- * Calculates a fuzzy similarity score between a query string and a target string.
+ * Calculates a fuzzy similarity score between two pre-normalized strings.
+ * Callers must truncate and apply case normalization before calling.
  *
  * The scoring algorithm uses a tiered approach:
  * 1. Exact match: Returns score of 1.0
@@ -75,76 +64,36 @@ export interface FuzzyScoreResult {
  *
  * Scores below the threshold are returned as 0 to filter out poor matches.
  *
- * @param query - The search query string
- * @param target - The target string to match against
- * @param threshold - Minimum score threshold (default: 0.3). Scores below this return 0
- * @param caseSensitive - Whether comparison should be case-sensitive (default: false)
- * @param maxStringLength - Maximum string length before truncation (default: MAX_STRING_LENGTH)
- * @returns FuzzyScoreResult with score and any warnings
+ * @param normalizedQuery - Pre-normalized query string (truncated, case-adjusted)
+ * @param normalizedTarget - Pre-normalized target string (truncated, case-adjusted)
+ * @param threshold - Minimum score threshold. Scores below this return 0
+ * @returns Similarity score between 0 and 1
  */
 export function fuzzyScore(
-  query: string,
-  target: string,
-  threshold: number = 0.3,
-  caseSensitive: boolean = false,
-  maxStringLength: number = MAX_STRING_LENGTH
-): FuzzyScoreResult {
-  const warnings: string[] = [];
-  let q = query;
-  let t = target;
-
-  // Truncate query if it exceeds max length to prevent performance issues
-  // Levenshtein distance calculation is O(n*m), so long strings can be slow
-  if (q.length > maxStringLength) {
-    warnings.push(
-      `Query string truncated from ${q.length} to ${maxStringLength} characters for performance`
-    );
-    q = q.slice(0, maxStringLength);
-  }
-
-  // Truncate target if it exceeds max length
-  if (t.length > maxStringLength) {
-    warnings.push(
-      `Target string truncated from ${t.length} to ${maxStringLength} characters for performance`
-    );
-    t = t.slice(0, maxStringLength);
-  }
-
-  // Normalize case if case-insensitive comparison is requested
-  const normalizedQ = caseSensitive ? q : q.toLowerCase();
-  const normalizedT = caseSensitive ? t : t.toLowerCase();
-
+  normalizedQuery: string,
+  normalizedTarget: string,
+  threshold: number = 0.3
+): number {
   // Exact match: perfect score
-  if (normalizedQ === normalizedT) {
-    return { score: 1, warnings };
+  if (normalizedQuery === normalizedTarget) {
+    return 1;
   }
 
   // Empty string: no match possible
-  if (normalizedQ.length === 0 || normalizedT.length === 0) {
-    return { score: 0, warnings };
+  if (normalizedQuery.length === 0 || normalizedTarget.length === 0) {
+    return 0;
   }
 
   // Substring match: query is contained within target
   // Score ranges from 0.9 (short query in long target) to 1.0 (query equals target)
-  // This gives substring matches a boost over pure Levenshtein distance
-  if (normalizedT.includes(normalizedQ)) {
-    return {
-      score: 0.9 + (0.1 * normalizedQ.length) / normalizedT.length,
-      warnings,
-    };
+  if (normalizedTarget.includes(normalizedQuery)) {
+    return 0.9 + (0.1 * normalizedQuery.length) / normalizedTarget.length;
   }
 
   // Calculate Levenshtein distance and convert to similarity score
-  // Score = 1 - (distance / max_length)
-  // This normalizes the distance to a 0-1 range where 1 is identical and 0 is completely different
-  const distance = levenshteinDistance(normalizedQ, normalizedT);
-  const maxLen = Math.max(normalizedQ.length, normalizedT.length);
+  const distance = levenshteinDistance(normalizedQuery, normalizedTarget);
+  const maxLen = Math.max(normalizedQuery.length, normalizedTarget.length);
   const score = 1 - distance / maxLen;
 
-  // Apply threshold: return 0 if score is below threshold, otherwise return the score
-  // This filters out poor matches early
-  return {
-    score: score >= threshold ? score : 0,
-    warnings,
-  };
+  return score >= threshold ? score : 0;
 }
