@@ -15,11 +15,8 @@ Examples must support both npm and Bun because StackBlitz doesn't support Bun. T
 1. **package.json**: All examples must have `"packageManager": "npm@latest"`
 2. **Lock files**: Commit both `package-lock.json` and `bun.lock` files (do NOT ignore `examples/**/package-lock.json` in `.gitignore`)
 3. **Install script**: `scripts/install-examples.ts` must generate both lock files:
-
-```typescript
-execSync('bun install', { cwd: exampleDir });
-execSync('npm install --package-lock-only', { cwd: exampleDir });
-```
+   - **Root**: Runs `bun install --ignore-scripts` at repo root (installs all workspace deps including examples)
+   - **Per example**: Runs `npm install --package-lock-only` in an isolated temp dir (not example dir) to avoid workspace resolution issues; `package-lock.json` is copied back to each example. Uses temp dir because npm doesn't support `workspace:*` and would otherwise pick up the root workspace.
 
 ## When publishing a new spotr version
 
