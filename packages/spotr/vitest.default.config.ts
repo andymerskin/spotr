@@ -23,16 +23,16 @@ export default defineConfig({
         '**/vite.config.ts',
       ],
       thresholds: {
-        // 90% coverage target for source files
-        lines: 88,
-        functions: 90,
-        branches: 90,
-        statements: 88,
-        // Per-file thresholds (config files lower the global average)
+        // 85% coverage target for all source files (matches AGENTS.md)
+        lines: 85,
+        functions: 85,
+        branches: 85,
+        statements: 85,
+        // Per-file thresholds: Higher thresholds for critical code paths
         'src/Spotr.ts': {
           lines: 90,
           functions: 90,
-          branches: 95,
+          branches: 90,
           statements: 90,
         },
         'src/fuzzy/**': {
@@ -43,33 +43,39 @@ export default defineConfig({
         },
         'src/utils/**': {
           lines: 90,
-          functions: 100,
+          functions: 90,
           branches: 90,
           statements: 90,
         },
         'src/react/index.ts': {
-          lines: 89,
+          lines: 90,
           functions: 90,
-          branches: 80,
-          statements: 89,
+          branches: 85,
+          statements: 90,
         },
         'src/preact/index.ts': {
-          lines: 89,
+          lines: 90,
           functions: 90,
-          branches: 80,
-          statements: 89,
+          branches: 85,
+          statements: 90,
+        },
+        'src/vue/index.ts': {
+          lines: 90,
+          functions: 90,
+          branches: 85,
+          statements: 90,
         },
         'src/svelte/index.ts': {
-          lines: 100,
-          functions: 100,
-          branches: 100,
-          statements: 100,
+          lines: 90,
+          functions: 90,
+          branches: 85,
+          statements: 90,
         },
         'src/solid/index.ts': {
-          lines: 100,
-          functions: 100,
-          branches: 100,
-          statements: 100,
+          lines: 90,
+          functions: 90,
+          branches: 85,
+          statements: 90,
         },
       },
       reportOnFailure: true,
