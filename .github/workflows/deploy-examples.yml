@@ -111,7 +111,7 @@ jobs:
         run: bun install
 
       - name: Install Playwright Chromium
-        run: npx playwright install chromium --with-deps
+        run: bunx playwright install chromium --with-deps
 
       - name: Warm StackBlitz cache
         run: bun run examples:warm
