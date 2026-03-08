@@ -39,16 +39,16 @@ const gamesData = gamesJson as Game[];
 
           {/* Description */}
           <h1
-            class="mt-8 text-3xl leading-normal font-bold text-neutral-100 text-left"
+            class="mt-8 text-3xl leading-snug font-bold text-neutral-100 text-left"
           >
             A powerful fuzzy search library for client-side collections in
             TypeScript
           </h1>
 
-          <ul class="list-carets">
+          <ul class="list-carets leading-snug mt-8 space-y-2">
             <li>
               <span
-                ><strong>Zero Dependencies</strong> - Custom Levenshtein implementation,
+                ><strong>Zero Dependencies</strong> - Custom Levenshtein matching,
                 no external deps</span
               >
             </li>
@@ -84,7 +84,7 @@ const gamesData = gamesJson as Game[];
           </ul>
 
           {/* Buttons */}
-          <div class="mt-8 flex gap-4">
+          <div class="mt-12 flex gap-4">
             <a
               href={`${import.meta.env.BASE_URL}examples`}
               class="px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors"

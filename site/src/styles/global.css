@@ -10,7 +10,6 @@
 
 /* Reusable list with right-facing carets (amber) */
 .list-carets {
-  margin-top: 1rem;
   list-style: none;
   padding-left: 0;
   font-size: 1rem;
@@ -21,10 +20,6 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.list-carets > li + li {
-  margin-top: 0.25rem;
 }
 
 .list-carets > li::before {
