@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "solid-js": "^1.9.0",
-    "spotr": "^1.0.0-alpha.3"
+    "spotr": "^1.0.0-alpha.4"
   },
   "devDependencies": {
     "prettier": "^3.8.1",
