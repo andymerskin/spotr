@@ -1,0 +1,17 @@
+# Agent OS Standards Index
+
+spotr:
+  error-handling-tier-model:
+    description: 3-tier error handling model (throw vs log vs warnings)
+  framework-integration-apis:
+    description: Framework integration API patterns (React, Vue, Solid, Svelte, Preact)
+  keyword-handler-runtime-errors:
+    description: Log and skip pattern for keyword handler runtime errors
+  nested-field-warnings:
+    description: Missing nested paths add warnings, never throw
+  react-option-stability:
+    description: shallowEqual for React option comparison to prevent unnecessary recreation
+  spotr-error-and-codes:
+    description: SpotrError class and ErrorCodes constants usage
+  validation-strict-fail-fast:
+    description: All validation at construction time, none in query()
