@@ -84,7 +84,7 @@ The `site` package depends on `spotr` using the workspace protocol (`workspace:*
 - `bun run test:coverage` - Run tests with coverage report
 - `bun run test:coverage:watch` - Run tests with coverage in watch mode
 - `bun run typecheck` - Type check main library (`tsc --noEmit`)
-- `bun run audit` - Audit the Spotr package for vulnerabilities and apply fixes (`scripts/audit-spotr.ts`)
+- `bun run audit` - Audit all packages (spotr + all 25 examples + root + site) for vulnerabilities and apply fixes (`scripts/audit-all.ts`)
 - `bun run lint` - Lint codebase (ESLint)
 - `bun run format` - Format codebase (Prettier, whole repo from root)
 - `bun run format:check` - Check formatting (Prettier, no write)
@@ -98,7 +98,6 @@ The `site` package depends on `spotr` using the workspace protocol (`workspace:*
 - `bun run examples:sync` - Sync shared files to examples (`scripts/sync-examples.ts`)
 - `bun run examples:install` - Install example dependencies (`scripts/install-examples.ts`)
 - `bun run examples:update` - Update example dependencies (`scripts/update-examples.ts`)
-- `bun run examples:audit` - Audit all example packages for vulnerabilities and apply fixes (`scripts/audit-examples.ts`)
 - `bun run examples:dev` - Launch interactive dev servers for a selected framework (`scripts/dev-examples.ts`)
   - Prompts to select a framework (react, vue, svelte, solid, preact)
   - Launches all 5 examples for the selected framework concurrently
