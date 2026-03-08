@@ -16,6 +16,381 @@
         "typescript-eslint": "^8.56.0",
       },
     },
+    "examples/preact/advanced-combined": {
+      "name": "spotr-preact-advanced-combined",
+      "version": "1.0.0",
+      "dependencies": {
+        "preact": "^10.27.0",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "@preact/preset-vite": "^2.10.0",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/preact/fields-basic": {
+      "name": "spotr-preact-fields-basic",
+      "version": "1.0.0",
+      "dependencies": {
+        "preact": "^10.27.0",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "@preact/preset-vite": "^2.10.0",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/preact/fields-nested": {
+      "name": "spotr-preact-fields-nested",
+      "version": "1.0.0",
+      "dependencies": {
+        "preact": "^10.27.0",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "@preact/preset-vite": "^2.10.0",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/preact/keywords-advanced": {
+      "name": "spotr-preact-keywords-advanced",
+      "version": "1.0.0",
+      "dependencies": {
+        "preact": "^10.27.0",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "@preact/preset-vite": "^2.10.0",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/preact/keywords-basic": {
+      "name": "spotr-preact-keywords-basic",
+      "version": "1.0.0",
+      "dependencies": {
+        "preact": "^10.27.0",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "@preact/preset-vite": "^2.10.0",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/react/advanced-combined": {
+      "name": "spotr-react-advanced-combined",
+      "version": "1.0.0",
+      "dependencies": {
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.18",
+        "@types/react-dom": "^18.3.5",
+        "@vitejs/plugin-react": "^4.3.4",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/react/fields-basic": {
+      "name": "spotr-react-fields-basic",
+      "version": "1.0.0",
+      "dependencies": {
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.18",
+        "@types/react-dom": "^18.3.5",
+        "@vitejs/plugin-react": "^4.3.4",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/react/fields-nested": {
+      "name": "spotr-react-fields-nested",
+      "version": "1.0.0",
+      "dependencies": {
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.18",
+        "@types/react-dom": "^18.3.5",
+        "@vitejs/plugin-react": "^4.3.4",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/react/keywords-advanced": {
+      "name": "spotr-react-keywords-advanced",
+      "version": "1.0.0",
+      "dependencies": {
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.18",
+        "@types/react-dom": "^18.3.5",
+        "@vitejs/plugin-react": "^4.3.4",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/react/keywords-basic": {
+      "name": "spotr-react-keywords-basic",
+      "version": "1.0.0",
+      "dependencies": {
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/react": "^18.3.18",
+        "@types/react-dom": "^18.3.5",
+        "@vitejs/plugin-react": "^4.3.4",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/solid/advanced-combined": {
+      "name": "spotr-solid-advanced-combined",
+      "version": "1.0.0",
+      "dependencies": {
+        "solid-js": "^1.9.0",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+        "vite-plugin-solid": "^2.10.0",
+      },
+    },
+    "examples/solid/fields-basic": {
+      "name": "spotr-solid-fields-basic",
+      "version": "1.0.0",
+      "dependencies": {
+        "solid-js": "^1.9.0",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+        "vite-plugin-solid": "^2.10.0",
+      },
+    },
+    "examples/solid/fields-nested": {
+      "name": "spotr-solid-fields-nested",
+      "version": "1.0.0",
+      "dependencies": {
+        "solid-js": "^1.9.0",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+        "vite-plugin-solid": "^2.10.0",
+      },
+    },
+    "examples/solid/keywords-advanced": {
+      "name": "spotr-solid-keywords-advanced",
+      "version": "1.0.0",
+      "dependencies": {
+        "solid-js": "^1.9.0",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+        "vite-plugin-solid": "^2.10.0",
+      },
+    },
+    "examples/solid/keywords-basic": {
+      "name": "spotr-solid-keywords-basic",
+      "version": "1.0.0",
+      "dependencies": {
+        "solid-js": "^1.9.0",
+        "spotr": "workspace:*",
+      },
+      "devDependencies": {
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+        "vite-plugin-solid": "^2.10.0",
+      },
+    },
+    "examples/svelte/advanced-combined": {
+      "name": "spotr-svelte-advanced-combined",
+      "version": "1.0.0",
+      "dependencies": {
+        "spotr": "workspace:*",
+        "svelte": "^5.0.0",
+      },
+      "devDependencies": {
+        "@sveltejs/vite-plugin-svelte": "^5.0.0",
+        "prettier": "^3.8.1",
+        "svelte-check": "^4.0.0",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/svelte/fields-basic": {
+      "name": "spotr-svelte-fields-basic",
+      "version": "1.0.0",
+      "dependencies": {
+        "spotr": "workspace:*",
+        "svelte": "^5.0.0",
+      },
+      "devDependencies": {
+        "@sveltejs/vite-plugin-svelte": "^5.0.0",
+        "prettier": "^3.8.1",
+        "svelte-check": "^4.0.0",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/svelte/fields-nested": {
+      "name": "spotr-svelte-fields-nested",
+      "version": "1.0.0",
+      "dependencies": {
+        "spotr": "workspace:*",
+        "svelte": "^5.0.0",
+      },
+      "devDependencies": {
+        "@sveltejs/vite-plugin-svelte": "^5.0.0",
+        "prettier": "^3.8.1",
+        "svelte-check": "^4.0.0",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/svelte/keywords-advanced": {
+      "name": "spotr-svelte-keywords-advanced",
+      "version": "1.0.0",
+      "dependencies": {
+        "spotr": "workspace:*",
+        "svelte": "^5.0.0",
+      },
+      "devDependencies": {
+        "@sveltejs/vite-plugin-svelte": "^5.0.0",
+        "prettier": "^3.8.1",
+        "svelte-check": "^4.0.0",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/svelte/keywords-basic": {
+      "name": "spotr-svelte-keywords-basic",
+      "version": "1.0.0",
+      "dependencies": {
+        "spotr": "workspace:*",
+        "svelte": "^5.0.0",
+      },
+      "devDependencies": {
+        "@sveltejs/vite-plugin-svelte": "^5.0.0",
+        "prettier": "^3.8.1",
+        "svelte-check": "^4.0.0",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+      },
+    },
+    "examples/vue/advanced-combined": {
+      "name": "spotr-vue-advanced-combined",
+      "version": "1.0.0",
+      "dependencies": {
+        "spotr": "workspace:*",
+        "vue": "^3.5.13",
+      },
+      "devDependencies": {
+        "@vitejs/plugin-vue": "^5.2.1",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+        "vue-tsc": "^2.1.0",
+      },
+    },
+    "examples/vue/fields-basic": {
+      "name": "spotr-vue-fields-basic",
+      "version": "1.0.0",
+      "dependencies": {
+        "spotr": "workspace:*",
+        "vue": "^3.5.13",
+      },
+      "devDependencies": {
+        "@vitejs/plugin-vue": "^5.2.1",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+        "vue-tsc": "^2.1.0",
+      },
+    },
+    "examples/vue/fields-nested": {
+      "name": "spotr-vue-fields-nested",
+      "version": "1.0.0",
+      "dependencies": {
+        "spotr": "workspace:*",
+        "vue": "^3.5.13",
+      },
+      "devDependencies": {
+        "@vitejs/plugin-vue": "^5.2.1",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+        "vue-tsc": "^2.1.0",
+      },
+    },
+    "examples/vue/keywords-advanced": {
+      "name": "spotr-vue-keywords-advanced",
+      "version": "1.0.0",
+      "dependencies": {
+        "spotr": "workspace:*",
+        "vue": "^3.5.13",
+      },
+      "devDependencies": {
+        "@vitejs/plugin-vue": "^5.2.1",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+        "vue-tsc": "^2.1.0",
+      },
+    },
+    "examples/vue/keywords-basic": {
+      "name": "spotr-vue-keywords-basic",
+      "version": "1.0.0",
+      "dependencies": {
+        "spotr": "workspace:*",
+        "vue": "^3.5.13",
+      },
+      "devDependencies": {
+        "@vitejs/plugin-vue": "^5.2.1",
+        "prettier": "^3.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^6.1.0",
+        "vue-tsc": "^2.1.0",
+      },
+    },
     "packages/spotr": {
       "name": "spotr",
       "version": "1.0.0-alpha.3",
@@ -501,6 +876,10 @@
 
     "@sveltejs/acorn-typescript": ["@sveltejs/acorn-typescript@1.0.9", "", { "peerDependencies": { "acorn": "^8.9.0" } }, "sha512-lVJX6qEgs/4DOcRTpo56tmKzVPtoWAaVbL4hfO7t7NVwl9AAXzQR6cihesW1BmNMPl+bK6dreu2sOKBP2Q9CIA=="],
 
+    "@sveltejs/vite-plugin-svelte": ["@sveltejs/vite-plugin-svelte@5.1.1", "", { "dependencies": { "@sveltejs/vite-plugin-svelte-inspector": "^4.0.1", "debug": "^4.4.1", "deepmerge": "^4.3.1", "kleur": "^4.1.5", "magic-string": "^0.30.17", "vitefu": "^1.0.6" }, "peerDependencies": { "svelte": "^5.0.0", "vite": "^6.0.0" } }, "sha512-Y1Cs7hhTc+a5E9Va/xwKlAJoariQyHY+5zBgCZg4PFWNYQ1nMN9sjK1zhw1gK69DuqVP++sht/1GZg1aRwmAXQ=="],
+
+    "@sveltejs/vite-plugin-svelte-inspector": ["@sveltejs/vite-plugin-svelte-inspector@4.0.1", "", { "dependencies": { "debug": "^4.3.7" }, "peerDependencies": { "@sveltejs/vite-plugin-svelte": "^5.0.0", "svelte": "^5.0.0", "vite": "^6.0.0" } }, "sha512-J/Nmb2Q2y7mck2hyCX4ckVHcR5tu2J+MtBEQqpDrrgELZ2uvraQcK/ioCV61AqkdXFgriksOKIceDcQmqnGhVw=="],
+
     "@tailwindcss/node": ["@tailwindcss/node@4.1.18", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "enhanced-resolve": "^5.18.3", "jiti": "^2.6.1", "lightningcss": "1.30.2", "magic-string": "^0.30.21", "source-map-js": "^1.2.1", "tailwindcss": "4.1.18" } }, "sha512-DoR7U1P7iYhw16qJ49fgXUlry1t4CpXeErJHnQ44JgTSKMaZUdf17cfn5mHchfJ4KRBZRFA/Coo+MUF5+gOaCQ=="],
 
     "@tailwindcss/oxide": ["@tailwindcss/oxide@4.1.18", "", { "optionalDependencies": { "@tailwindcss/oxide-android-arm64": "4.1.18", "@tailwindcss/oxide-darwin-arm64": "4.1.18", "@tailwindcss/oxide-darwin-x64": "4.1.18", "@tailwindcss/oxide-freebsd-x64": "4.1.18", "@tailwindcss/oxide-linux-arm-gnueabihf": "4.1.18", "@tailwindcss/oxide-linux-arm64-gnu": "4.1.18", "@tailwindcss/oxide-linux-arm64-musl": "4.1.18", "@tailwindcss/oxide-linux-x64-gnu": "4.1.18", "@tailwindcss/oxide-linux-x64-musl": "4.1.18", "@tailwindcss/oxide-wasm32-wasi": "4.1.18", "@tailwindcss/oxide-win32-arm64-msvc": "4.1.18", "@tailwindcss/oxide-win32-x64-msvc": "4.1.18" } }, "sha512-EgCR5tTS5bUSKQgzeMClT6iCY3ToqE1y+ZB0AKldj809QXk1Y+3jB0upOYZrn9aGIzPtUsP7sX4QQ4XtjBB95A=="],
@@ -621,6 +1000,8 @@
 
     "@vitejs/plugin-react": ["@vitejs/plugin-react@4.7.0", "", { "dependencies": { "@babel/core": "^7.28.0", "@babel/plugin-transform-react-jsx-self": "^7.27.1", "@babel/plugin-transform-react-jsx-source": "^7.27.1", "@rolldown/pluginutils": "1.0.0-beta.27", "@types/babel__core": "^7.20.5", "react-refresh": "^0.17.0" }, "peerDependencies": { "vite": "^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0" } }, "sha512-gUu9hwfWvvEDBBmgtAowQCojwZmJ5mcLn3aufeCsitijs3+f2NsrPtlAWIR6OPiqljl96GVCUbLe0HyqIpVaoA=="],
 
+    "@vitejs/plugin-vue": ["@vitejs/plugin-vue@5.2.4", "", { "peerDependencies": { "vite": "^5.0.0 || ^6.0.0", "vue": "^3.2.25" } }, "sha512-7Yx/SXSOcQq5HiiV3orevHUFn+pmMB4cgbEkDYgnkUWb0WfeQ/wa2yFv6D5ICiCQOVpjA7vYDXrC7AGO8yjDHA=="],
+
     "@vitest/coverage-v8": ["@vitest/coverage-v8@3.2.4", "", { "dependencies": { "@ampproject/remapping": "^2.3.0", "@bcoe/v8-coverage": "^1.0.2", "ast-v8-to-istanbul": "^0.3.3", "debug": "^4.4.1", "istanbul-lib-coverage": "^3.2.2", "istanbul-lib-report": "^3.0.1", "istanbul-lib-source-maps": "^5.0.6", "istanbul-reports": "^3.1.7", "magic-string": "^0.30.17", "magicast": "^0.3.5", "std-env": "^3.9.0", "test-exclude": "^7.0.1", "tinyrainbow": "^2.0.0" }, "peerDependencies": { "@vitest/browser": "3.2.4", "vitest": "3.2.4" }, "optionalPeers": ["@vitest/browser"] }, "sha512-EyF9SXU6kS5Ku/U82E259WSnvg6c8KTjppUncuNdm5QHpe17mwREHnjDzozC8x9MZ0xfBUFSaLkRv4TMA75ALQ=="],
 
     "@vitest/expect": ["@vitest/expect@3.2.4", "", { "dependencies": { "@types/chai": "^5.2.2", "@vitest/spy": "3.2.4", "@vitest/utils": "3.2.4", "chai": "^5.2.0", "tinyrainbow": "^2.0.0" } }, "sha512-Io0yyORnB6sikFlt8QW5K7slY4OjqNX9jmJQ02QDda8lyM6B5oNgVWoSoKPac8/kgnCUzuHQKrSLtu/uOqqrig=="],
@@ -727,7 +1108,11 @@
 
     "axobject-query": ["axobject-query@4.1.0", "", {}, "sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ=="],
 
+    "babel-plugin-jsx-dom-expressions": ["babel-plugin-jsx-dom-expressions@0.40.5", "", { "dependencies": { "@babel/helper-module-imports": "7.18.6", "@babel/plugin-syntax-jsx": "^7.18.6", "@babel/types": "^7.20.7", "html-entities": "2.3.3", "parse5": "^7.1.2" }, "peerDependencies": { "@babel/core": "^7.20.12" } }, "sha512-8TFKemVLDYezqqv4mWz+PhRrkryTzivTGu0twyLrOkVZ0P63COx2Y04eVsUjFlwSOXui1z3P3Pn209dokWnirg=="],
+
     "babel-plugin-transform-hook-names": ["babel-plugin-transform-hook-names@1.0.2", "", { "peerDependencies": { "@babel/core": "^7.12.10" } }, "sha512-5gafyjyyBTTdX/tQQ0hRgu4AhNHG/hqWi0ZZmg2xvs2FgRkJXzDNKBZCyoYqgFkovfDrgM8OoKg8karoUvWeCw=="],
+
+    "babel-preset-solid": ["babel-preset-solid@1.9.10", "", { "dependencies": { "babel-plugin-jsx-dom-expressions": "^0.40.3" }, "peerDependencies": { "@babel/core": "^7.0.0", "solid-js": "^1.9.10" }, "optionalPeers": ["solid-js"] }, "sha512-HCelrgua/Y+kqO8RyL04JBWS/cVdrtUv/h45GntgQY+cJl4eBcKkCDV3TdMjtKx1nXwRaR9QXslM/Npm1dxdZQ=="],
 
     "bail": ["bail@2.0.2", "", {}, "sha512-0xO6mYd7JB2YesxDKplafRpsiOzPt9V02ddPCLbY1xYGPOX24NTyN50qnUxgCPcSoYMhKpAuBTjQoRZCAkUDRw=="],
 
@@ -854,6 +1239,8 @@
     "deep-equal": ["deep-equal@2.2.3", "", { "dependencies": { "array-buffer-byte-length": "^1.0.0", "call-bind": "^1.0.5", "es-get-iterator": "^1.1.3", "get-intrinsic": "^1.2.2", "is-arguments": "^1.1.1", "is-array-buffer": "^3.0.2", "is-date-object": "^1.0.5", "is-regex": "^1.1.4", "is-shared-array-buffer": "^1.0.2", "isarray": "^2.0.5", "object-is": "^1.1.5", "object-keys": "^1.1.1", "object.assign": "^4.1.4", "regexp.prototype.flags": "^1.5.1", "side-channel": "^1.0.4", "which-boxed-primitive": "^1.0.2", "which-collection": "^1.0.1", "which-typed-array": "^1.1.13" } }, "sha512-ZIwpnevOurS8bpT4192sqAowWM76JDKSHYzMLty3BZGSswgq6pBaH3DhCSW5xVAZICZyKdOBPjwww5wfgT/6PA=="],
 
     "deep-is": ["deep-is@0.1.4", "", {}, "sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ=="],
+
+    "deepmerge": ["deepmerge@4.3.1", "", {}, "sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A=="],
 
     "define-data-property": ["define-data-property@1.1.4", "", { "dependencies": { "es-define-property": "^1.0.0", "es-errors": "^1.3.0", "gopd": "^1.0.1" } }, "sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A=="],
 
@@ -1065,6 +1452,8 @@
 
     "html-encoding-sniffer": ["html-encoding-sniffer@4.0.0", "", { "dependencies": { "whatwg-encoding": "^3.1.1" } }, "sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ=="],
 
+    "html-entities": ["html-entities@2.3.3", "", {}, "sha512-DV5Ln36z34NNTDgnz0EWGBLZENelNAtkiFA4kyNOG2tDI6Mz1uSWiq1wAKdyjnJwyDiDO7Fa2SO1CTxPXL8VxA=="],
+
     "html-escaper": ["html-escaper@3.0.3", "", {}, "sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ=="],
 
     "html-void-elements": ["html-void-elements@3.0.0", "", {}, "sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg=="],
@@ -1142,6 +1531,8 @@
     "is-weakmap": ["is-weakmap@2.0.2", "", {}, "sha512-K5pXYOm9wqY1RgjpL3YTkF39tni1XajUIkawTLUo9EZEVUFga5gSQJF8nNS7ZwJQ02y+1YCNYcMh+HIf1ZqE+w=="],
 
     "is-weakset": ["is-weakset@2.0.4", "", { "dependencies": { "call-bound": "^1.0.3", "get-intrinsic": "^1.2.6" } }, "sha512-mfcwb6IzQyOKTs84CQMrOwW4gQcaTOAWJ0zzJCl2WSPDrWk/OzDaImWFH3djXhb24g4eudZfLRozAvPGw4d9hQ=="],
+
+    "is-what": ["is-what@4.1.16", "", {}, "sha512-ZhMwEosbFJkA0YhFnNDgTM4ZxDRsS6HqTo7qsZM08fehyRYIYa0yHu5R6mgo1n/8MgaPBXiPimPD77baVFYg+A=="],
 
     "is-wsl": ["is-wsl@3.1.1", "", { "dependencies": { "is-inside-container": "^1.0.0" } }, "sha512-e6rvdUCiQCAuumZslxRJWR/Doq4VpPR82kqclvcS0efgt430SlGIk05vdCN58+VrzgtIcfNODjozVielycD4Sw=="],
 
@@ -1277,6 +1668,8 @@
 
     "mdn-data": ["mdn-data@2.12.2", "", {}, "sha512-IEn+pegP1aManZuckezWCO+XZQDplx1366JoVhTpMpBB1sPey/SbveZQUosKiKiGYjg1wH4pMlNgXbCiYgihQA=="],
 
+    "merge-anything": ["merge-anything@5.1.7", "", { "dependencies": { "is-what": "^4.1.8" } }, "sha512-eRtbOb1N5iyH0tkQDAoQ4Ipsp/5qSR79Dzrz8hEPxRX10RWWR/iQXdoKmBSRCThY1Fh5EhISDtpSc93fpxUniQ=="],
+
     "micromark": ["micromark@4.0.2", "", { "dependencies": { "@types/debug": "^4.0.0", "debug": "^4.0.0", "decode-named-character-reference": "^1.0.0", "devlop": "^1.0.0", "micromark-core-commonmark": "^2.0.0", "micromark-factory-space": "^2.0.0", "micromark-util-character": "^2.0.0", "micromark-util-chunked": "^2.0.0", "micromark-util-combine-extensions": "^2.0.0", "micromark-util-decode-numeric-character-reference": "^2.0.0", "micromark-util-encode": "^2.0.0", "micromark-util-normalize-identifier": "^2.0.0", "micromark-util-resolve-all": "^2.0.0", "micromark-util-sanitize-uri": "^2.0.0", "micromark-util-subtokenize": "^2.0.0", "micromark-util-symbol": "^2.0.0", "micromark-util-types": "^2.0.0" } }, "sha512-zpe98Q6kvavpCr1NPVSCMebCKfD7CA2NqZ+rykeNhONIJBpc1tFKt9hucLGwha3jNTNI8lHpctWJWoimVF4PfA=="],
 
     "micromark-core-commonmark": ["micromark-core-commonmark@2.0.3", "", { "dependencies": { "decode-named-character-reference": "^1.0.0", "devlop": "^1.0.0", "micromark-factory-destination": "^2.0.0", "micromark-factory-label": "^2.0.0", "micromark-factory-space": "^2.0.0", "micromark-factory-title": "^2.0.0", "micromark-factory-whitespace": "^2.0.0", "micromark-util-character": "^2.0.0", "micromark-util-chunked": "^2.0.0", "micromark-util-classify-character": "^2.0.0", "micromark-util-html-tag-name": "^2.0.0", "micromark-util-normalize-identifier": "^2.0.0", "micromark-util-resolve-all": "^2.0.0", "micromark-util-subtokenize": "^2.0.0", "micromark-util-symbol": "^2.0.0", "micromark-util-types": "^2.0.0" } }, "sha512-RDBrHEMSxVFLg6xvnXmb1Ayr2WzLAWjeSATAoxwKYJV94TeNavgoIdA0a9ytzDSVzBy2YKFK+emCPOEibLeCrg=="],
@@ -1344,6 +1737,8 @@
     "minizlib": ["minizlib@3.1.0", "", { "dependencies": { "minipass": "^7.1.2" } }, "sha512-KZxYo1BUkWD2TVFLr0MQoM8vUUigWD3LlD83a/75BqC+4qE0Hb1Vo5v1FgcfaNXvfXzr+5EhQ6ing/CaBijTlw=="],
 
     "mlly": ["mlly@1.8.0", "", { "dependencies": { "acorn": "^8.15.0", "pathe": "^2.0.3", "pkg-types": "^1.3.1", "ufo": "^1.6.1" } }, "sha512-l8D9ODSRWLe2KHJSifWGwBqpTZXIXTeo8mlKjY+E2HAakaTeNpqAyBZ8GSqLzHgw4XmHmC8whvpjJNMbFZN7/g=="],
+
+    "mri": ["mri@1.2.0", "", {}, "sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA=="],
 
     "mrmime": ["mrmime@2.0.1", "", {}, "sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ=="],
 
@@ -1527,6 +1922,8 @@
 
     "s.color": ["s.color@0.0.15", "", {}, "sha512-AUNrbEUHeKY8XsYr/DYpl+qk5+aM+DChopnWOPEzn8YKzOhv4l2zH6LzZms3tOZP3wwdOyc0RmTciyi46HLIuA=="],
 
+    "sade": ["sade@1.8.1", "", { "dependencies": { "mri": "^1.1.0" } }, "sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A=="],
+
     "safe-regex-test": ["safe-regex-test@1.1.0", "", { "dependencies": { "call-bound": "^1.0.2", "es-errors": "^1.3.0", "is-regex": "^1.2.1" } }, "sha512-x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw=="],
 
     "safer-buffer": ["safer-buffer@2.1.2", "", {}, "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg=="],
@@ -1579,6 +1976,8 @@
 
     "solid-js": ["solid-js@1.9.11", "", { "dependencies": { "csstype": "^3.1.0", "seroval": "~1.5.0", "seroval-plugins": "~1.5.0" } }, "sha512-WEJtcc5mkh/BnHA6Yrg4whlF8g6QwpmXXRg4P2ztPmcKeHHlH4+djYecBLhSpecZY2RRECXYUwIc/C2r3yzQ4Q=="],
 
+    "solid-refresh": ["solid-refresh@0.6.3", "", { "dependencies": { "@babel/generator": "^7.23.6", "@babel/helper-module-imports": "^7.22.15", "@babel/types": "^7.23.6" }, "peerDependencies": { "solid-js": "^1.3" } }, "sha512-F3aPsX6hVw9ttm5LYlth8Q15x6MlI/J3Dn+o3EQyRTtTxidepSTwAYdozt01/YA+7ObcciagGEyXIopGZzQtbA=="],
+
     "source-map": ["source-map@0.7.6", "", {}, "sha512-i5uvt8C3ikiWeNZSVZNWcfZPItFQOsYTUAOkcUPGd8DqDy1uOUikjt5dG+uRlwyvR108Fb9DOd4GvXfT0N2/uQ=="],
 
     "source-map-js": ["source-map-js@1.2.1", "", {}, "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="],
@@ -1586,6 +1985,56 @@
     "space-separated-tokens": ["space-separated-tokens@2.0.2", "", {}, "sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q=="],
 
     "spotr": ["spotr@workspace:packages/spotr"],
+
+    "spotr-preact-advanced-combined": ["spotr-preact-advanced-combined@workspace:examples/preact/advanced-combined"],
+
+    "spotr-preact-fields-basic": ["spotr-preact-fields-basic@workspace:examples/preact/fields-basic"],
+
+    "spotr-preact-fields-nested": ["spotr-preact-fields-nested@workspace:examples/preact/fields-nested"],
+
+    "spotr-preact-keywords-advanced": ["spotr-preact-keywords-advanced@workspace:examples/preact/keywords-advanced"],
+
+    "spotr-preact-keywords-basic": ["spotr-preact-keywords-basic@workspace:examples/preact/keywords-basic"],
+
+    "spotr-react-advanced-combined": ["spotr-react-advanced-combined@workspace:examples/react/advanced-combined"],
+
+    "spotr-react-fields-basic": ["spotr-react-fields-basic@workspace:examples/react/fields-basic"],
+
+    "spotr-react-fields-nested": ["spotr-react-fields-nested@workspace:examples/react/fields-nested"],
+
+    "spotr-react-keywords-advanced": ["spotr-react-keywords-advanced@workspace:examples/react/keywords-advanced"],
+
+    "spotr-react-keywords-basic": ["spotr-react-keywords-basic@workspace:examples/react/keywords-basic"],
+
+    "spotr-solid-advanced-combined": ["spotr-solid-advanced-combined@workspace:examples/solid/advanced-combined"],
+
+    "spotr-solid-fields-basic": ["spotr-solid-fields-basic@workspace:examples/solid/fields-basic"],
+
+    "spotr-solid-fields-nested": ["spotr-solid-fields-nested@workspace:examples/solid/fields-nested"],
+
+    "spotr-solid-keywords-advanced": ["spotr-solid-keywords-advanced@workspace:examples/solid/keywords-advanced"],
+
+    "spotr-solid-keywords-basic": ["spotr-solid-keywords-basic@workspace:examples/solid/keywords-basic"],
+
+    "spotr-svelte-advanced-combined": ["spotr-svelte-advanced-combined@workspace:examples/svelte/advanced-combined"],
+
+    "spotr-svelte-fields-basic": ["spotr-svelte-fields-basic@workspace:examples/svelte/fields-basic"],
+
+    "spotr-svelte-fields-nested": ["spotr-svelte-fields-nested@workspace:examples/svelte/fields-nested"],
+
+    "spotr-svelte-keywords-advanced": ["spotr-svelte-keywords-advanced@workspace:examples/svelte/keywords-advanced"],
+
+    "spotr-svelte-keywords-basic": ["spotr-svelte-keywords-basic@workspace:examples/svelte/keywords-basic"],
+
+    "spotr-vue-advanced-combined": ["spotr-vue-advanced-combined@workspace:examples/vue/advanced-combined"],
+
+    "spotr-vue-fields-basic": ["spotr-vue-fields-basic@workspace:examples/vue/fields-basic"],
+
+    "spotr-vue-fields-nested": ["spotr-vue-fields-nested@workspace:examples/vue/fields-nested"],
+
+    "spotr-vue-keywords-advanced": ["spotr-vue-keywords-advanced@workspace:examples/vue/keywords-advanced"],
+
+    "spotr-vue-keywords-basic": ["spotr-vue-keywords-basic@workspace:examples/vue/keywords-basic"],
 
     "sprintf-js": ["sprintf-js@1.0.3", "", {}, "sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g=="],
 
@@ -1622,6 +2071,8 @@
     "supports-preserve-symlinks-flag": ["supports-preserve-symlinks-flag@1.0.0", "", {}, "sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w=="],
 
     "svelte": ["svelte@5.53.0", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "@jridgewell/sourcemap-codec": "^1.5.0", "@sveltejs/acorn-typescript": "^1.0.5", "@types/estree": "^1.0.5", "@types/trusted-types": "^2.0.7", "acorn": "^8.12.1", "aria-query": "^5.3.1", "axobject-query": "^4.1.0", "clsx": "^2.1.1", "devalue": "^5.6.3", "esm-env": "^1.2.1", "esrap": "^2.2.2", "is-reference": "^3.0.3", "locate-character": "^3.0.0", "magic-string": "^0.30.11", "zimmerframe": "^1.1.2" } }, "sha512-7dhHkSamGS2vtoBmIW2hRab+gl5Z60alEHZB4910ePqqJNxAWnDAxsofVmlZ2tREmWyHNE+A1nCKwICAquoD2A=="],
+
+    "svelte-check": ["svelte-check@4.4.3", "", { "dependencies": { "@jridgewell/trace-mapping": "^0.3.25", "chokidar": "^4.0.1", "fdir": "^6.2.0", "picocolors": "^1.0.0", "sade": "^1.7.4" }, "peerDependencies": { "svelte": "^4.0.0 || ^5.0.0-next.0", "typescript": ">=5.0.0" }, "bin": { "svelte-check": "bin/svelte-check" } }, "sha512-4HtdEv2hOoLCEsSXI+RDELk9okP/4sImWa7X02OjMFFOWeSdFF3NFy3vqpw0z+eH9C88J9vxZfUXz/Uv2A1ANw=="],
 
     "svgo": ["svgo@4.0.0", "", { "dependencies": { "commander": "^11.1.0", "css-select": "^5.1.0", "css-tree": "^3.0.1", "css-what": "^6.1.0", "csso": "^5.0.5", "picocolors": "^1.1.1", "sax": "^1.4.1" }, "bin": "./bin/svgo.js" }, "sha512-VvrHQ+9uniE+Mvx3+C9IEe/lWasXCU0nXMY2kZeLrHNICuRiC8uMPyM14UEaMOFA5mhyQqEkB02VoQ16n3DLaw=="],
 
@@ -1731,6 +2182,8 @@
 
     "vite-plugin-dts": ["vite-plugin-dts@4.5.4", "", { "dependencies": { "@microsoft/api-extractor": "^7.50.1", "@rollup/pluginutils": "^5.1.4", "@volar/typescript": "^2.4.11", "@vue/language-core": "2.2.0", "compare-versions": "^6.1.1", "debug": "^4.4.0", "kolorist": "^1.8.0", "local-pkg": "^1.0.0", "magic-string": "^0.30.17" }, "peerDependencies": { "typescript": "*", "vite": "*" }, "optionalPeers": ["vite"] }, "sha512-d4sOM8M/8z7vRXHHq/ebbblfaxENjogAAekcfcDCCwAyvGqnPrc7f4NZbvItS+g4WTgerW0xDwSz5qz11JT3vg=="],
 
+    "vite-plugin-solid": ["vite-plugin-solid@2.11.10", "", { "dependencies": { "@babel/core": "^7.23.3", "@types/babel__core": "^7.20.4", "babel-preset-solid": "^1.8.4", "merge-anything": "^5.1.7", "solid-refresh": "^0.6.3", "vitefu": "^1.0.4" }, "peerDependencies": { "@testing-library/jest-dom": "^5.16.6 || ^5.17.0 || ^6.*", "solid-js": "^1.7.2", "vite": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0" }, "optionalPeers": ["@testing-library/jest-dom"] }, "sha512-Yr1dQybmtDtDAHkii6hXuc1oVH9CPcS/Zb2jN/P36qqcrkNnVPsMTzQ06jyzFPFjj3U1IYKMVt/9ZqcwGCEbjw=="],
+
     "vite-prerender-plugin": ["vite-prerender-plugin@0.5.12", "", { "dependencies": { "kolorist": "^1.8.0", "magic-string": "0.x >= 0.26.0", "node-html-parser": "^6.1.12", "simple-code-frame": "^1.3.0", "source-map": "^0.7.4", "stack-trace": "^1.0.0-pre2" }, "peerDependencies": { "vite": "5.x || 6.x || 7.x" } }, "sha512-EiwhbMn+flg14EysbLTmZSzq8NGTxhytgK3bf4aGRF1evWLGwZiHiUJ1KZDvbxgKbMf2pG6fJWGEa3UZXOnR1g=="],
 
     "vitefu": ["vitefu@1.1.1", "", { "peerDependencies": { "vite": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0-beta.0" }, "optionalPeers": ["vite"] }, "sha512-B/Fegf3i8zh0yFbpzZ21amWzHmuNlLlmJT6n7bu5e+pCHUKQIfXSYokrqOBGEMMe9UG2sostKQF9mml/vYaWJQ=="],
@@ -1774,6 +2227,8 @@
     "vue": ["vue@3.5.28", "", { "dependencies": { "@vue/compiler-dom": "3.5.28", "@vue/compiler-sfc": "3.5.28", "@vue/runtime-dom": "3.5.28", "@vue/server-renderer": "3.5.28", "@vue/shared": "3.5.28" }, "peerDependencies": { "typescript": "*" }, "optionalPeers": ["typescript"] }, "sha512-BRdrNfeoccSoIZeIhyPBfvWSLFP4q8J3u8Ju8Ug5vu3LdD+yTM13Sg4sKtljxozbnuMu1NB1X5HBHRYUzFocKg=="],
 
     "vue-component-type-helpers": ["vue-component-type-helpers@2.2.12", "", {}, "sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw=="],
+
+    "vue-tsc": ["vue-tsc@2.2.12", "", { "dependencies": { "@volar/typescript": "2.4.15", "@vue/language-core": "2.2.12" }, "peerDependencies": { "typescript": ">=5.0.0" }, "bin": { "vue-tsc": "./bin/vue-tsc.js" } }, "sha512-P7OP77b2h/Pmk+lZdJ0YWs+5tJ6J2+uOQPo7tlBnY44QqQSPYvS0qVT4wqDJgwrZaLe47etJLLQRFia71GYITw=="],
 
     "w3c-keyname": ["w3c-keyname@2.2.8", "", {}, "sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ=="],
 
@@ -1929,6 +2384,8 @@
 
     "ast-v8-to-istanbul/js-tokens": ["js-tokens@10.0.0", "", {}, "sha512-lM/UBzQmfJRo9ABXbPWemivdCW8V2G8FHaHdypQaIy523snUjog0W71ayWXTjiR+ixeMyVHN2XcpnTd/liPg/Q=="],
 
+    "babel-plugin-jsx-dom-expressions/@babel/helper-module-imports": ["@babel/helper-module-imports@7.18.6", "", { "dependencies": { "@babel/types": "^7.18.6" } }, "sha512-0NFvs3VkuSYbFi1x2Vd6tKrywq+z/cLeYC/RJNFrIX/30Bf5aiGYbtvGXolEktzJH8o5E5KJ3tT+nkxuuZFVlA=="],
+
     "boxen/string-width": ["string-width@7.2.0", "", { "dependencies": { "emoji-regex": "^10.3.0", "get-east-asian-width": "^1.0.0", "strip-ansi": "^7.1.0" } }, "sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ=="],
 
     "cheerio/whatwg-mimetype": ["whatwg-mimetype@4.0.0", "", {}, "sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg=="],
@@ -1986,6 +2443,10 @@
     "vitest/tinyexec": ["tinyexec@0.3.2", "", {}, "sha512-KQQR9yN7R5+OSwaK0XQoj22pwHoTlgYqmUscPYoknOoWCWfj/5/ABTMRi69FrKU5ffPVh5QcFikpWJI/P1ocHA=="],
 
     "vscode-json-languageservice/jsonc-parser": ["jsonc-parser@3.3.1", "", {}, "sha512-HUgH65KyejrUFPvHFPbqOY0rsFip3Bo5wb4ngvdi1EpCYWUQDC5V+Y7mZws+DLkr4M//zQJoanu1SP+87Dv1oQ=="],
+
+    "vue-tsc/@volar/typescript": ["@volar/typescript@2.4.15", "", { "dependencies": { "@volar/language-core": "2.4.15", "path-browserify": "^1.0.1", "vscode-uri": "^3.0.8" } }, "sha512-2aZ8i0cqPGjXb4BhkMsPYDkkuc2ZQ6yOpqwAuNwUoncELqoy5fRgOQtLR9gB0g902iS0NAkvpIzs27geVyVdPg=="],
+
+    "vue-tsc/@vue/language-core": ["@vue/language-core@2.2.12", "", { "dependencies": { "@volar/language-core": "2.4.15", "@vue/compiler-dom": "^3.5.0", "@vue/compiler-vue2": "^2.7.16", "@vue/shared": "^3.5.0", "alien-signals": "^1.0.3", "minimatch": "^9.0.3", "muggle-string": "^0.4.1", "path-browserify": "^1.0.1" }, "peerDependencies": { "typescript": "*" }, "optionalPeers": ["typescript"] }, "sha512-IsGljWbKGU1MZpBPN+BvPAdr55YPkj2nB/TBNGNC32Vy2qLG25DYu/NBN2vNtZqdRbTRjaoYrahLrToim2NanA=="],
 
     "widest-line/string-width": ["string-width@7.2.0", "", { "dependencies": { "emoji-regex": "^10.3.0", "get-east-asian-width": "^1.0.0", "strip-ansi": "^7.1.0" } }, "sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ=="],
 
@@ -2105,6 +2566,14 @@
 
     "vite/esbuild/@esbuild/win32-x64": ["@esbuild/win32-x64@0.25.12", "", { "os": "win32", "cpu": "x64" }, "sha512-alJC0uCZpTFrSL0CCDjcgleBXPnCrEAhTBILpeAp7M/OFgoqtAetfBzX0xM00MUsVVPpVjlPuMbREqnZCXaTnA=="],
 
+    "vue-tsc/@volar/typescript/@volar/language-core": ["@volar/language-core@2.4.15", "", { "dependencies": { "@volar/source-map": "2.4.15" } }, "sha512-3VHw+QZU0ZG9IuQmzT68IyN4hZNd9GchGPhbD9+pa8CVv7rnoOZwo7T8weIbrRmihqy3ATpdfXFnqRrfPVK6CA=="],
+
+    "vue-tsc/@vue/language-core/@volar/language-core": ["@volar/language-core@2.4.15", "", { "dependencies": { "@volar/source-map": "2.4.15" } }, "sha512-3VHw+QZU0ZG9IuQmzT68IyN4hZNd9GchGPhbD9+pa8CVv7rnoOZwo7T8weIbrRmihqy3ATpdfXFnqRrfPVK6CA=="],
+
+    "vue-tsc/@vue/language-core/alien-signals": ["alien-signals@1.0.13", "", {}, "sha512-OGj9yyTnJEttvzhTUWuscOvtqxq5vrhF7vL9oS0xJ2mK0ItPYP1/y+vCFebfxoEyAz0++1AIwJ5CMr+Fk3nDmg=="],
+
+    "vue-tsc/@vue/language-core/minimatch": ["minimatch@9.0.5", "", { "dependencies": { "brace-expansion": "^2.0.1" } }, "sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow=="],
+
     "widest-line/string-width/emoji-regex": ["emoji-regex@10.6.0", "", {}, "sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A=="],
 
     "widest-line/string-width/strip-ansi": ["strip-ansi@7.1.2", "", { "dependencies": { "ansi-regex": "^6.0.1" } }, "sha512-gmBGslpoQJtgnMAvOVqGZpEz9dyoKTCzy2nfz/n8aIFhN/jCE/rCmcxabB6jOOHV+0WNnylOxaxBQPSvcWklhA=="],
@@ -2124,6 +2593,10 @@
     "@testing-library/vue/@testing-library/dom/chalk/ansi-styles": ["ansi-styles@4.3.0", "", { "dependencies": { "color-convert": "^2.0.1" } }, "sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg=="],
 
     "boxen/string-width/strip-ansi/ansi-regex": ["ansi-regex@6.2.2", "", {}, "sha512-Bq3SmSpyFHaWjPk8If9yc6svM8c56dB5BAtW4Qbw5jHTwwXXcTLoRMkpDJp6VL0XzlWaCHTXrkFURMYmD0sLqg=="],
+
+    "vue-tsc/@volar/typescript/@volar/language-core/@volar/source-map": ["@volar/source-map@2.4.15", "", {}, "sha512-CPbMWlUN6hVZJYGcU/GSoHu4EnCHiLaXI9n8c9la6RaI9W5JHX+NqG+GSQcB0JdC2FIBLdZJwGsfKyBB71VlTg=="],
+
+    "vue-tsc/@vue/language-core/@volar/language-core/@volar/source-map": ["@volar/source-map@2.4.15", "", {}, "sha512-CPbMWlUN6hVZJYGcU/GSoHu4EnCHiLaXI9n8c9la6RaI9W5JHX+NqG+GSQcB0JdC2FIBLdZJwGsfKyBB71VlTg=="],
 
     "widest-line/string-width/strip-ansi/ansi-regex": ["ansi-regex@6.2.2", "", {}, "sha512-Bq3SmSpyFHaWjPk8If9yc6svM8c56dB5BAtW4Qbw5jHTwwXXcTLoRMkpDJp6VL0XzlWaCHTXrkFURMYmD0sLqg=="],
   }
