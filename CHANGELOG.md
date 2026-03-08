@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Nothing to report
 
+## [1.0.0-alpha.4] - 2026-03-08
+
+**⚠️ Note: Since this is an alpha, the library is still subject to breaking changes!**
+
+### Changed
+
+- **Solid wrapper refactor** - Reworked `createSpotr` to follow a more hook-like pattern using `createMemo`, simplifying the API and improving consistency with other framework integrations
+- **Svelte wrapper refactor** - Reworked `createSpotr` to use `readable` and `derived` stores in a more hook-like pattern, improving API consistency and developer experience
+- **Library internals improvements**:
+  - Moved token normalization to the parent `Spotr` instance for better performance and code organization
+  - Reworked scoring algorithm for improved accuracy and maintainability
+  - Extracted `shallowEqual` utility function to reduce code duplication across framework integrations
+  - Added descriptive comments to Levenshtein distance calculation
+  - General code cleanup and refactoring
+
 ## [1.0.0-alpha.1] - 2026-02-19
 
 **⚠️ Note: Since this is an alpha, the library is still subject to breaking changes!**
