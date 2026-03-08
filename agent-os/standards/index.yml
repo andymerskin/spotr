@@ -1,5 +1,17 @@
 # Agent OS Standards Index
 
+site:
+  base-url-paths:
+    description: BASE_URL prefix for all internal asset and link paths (GH Pages)
+  codemirror-ssr-defer:
+    description: Defer CodeMirror until client mount to avoid useLayoutEffect SSR
+  external-link-attributes:
+    description: target="_blank" with rel="noopener noreferrer" for external links
+  layout-and-theme:
+    description: Content width, section backgrounds, color system, list-carets
+  seo-og-meta:
+    description: Canonical URLs, OG meta tags, astro-og-canvas config
+
 spotr:
   error-handling-tier-model:
     description: 3-tier error handling model (throw vs log vs warnings)
