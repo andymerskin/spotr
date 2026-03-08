@@ -113,4 +113,15 @@ describe('scoreItem', () => {
     const { score } = scoreItem(item, ['york'], fields, false);
     expect(score).toBeGreaterThan(0);
   });
+
+  it('emits warning when target string exceeds maxStringLength', () => {
+    const longString = 'a'.repeat(2000);
+    const item = { name: longString };
+    const fields = [{ name: 'name', weight: 1, threshold: 0.3 }];
+    const maxStringLength = 500;
+    const { warnings } = scoreItem(item, ['a'], fields, false, maxStringLength);
+    expect(warnings).toContain(
+      `Target string truncated from ${longString.length} to ${maxStringLength} characters for performance`
+    );
+  });
 });

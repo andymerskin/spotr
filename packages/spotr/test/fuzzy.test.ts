@@ -44,6 +44,15 @@ describe('fuzzyScore', () => {
     expect(score).toBeLessThanOrEqual(1);
   });
 
+  it('calculates substring score using exact formula', () => {
+    // Formula: 0.9 + (0.1 * queryLen) / targetLen
+    // For 'ell' (3 chars) in 'hello' (5 chars): 0.9 + (0.1 * 3) / 5 = 0.9 + 0.06 = 0.96
+    const score = fuzzyScore('ell', 'hello');
+    const expectedScore = 0.9 + (0.1 * 3) / 5;
+    expect(score).toBeCloseTo(expectedScore, 10);
+    expect(score).toBeCloseTo(0.96, 10);
+  });
+
   it('returns 0 for score below threshold', () => {
     expect(fuzzyScore('xyz', 'hello', 0.5)).toBe(0);
   });
@@ -57,5 +66,36 @@ describe('fuzzyScore', () => {
     const score = fuzzyScore('helo', 'hello', 0.3);
     expect(score).toBeGreaterThan(0);
     expect(score).toBeLessThan(1);
+  });
+
+  describe('threshold boundaries', () => {
+    it('returns non-zero score when score equals threshold', () => {
+      // 'helo' vs 'hello' has Levenshtein distance 1, maxLen 5
+      // Score = 1 - 1/5 = 0.8
+      // With threshold 0.8, should return 0.8 (not 0)
+      const score = fuzzyScore('helo', 'hello', 0.8);
+      expect(score).toBe(0.8);
+      expect(score).toBeGreaterThan(0);
+    });
+
+    it('returns 0 when score is just below threshold', () => {
+      // 'helo' vs 'hello' has score 0.8
+      // With threshold 0.81, should return 0
+      const score = fuzzyScore('helo', 'hello', 0.81);
+      expect(score).toBe(0);
+    });
+
+    it('respects custom threshold for Levenshtein-based scores', () => {
+      // 'xyz' vs 'hello' has Levenshtein distance 5, maxLen 5
+      // Score = 1 - 5/5 = 0
+      // With threshold 0.3, should return 0
+      const scoreLow = fuzzyScore('xyz', 'hello', 0.3);
+      expect(scoreLow).toBe(0);
+
+      // 'helo' vs 'hello' has score 0.8
+      // With threshold 0.5, should return 0.8
+      const scoreHigh = fuzzyScore('helo', 'hello', 0.5);
+      expect(scoreHigh).toBe(0.8);
+    });
   });
 });
