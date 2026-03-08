@@ -186,28 +186,35 @@ const results = computed(() => spotr.value?.query(query.value));
 ## Svelte Store
 
 ```typescript
+import { writable, derived } from 'svelte/store';
 import { createSpotr } from 'spotr/svelte';
 
-const { spotr, query, results } = createSpotr({
+const spotr = createSpotr({
   collection: games,
   fields: [{ name: 'title', weight: 1 }],
 });
 
-// query is a writable store, results is a derived store
+const query = writable('');
+const results = derived([spotr, query], ([$spotr, $query]) =>
+  $spotr.query($query)
+);
 // Use $query and $results in your Svelte template
 ```
 
 ## Solid Hook
 
 ```typescript
+import { createSignal, createMemo } from 'solid-js';
 import { createSpotr } from 'spotr/solid';
 
-const { query, setQuery, results } = createSpotr({
+const spotr = createSpotr({
   collection: games,
   fields: [{ name: 'title', weight: 1 }],
 });
 
-// query() is a signal getter, setQuery is a signal setter, results() is a memo
+const [query, setQuery] = createSignal('');
+const results = createMemo(() => spotr().query(query()));
+// spotr is a getter; use spotr().query(query()) in a memo for reactive results
 ```
 
 ## Preact Hook
