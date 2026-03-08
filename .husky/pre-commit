@@ -12,43 +12,79 @@ bun run format
 # Skip files with partial staging (both staged and unstaged changes) to preserve user's selection
 # Handle both regular files and deletions
 if [ -n "$STAGED_FILES" ]; then
-  echo "$STAGED_FILES" | while IFS= read -r file; do
-    # Skip files with unstaged changes - they have partial staging that we want to preserve
-    if echo "$UNSTAGED_FILES" | grep -Fxq -- "$file"; then
-      continue
-    fi
-    
-    if [ -e "$file" ]; then
-      # File exists - stage it normally
-      git add "$file" 2>/dev/null || true
-    elif git ls-files --cached --error-unmatch "$file" >/dev/null 2>&1; then
-      # File is deleted but exists in index - stage the deletion
-      git rm --cached "$file" 2>/dev/null || true
-    fi
-    # If file doesn't exist and isn't in index, skip it (nothing to stage)
-  done
+  # Optimize: only check for unstaged files if there are any
+  if [ -n "$UNSTAGED_FILES" ]; then
+    echo "$STAGED_FILES" | while IFS= read -r file; do
+      # Skip files with unstaged changes - they have partial staging that we want to preserve
+      if echo "$UNSTAGED_FILES" | grep -Fxq -- "$file"; then
+        continue
+      fi
+      
+      if [ -e "$file" ]; then
+        # File exists - stage it normally
+        git add "$file" 2>/dev/null || true
+      elif git ls-files --cached --error-unmatch "$file" >/dev/null 2>&1; then
+        # File is deleted but exists in index - stage the deletion
+        git rm --cached "$file" 2>/dev/null || true
+      fi
+      # If file doesn't exist and isn't in index, skip it (nothing to stage)
+    done
+  else
+    # No unstaged files - can stage all originally staged files without checking
+    echo "$STAGED_FILES" | while IFS= read -r file; do
+      if [ -e "$file" ]; then
+        # File exists - stage it normally
+        git add "$file" 2>/dev/null || true
+      elif git ls-files --cached --error-unmatch "$file" >/dev/null 2>&1; then
+        # File is deleted but exists in index - stage the deletion
+        git rm --cached "$file" 2>/dev/null || true
+      fi
+      # If file doesn't exist and isn't in index, skip it (nothing to stage)
+    done
+  fi
 fi
 
-# Run examples:sync (may modify synced files)
-bun run examples:sync
+# Run examples:sync only if staged files include sync-relevant files
+# Sync is needed when shared sources or synced targets change
+# Skip sync when only package/lock files are staged (they're not synced)
+SYNC_RELEVANT=$(echo "$STAGED_FILES" | grep -E '^examples/shared/|^examples/[^/]+/[^/]+/src/(types\.ts|utils\.ts|styles\.css|data/)' || true)
+if [ -n "$SYNC_RELEVANT" ]; then
+  # Run examples:sync (may modify synced files)
+  bun run examples:sync
 
-# Stage back only the files that were originally staged (in case sync modified them)
-# Skip files that were deleted (they won't be recreated by sync)
-# Also skip files with partial staging to preserve user's selection
-if [ -n "$STAGED_FILES" ]; then
-  echo "$STAGED_FILES" | while IFS= read -r file; do
-    # Skip files with unstaged changes - they have partial staging that we want to preserve
-    if echo "$UNSTAGED_FILES" | grep -Fxq -- "$file"; then
-      continue
+  # Stage back only the files that were originally staged (in case sync modified them)
+  # Skip files that were deleted (they won't be recreated by sync)
+  # Also skip files with partial staging to preserve user's selection
+  if [ -n "$STAGED_FILES" ]; then
+    # Optimize: only check for unstaged files if there are any
+    if [ -n "$UNSTAGED_FILES" ]; then
+      echo "$STAGED_FILES" | while IFS= read -r file; do
+        # Skip files with unstaged changes - they have partial staging that we want to preserve
+        if echo "$UNSTAGED_FILES" | grep -Fxq -- "$file"; then
+          continue
+        fi
+        
+        if [ -e "$file" ]; then
+          # File exists - stage it normally
+          git add "$file" 2>/dev/null || true
+        elif git ls-files --cached --error-unmatch "$file" >/dev/null 2>&1; then
+          # File is deleted but exists in index - ensure deletion stays staged
+          git rm --cached "$file" 2>/dev/null || true
+        fi
+        # If file doesn't exist and isn't in index, skip it
+      done
+    else
+      # No unstaged files - can stage all originally staged files without checking
+      echo "$STAGED_FILES" | while IFS= read -r file; do
+        if [ -e "$file" ]; then
+          # File exists - stage it normally
+          git add "$file" 2>/dev/null || true
+        elif git ls-files --cached --error-unmatch "$file" >/dev/null 2>&1; then
+          # File is deleted but exists in index - ensure deletion stays staged
+          git rm --cached "$file" 2>/dev/null || true
+        fi
+        # If file doesn't exist and isn't in index, skip it
+      done
     fi
-    
-    if [ -e "$file" ]; then
-      # File exists - stage it normally
-      git add "$file" 2>/dev/null || true
-    elif git ls-files --cached --error-unmatch "$file" >/dev/null 2>&1; then
-      # File is deleted but exists in index - ensure deletion stays staged
-      git rm --cached "$file" 2>/dev/null || true
-    fi
-    # If file doesn't exist and isn't in index, skip it
-  done
+  fi
 fi
