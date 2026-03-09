@@ -1,5 +1,23 @@
 # Agent OS Standards Index
 
+examples:
+  synced-files-and-imports:
+    description: Never edit synced files directly; use spotr package imports
+  query-fallback:
+    description: Empty query shows all items with SpotrResult shape
+  project-structure:
+    description: Example naming, package.json, StackBlitz, mount IDs, lock files
+  table-ui-pattern:
+    description: Framework-specific HTML highlighting for search results
+
+git:
+  commit-patterns:
+    description: Commit synced files together, ignore dist/node_modules, release approval
+
+global:
+  pre-commit-checklist:
+    description: Required checks before completing tasks (typecheck, lint, format, test, docs)
+
 site:
   base-url-paths:
     description: BASE_URL prefix for all internal asset and link paths (GH Pages)
@@ -7,10 +25,14 @@ site:
     description: Defer CodeMirror until client mount to avoid useLayoutEffect SSR
   external-link-attributes:
     description: target="_blank" with rel="noopener noreferrer" for external links
+  iconify-usage:
+    description: 'Use logos: and solar: icon sets, never inline SVGs or .svg imports'
   layout-and-theme:
     description: Content width, section backgrounds, color system, list-carets
   seo-og-meta:
     description: Canonical URLs, OG meta tags, astro-og-canvas config
+  tailwind-conventions:
+    description: cursor-pointer on interactive elements, mt-*/space-y-* for spacing
 
 spotr:
   error-handling-tier-model:
@@ -28,12 +50,10 @@ spotr:
   validation-strict-fail-fast:
     description: All validation at construction time, none in query()
 
-examples:
-  synced-files-and-imports:
-    description: Never edit synced files directly; use spotr package imports
-  query-fallback:
-    description: Empty query shows all items with SpotrResult shape
-  project-structure:
-    description: Example naming, package.json, StackBlitz, mount IDs, lock files
-  table-ui-pattern:
-    description: Framework-specific HTML highlighting for search results
+testing:
+  coverage-and-setup:
+    description: Vitest with globals, 85% minimum coverage requirement
+
+typescript:
+  code-conventions:
+    description: Naming conventions, strict mode, ESM, named exports, @types/* preference
