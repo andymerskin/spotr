@@ -39,30 +39,3 @@
   background-color: rgb(64 64 64); /* neutral-700 for dark theme */
   color: rgb(229 229 229); /* neutral-200 */
 }
-
-/* Fix CodeMirror width to prevent shifting in header */
-.header-codemirror-container .cm-editor {
-  width: 500px !important;
-  max-width: 100% !important;
-}
-
-.header-codemirror-container .cm-scroller {
-  width: 500px !important;
-  max-width: 100% !important;
-  overflow-x: auto !important;
-}
-
-.header-codemirror-container .cm-content {
-  width: 500px !important;
-  max-width: 100% !important;
-}
-
-/* Ensure One Dark theme is applied */
-.header-codemirror-container .cm-editor.cm-focused {
-  outline: none;
-}
-
-.header-codemirror-container .cm-editor {
-  background-color: #282c34 !important;
-  color: #abb2bf !important;
-}

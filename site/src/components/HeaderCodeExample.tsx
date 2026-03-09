@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Icon } from '@iconify/react';
-import CodeMirror from '@uiw/react-codemirror';
+import CodeMirror, { EditorView } from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { vue } from '@codemirror/lang-vue';
 import { svelte } from '@replit/codemirror-lang-svelte';
-import { oneDark } from '@codemirror/theme-one-dark';
+import { vsCodeDark } from '@fsegurai/codemirror-theme-vscode-dark';
 import { frameworks } from '../data/examples';
 import type { FrameworkId } from '../data/examples';
 
@@ -174,7 +174,7 @@ export default function HeaderCodeExample() {
   }, [selectedFramework]);
 
   const extensions = useMemo(
-    () => [languageExtension, oneDark],
+    () => [languageExtension, EditorView.lineWrapping],
     [languageExtension]
   );
 
@@ -203,19 +203,19 @@ export default function HeaderCodeExample() {
         ))}
       </div>
 
-      {/* CodeMirror box - only render CodeMirror after mount to avoid useLayoutEffect SSR warning */}
+      {/* CodeMirror box */}
       <div
-        className="border border-neutral-700 rounded-lg overflow-hidden header-codemirror-container"
-        style={{
-          width: '500px',
-          maxWidth: '100%',
-          backgroundColor: 'transparent',
-        }}
+        className="w-[500px] max-w-full overflow-hidden rounded-lg border border-neutral-700
+          [&_.cm-editor]:w-[500px]! [&_.cm-editor]:max-w-full!
+          [&_.cm-editor.cm-focused]:outline-none
+          [&_.cm-scroller]:w-[500px]! [&_.cm-scroller]:max-w-full! [&_.cm-scroller]:overflow-x-hidden!
+          [&_.cm-content]:w-[500px]! [&_.cm-content]:max-w-full!"
       >
         {mounted ? (
           <CodeMirror
             value={snippets[selectedFramework]}
-            height="640px"
+            height="720px"
+            theme={vsCodeDark}
             extensions={extensions}
             editable={false}
             readOnly={true}
@@ -231,25 +231,9 @@ export default function HeaderCodeExample() {
               highlightSelectionMatches: false,
             }}
             className="text-sm"
-            style={{
-              width: '500px',
-              maxWidth: '100%',
-              fontSize: '14px',
-            }}
+            style={{ fontSize: '14px' }}
           />
-        ) : (
-          <div
-            className="p-4 text-sm font-mono text-neutral-300 whitespace-pre overflow-auto"
-            style={{
-              height: '640px',
-              width: '500px',
-              maxWidth: '100%',
-              fontSize: '14px',
-            }}
-          >
-            {snippets[selectedFramework]}
-          </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
