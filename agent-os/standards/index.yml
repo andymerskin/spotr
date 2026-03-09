@@ -27,3 +27,13 @@ spotr:
     description: SpotrError class and ErrorCodes constants usage
   validation-strict-fail-fast:
     description: All validation at construction time, none in query()
+
+examples:
+  synced-files-and-imports:
+    description: Never edit synced files directly; use spotr package imports
+  query-fallback:
+    description: Empty query shows all items with SpotrResult shape
+  project-structure:
+    description: Example naming, package.json, StackBlitz, mount IDs, lock files
+  table-ui-pattern:
+    description: Framework-specific HTML highlighting for search results

@@ -33,7 +33,7 @@ const spotr = useSpotr(() => ({
 - Returns `ShallowRef<Spotr<T> | null>`
 - Options can be `MaybeRefOrGetter<SpotrOptions<T>>`
 - Uses `toValue()` to unwrap refs/getters
-- Uses `watch` with `immediate: true` to react to option changes
+- Uses `watch` with `{ immediate: true, deep: true }` to react to option changes
 
 ## Solid
 
@@ -61,11 +61,12 @@ const spotr = createSpotr({
   collection: games,
   fields: [{ name: 'title', weight: 1 }],
 });
-// Returns: Spotr<T> instance
+// Returns: Readable<Spotr<T>> (Svelte store)
 ```
 
-- Returns `Spotr<T>` instance directly
-- Use with Svelte stores: `derived([spotr, query], ([$spotr, $query]) => $spotr.query($query))`
+- Returns `Readable<Spotr<T>>` — a Svelte store; use `$spotr` to access the instance
+- Options can be plain object or `Readable<SpotrOptions<T>>` for reactive config
+- Use with `derived([spotr, query], ([$spotr, $query]) => $spotr.query($query))` for reactive results
 
 ## Preact
 
