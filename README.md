@@ -4,7 +4,7 @@
 
 A powerful fuzzy search library for client-side collections in TypeScript.
 
-[![npm version](https://img.shields.io/npm/v/spotr.svg)](https://www.npmjs.com/package/spotr) [![bundle size](https://img.shields.io/badge/bundle%20size-3.4%20kB%20gzipped-brightgreen)](https://bundlephobia.com/package/spotr) [![CI/CD](https://github.com/andymerskin/spotr/actions/workflows/ci.yml/badge.svg)](https://github.com/andymerskin/spotr/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/spotr.svg)](https://www.npmjs.com/package/spotr) [![bundle size](https://img.shields.io/badge/bundle%20size-3.5%20kB%20gzipped-brightgreen)](https://bundlephobia.com/package/spotr) [![CI/CD](https://github.com/andymerskin/spotr/actions/workflows/ci.yml/badge.svg)](https://github.com/andymerskin/spotr/actions/workflows/ci.yml)
 
 **[Homepage](https://andymerskin.github.io/spotr/)** • **[Examples](https://andymerskin.github.io/spotr/examples/)**
 
@@ -269,13 +269,15 @@ bun install
 - `bun run test` - Run all tests once
 - `bun run test:watch` - Run tests in watch mode
 - `bun run test:coverage` - Run tests with coverage report
+- `bun run test:coverage:watch` - Run tests with coverage in watch mode
 - `bun run typecheck` - Type check the library (`tsc --noEmit`)
-- `bun run audit` - Audit the Spotr package for vulnerabilities and apply fixes (`scripts/audit-spotr.ts`)
+- `bun run audit` - Audit spotr, all examples, root, and site for vulnerabilities and apply fixes (`scripts/audit-all.ts`)
 - `bun run lint` - Lint the codebase (ESLint)
 - `bun run format` - Format the codebase (Prettier, whole repo from root)
 - `bun run format:check` - Check formatting without modifying
-- `bun run validate` - Full validation (format, lint, typecheck, coverage, examples, build)
+- `bun run validate` - Full validation (format check, lint, typecheck, test coverage, examples typecheck, and build)
 - `bun run size:check` - Verify bundle size under 5KB
+- `bun run bench` - Run Vitest benchmarks
 - `bun run clean` - Remove dist and coverage directories
 
 ### Example Scripts
@@ -284,7 +286,6 @@ bun install
 - `bun run examples:sync` - Sync shared files from `examples/shared/` to all examples
 - `bun run examples:install` - Install dependencies for all examples
 - `bun run examples:update` - Update dependencies for all examples
-- `bun run examples:audit` - Audit all example packages for vulnerabilities and apply fixes (`scripts/audit-examples.ts`)
 - `bun run examples:dev` - Launch interactive dev servers for a selected framework (starts all 5 examples on ports 5173-5177)
 - `bun run examples:warm` - Warm up StackBlitz cache by visiting all 25 example pages (used in CI after deployment)
 
